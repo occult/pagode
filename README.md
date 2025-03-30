@@ -1,4 +1,4 @@
-## Pagoda: Rapid, easy full-stack web development starter kit in Go
+## Pagode: Rapid, easy full-stack web development starter kit in Go 🇧🇷
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/mikestefanello/pagoda)](https://goreportcard.com/report/github.com/mikestefanello/pagoda)
 [![Test](https://github.com/mikestefanello/pagoda/actions/workflows/test.yml/badge.svg)](https://github.com/mikestefanello/pagoda/actions/workflows/test.yml)
@@ -7,89 +7,90 @@
 [![GoT](https://img.shields.io/badge/Made%20with-Go-1f425f.svg)](https://go.dev)
 [![Mentioned in Awesome Go](https://awesome.re/mentioned-badge.svg)](https://github.com/avelino/awesome-go)
 
-<p align="center"><img alt="Logo" src="https://user-images.githubusercontent.com/552328/147838644-0efac538-a97e-4a46-86a0-41e3abdf9f20.png" height="200px"/></p>
+🇧🇷🇧🇷🇧🇷🇧🇷🇧🇷🇧🇷
 
 ## Table of Contents
-* [Introduction](#introduction)
-    * [Overview](#overview)
-    * [Foundation](#foundation)
-      * [Backend](#backend)
-      * [Frontend](#frontend)
-      * [Storage](#storage)
-    * [Screenshots](#screenshots)
-* [Getting started](#getting-started)
-  * [Dependencies](#dependencies)
-  * [Start the application](#start-the-application)
-  * [Live reloading](#live-reloading)
-* [Service container](#service-container)
-  * [Dependency injection](#dependency-injection)
-  * [Test dependencies](#test-dependencies)
-* [Configuration](#configuration)
-    * [Environment overrides](#environment-overrides)
-    * [Environments](#environments)
-* [Database](#database)
-    * [Auto-migrations](#auto-migrations)
-    * [Separate test database](#separate-test-database)
-* [ORM](#orm)
-  * [Entity types](#entity-types)
-  * [New entity type](#new-entity-type)
-* [Sessions](#sessions)
-  * [Encryption](#encryption)
-* [Authentication](#authentication)
-  * [Login / Logout](#login--logout)
-  * [Forgot password](#forgot-password)
-  * [Registration](#registration)
-  * [Authenticated user](#authenticated-user)
-    * [Middleware](#middleware)
-  * [Email verification](#email-verification)
-* [Routes](#routes)
-  * [Custom middleware](#custom-middleware)
-  * [Handlers](#handlers)
-  * [Errors](#errors)
-  * [Redirects](#redirects)
-  * [Testing](#testing)
-    * [HTTP server](#http-server)
-    * [Request / Request helpers](#request--response-helpers)
-    * [Goquery](#goquery)
-* [User interface](#user-interface)
-  * [Why Gomponents?](#why-gomponents)
-  * [HTMX support](#htmx-support)
-    * [Header management](#header-management)
-    * [Conditional and partial rendering](#conditional-and-partial-rendering)
-    * [CSRF token](#csrf-token)
-  * [Request](#request)
-    * [Title and metatags](#title-and-metatags)
-    * [URL generation](#url-generation)
-  * [Components](#components)
-  * [Layouts](#layouts)
-  * [Pages](#pages)
-    * [Rendering](#rendering)
-  * [Forms](#forms)
-    * [Submission processing](#submission-processing)
-    * [Inline validation](#inline-validation)
-    * [CSRF](#csrf)
-  * [Models](#models)
-  * [Node caching](#node-caching)
-  * [Flash messaging](#flash-messaging)
-* [Pager](#pager)
-* [Cache](#cache)
-  * [Set data](#set-data)
-  * [Get data](#get-data)
-  * [Flush data](#flush-data)
-  * [Flush tags](#flush-tags)
-* [Tasks](#tasks)
-  * [Queues](#queues)
-  * [Dispatcher](#dispatcher)
-* [Cron](#cron)
-* [Files](#files)
-* [Static files](#static-files)
-  * [Cache control headers](#cache-control-headers)
-  * [Cache-buster](#cache-buster)
-* [Email](#email)
-* [HTTPS](#https)
-* [Logging](#logging)
-* [Roadmap](#roadmap)
-* [Credits](#credits)
+
+- [Introduction](#introduction)
+  - [Overview](#overview)
+  - [Foundation](#foundation)
+    - [Backend](#backend)
+    - [Frontend](#frontend)
+    - [Storage](#storage)
+  - [Screenshots](#screenshots)
+- [Getting started](#getting-started)
+  - [Dependencies](#dependencies)
+  - [Start the application](#start-the-application)
+  - [Live reloading](#live-reloading)
+- [Service container](#service-container)
+  - [Dependency injection](#dependency-injection)
+  - [Test dependencies](#test-dependencies)
+- [Configuration](#configuration)
+  - [Environment overrides](#environment-overrides)
+  - [Environments](#environments)
+- [Database](#database)
+  - [Auto-migrations](#auto-migrations)
+  - [Separate test database](#separate-test-database)
+- [ORM](#orm)
+  - [Entity types](#entity-types)
+  - [New entity type](#new-entity-type)
+- [Sessions](#sessions)
+  - [Encryption](#encryption)
+- [Authentication](#authentication)
+  - [Login / Logout](#login--logout)
+  - [Forgot password](#forgot-password)
+  - [Registration](#registration)
+  - [Authenticated user](#authenticated-user)
+    - [Middleware](#middleware)
+  - [Email verification](#email-verification)
+- [Routes](#routes)
+  - [Custom middleware](#custom-middleware)
+  - [Handlers](#handlers)
+  - [Errors](#errors)
+  - [Redirects](#redirects)
+  - [Testing](#testing)
+    - [HTTP server](#http-server)
+    - [Request / Request helpers](#request--response-helpers)
+    - [Goquery](#goquery)
+- [User interface](#user-interface)
+  - [Why Gomponents?](#why-gomponents)
+  - [HTMX support](#htmx-support)
+    - [Header management](#header-management)
+    - [Conditional and partial rendering](#conditional-and-partial-rendering)
+    - [CSRF token](#csrf-token)
+  - [Request](#request)
+    - [Title and metatags](#title-and-metatags)
+    - [URL generation](#url-generation)
+  - [Components](#components)
+  - [Layouts](#layouts)
+  - [Pages](#pages)
+    - [Rendering](#rendering)
+  - [Forms](#forms)
+    - [Submission processing](#submission-processing)
+    - [Inline validation](#inline-validation)
+    - [CSRF](#csrf)
+  - [Models](#models)
+  - [Node caching](#node-caching)
+  - [Flash messaging](#flash-messaging)
+- [Pager](#pager)
+- [Cache](#cache)
+  - [Set data](#set-data)
+  - [Get data](#get-data)
+  - [Flush data](#flush-data)
+  - [Flush tags](#flush-tags)
+- [Tasks](#tasks)
+  - [Queues](#queues)
+  - [Dispatcher](#dispatcher)
+- [Cron](#cron)
+- [Files](#files)
+- [Static files](#static-files)
+  - [Cache control headers](#cache-control-headers)
+  - [Cache-buster](#cache-buster)
+- [Email](#email)
+- [HTTPS](#https)
+- [Logging](#logging)
+- [Roadmap](#roadmap)
+- [Credits](#credits)
 
 ## Introduction
 
@@ -264,6 +265,7 @@ Ent relies on code-generation for the entities you create to provide robust, typ
 ### Entity types
 
 The two included entity types are:
+
 - User
 - PasswordToken
 
@@ -387,7 +389,7 @@ The provided patterns are not required, but were designed to make development as
 
 For this example, we'll create a new handler which includes a GET and POST route and uses the ORM. Start by creating a file at `pkg/handlers/example.go`.
 
-1) Define the handler type:
+1. Define the handler type:
 
 ```go
 type Example struct {
@@ -395,7 +397,7 @@ type Example struct {
 }
 ```
 
-2) Register the handler so the router automatically includes it
+2. Register the handler so the router automatically includes it
 
 ```go
 func init() {
@@ -403,7 +405,7 @@ func init() {
 }
 ```
 
-3) Initialize the handler (and inject any required dependencies from the _Container_). This will be called automatically.
+3. Initialize the handler (and inject any required dependencies from the _Container_). This will be called automatically.
 
 ```go
 func (e *Example) Init(c *services.Container) error {
@@ -412,7 +414,7 @@ func (e *Example) Init(c *services.Container) error {
 }
 ```
 
-4) Declare the routes
+4. Declare the routes
 
 **It is highly recommended** that you provide a `Name` for your routes. Most methods on the back and frontend leverage the route name and parameters in order to generate URLs. All route names are currently stored as consts in the `routenames` package so they are accessible from within the `ui` layer.
 
@@ -423,7 +425,7 @@ func (e *Example) Routes(g *echo.Group) {
 }
 ```
 
-5) Implement your routes
+5. Implement your routes
 
 ```go
 func (e *Example) Page(ctx echo.Context) error {
@@ -514,6 +516,7 @@ Before making any quick judgements of your own, I ask that you deeply consider w
 [HTMX](https://htmx.org/) is an awesome JavaScript library allows you to access AJAX, CSS Transitions, WebSockets and Server Sent Events directly in HTML, using attributes, so you can build modern user interfaces with the simplicity and power of hypertext.
 
 Many examples of its usage are available in the included examples:
+
 - All navigation links use [boost](https://htmx.org/docs/#boosting) which dynamically replaces the page content with an AJAX request, providing a SPA-like experience.
 - All forms use either [boost](https://htmx.org/docs/#boosting) or [hx-post](https://htmx.org/docs/#triggers) to submit via AJAX.
 - The mock search autocomplete modal uses [hx-get](https://htmx.org/docs/#targets) to fetch search results from the server via AJAX and update the UI.
@@ -521,7 +524,7 @@ Many examples of its usage are available in the included examples:
 
 All of this can be easily accomplished without writing any JavaScript at all.
 
-Another benefit of [HTMX](https://htmx.org/) is that it's completely backend-agnostic and does not require any special tools or integrations on the backend, though many things are provided here to make it simple. 
+Another benefit of [HTMX](https://htmx.org/) is that it's completely backend-agnostic and does not require any special tools or integrations on the backend, though many things are provided here to make it simple.
 
 #### Header management
 
@@ -568,10 +571,10 @@ The `Request` type in the `ui` package is a foundational helper that provides us
 
 The `Request` type has additional fields to make it easy to set static values within components being rendered on a given page. While the _title_ is always important, the others are provided as an example:
 
-* `Title`: The page title
-* `Metatags`:
-  * `Description`: The description of the page
-  * `Tags`: A slice of keyword tags
+- `Title`: The page title
+- `Metatags`:
+  - `Description`: The description of the page
+  - `Tags`: A slice of keyword tags
 
 #### URL generation
 
@@ -579,8 +582,8 @@ As mentioned in the [Routes](#routes) section, it is recommended, though not req
 
 The methods both take a route name and optional variadic route parameters:
 
-* `Path()`: Generates a relative path for a given route.
-* `Url()`: Generates an absolute URL for a given route. This uses the `App.Host` field in your [configuration](#configuration) to determine the host of the URL.
+- `Path()`: Generates a relative path for a given route.
+- `Url()`: Generates an absolute URL for a given route. This uses the `App.Host` field in your [configuration](#configuration) to determine the host of the URL.
 
 **Example:**
 
@@ -592,7 +595,7 @@ g.GET("/user/:uid", profilePage).Name = routenames.Profile
 func ProfileLink(r *ui.Request, userName string, userID int64) gomponents.Node {
     return A(
         Class("profile"),
-        Href(r.Path(routenames.Profile, userID)), 
+        Href(r.Path(routenames.Profile, userID)),
         Text(userName),
     )
 }
@@ -679,14 +682,14 @@ Then, create a _page_ that includes your form:
 func UserGuestbook(ctx echo.Context, form *forms.Guestbook) error {
     r := ui.NewRequest(ctx)
     r.Title = "User page"
-	
+
     content := Div(
         Class("guestbook"),
         H2(Text("My guestbook")),
         P(Text("Hi, please sign my guestbook!")),
         form.Render(r)
     )
-	
+
     return r.Render(layouts.Primary, content)
 }
 ```
@@ -711,6 +714,7 @@ func (e *Example) Page(ctx echo.Context) error {
 Using the example form above, this is all you would have to do within the _POST_ callback for your route:
 
 Start by submitting the form via `form.Submit()`, along with the request context. This will:
+
 1. Store a pointer to the form in the _context_ so that your _GET_ callback can access the form values (shown previously). That allows the form to easily be re-rendered with any validation errors it may have as well as the values that were provided.
 2. Parse the input in the _POST_ data to map to the struct so the fields becomes populated. This uses the `form` struct tags to map form input values to the struct fields.
 3. Validate the values in the struct fields according to the rules provided in the optional `validate` struct tags.
@@ -737,7 +741,7 @@ func (e *Example) Submit(ctx echo.Context) error {
     }
 
     msg.Success(fmt.Sprintf("Your message was: %s", input.Message))
-    
+
     return redirect.New(ctx).
         Route(routenames.Home).
         Go()
@@ -791,6 +795,7 @@ Flash messaging requires that [sessions](#sessions) and the session middleware a
 #### Creating messages
 
 There are four types of messages, and each can be created as follows:
+
 - Success: `msg.Success(ctx echo.Context, message string)`
 - Info: `msg.Info(ctx echo.Context, message string)`
 - Warning: `msg.Warning(ctx echo.Context, message string)`
@@ -948,13 +953,15 @@ The cache max-life is controlled by the configuration at `Config.Cache.Expiratio
 While it's ideal to use cache control headers on your static files so browsers cache the files, you need a way to bust the cache in case the files are changed. In order to do this, a function, `File()`, is provided in the `ui` package to generate a static file URL for a given file that appends a cache-buster query. This query string is generated using the timestamp of when the app started and persists until the application restarts.
 
 For example, to render a file located in `static/picture.png`, you would use:
+
 ```go
 return Img(Src(ui.File("picture.png")))
 ```
 
 Which would result in:
+
 ```html
-<img src="/files/picture.png?v=1741053493"/>
+<img src="/files/picture.png?v=1741053493" />
 ```
 
 Where `1741053493` is the cache-buster.
@@ -1009,25 +1016,27 @@ To use _Let's Encrypt_ follow [this guide](https://echo.labstack.com/cookbook/au
 
 By default, the [Echo logger](https://echo.labstack.com/guide/customization/#logging) is not used for the following reasons:
 
-1) It does not support structured logging, which makes it difficult to deal with variables, especially if you intend to store a logger in context with pre-populated attributes.
-2) The upcoming v5 release of Echo will not contain a logger.
-3) It should be easy to use whatever logger you prefer (even if that is Echo's logger).
+1. It does not support structured logging, which makes it difficult to deal with variables, especially if you intend to store a logger in context with pre-populated attributes.
+2. The upcoming v5 release of Echo will not contain a logger.
+3. It should be easy to use whatever logger you prefer (even if that is Echo's logger).
 
 The provided implementation uses the relatively new [log/slog](https://go.dev/blog/slog) library which was added to Go in version 1.21 but swapping that out for whichever you prefer is very easy.
 
 ### Context
 
-The simple `pkg/log` package provides the ability to set and get a logger from the Echo context. This is especially useful when you use the provided logger middleware (see below). If you intend to use a different logger, modify these methods to receive and return the logger of your choice. 
+The simple `pkg/log` package provides the ability to set and get a logger from the Echo context. This is especially useful when you use the provided logger middleware (see below). If you intend to use a different logger, modify these methods to receive and return the logger of your choice.
 
 ### Usage
 
 Adding a logger to the context:
+
 ```go
 logger := slog.New(logHandler).With("id", requestId)
 log.Set(ctx, logger)
 ```
 
 Access and use the logger:
+
 ```go
 func (h *handler) Page(ctx echo.Context) error {
     log.Ctx(ctx).Info("send a message to the log",
@@ -1082,3 +1091,4 @@ Thank you to all the following amazing projects for making this possible.
 - [testify](https://github.com/stretchr/testify)
 - [validator](https://github.com/go-playground/validator)
 - [viper](https://github.com/spf13/viper)
+
