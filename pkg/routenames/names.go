@@ -29,6 +29,12 @@ const (
 	Files                = "files"
 	FilesSubmit          = "files.submit"
 	AdminTasks           = "admin:tasks"
+
+	ProfileEdit       = "profile.edit"
+	ProfileUpdate     = "profile.update"
+	ProfileDestroy    = "profile.destroy"
+	ProfileAppearance = "profile.appearance"
+	ProfilePassword   = "profile.password"
 )
 
 func AdminEntityList(entityTypeName string) string {

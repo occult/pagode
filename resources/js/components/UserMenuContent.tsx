@@ -29,7 +29,7 @@ export function UserMenuContent({ user }: UserMenuContentProps) {
         <DropdownMenuItem asChild>
           <Link
             className="block w-full"
-            href="/profile/edit"
+            href="/profile/info"
             as="button"
             prefetch
             onClick={cleanup}
