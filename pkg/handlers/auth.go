@@ -207,7 +207,7 @@ func (h *Auth) LoginSubmit(ctx echo.Context) error {
 
 	msg.Success(ctx, fmt.Sprintf("Welcome back, %s. You are now logged in.", u.Name))
 
-	h.Inertia.Redirect(w, r, routenames.Welcome)
+	h.Inertia.Redirect(w, r, "/dashboard")
 	return nil
 }
 

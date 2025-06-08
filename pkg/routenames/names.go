@@ -30,11 +30,12 @@ const (
 	FilesSubmit          = "files.submit"
 	AdminTasks           = "admin:tasks"
 
-	ProfileEdit       = "profile.edit"
-	ProfileUpdate     = "profile.update"
-	ProfileDestroy    = "profile.destroy"
-	ProfileAppearance = "profile.appearance"
-	ProfilePassword   = "profile.password"
+	ProfileEdit           = "profile.edit"
+	ProfileUpdate         = "profile.update"
+	ProfileDestroy        = "profile.destroy"
+	ProfileAppearance     = "profile.appearance"
+	ProfilePassword       = "profile.password"
+	ProfileUpdatePassword = "profile.update_password"
 )
 
 func AdminEntityList(entityTypeName string) string {

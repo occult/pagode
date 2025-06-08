@@ -22,7 +22,7 @@ export default function Password() {
   const passwordInput = useRef<HTMLInputElement>(null);
   const currentPasswordInput = useRef<HTMLInputElement>(null);
 
-  const { data, setData, errors, put, reset, processing, recentlySuccessful } =
+  const { data, setData, errors, post, reset, processing, recentlySuccessful } =
     useForm({
       current_password: "",
       password: "",
@@ -32,7 +32,8 @@ export default function Password() {
   const updatePassword: FormEventHandler = (e) => {
     e.preventDefault();
 
-    put("/user/password", {
+    post("/profile/update-password", {
+      forceFormData: true,
       preserveScroll: true,
       onSuccess: () => reset(),
       onError: (errors) => {

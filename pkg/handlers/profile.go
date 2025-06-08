@@ -1,8 +1,6 @@
 package handlers
 
 import (
-	"fmt"
-
 	"github.com/labstack/echo/v4"
 	"github.com/mikestefanello/pagoda/ent"
 	"github.com/mikestefanello/pagoda/pkg/context"
@@ -39,6 +37,7 @@ func (h *Profile) Routes(g *echo.Group) {
 
 	profile.GET("/appearance", h.AppearancePage).Name = routenames.ProfileAppearance
 	profile.GET("/password", h.PasswordPage).Name = routenames.ProfilePassword
+	profile.POST("/update-password", h.UpdatePassword).Name = routenames.ProfileUpdatePassword
 }
 
 func (h *Profile) EditPage(ctx echo.Context) error {
@@ -126,9 +125,42 @@ func (h *Profile) UpdatePassword(ctx echo.Context) error {
 		return nil
 	}
 
-	// password := ctx.FormValue("password")
-	// confirmPassword := ctx.FormValue("")
-	fmt.Print(usr)
+	currentPasswordInput := ctx.FormValue("current_password")
 
+	err := h.auth.CheckPassword(currentPasswordInput, usr.Password)
+	if err != nil {
+		msg.Danger(ctx, "The current password you entered is incorrect.")
+		h.Inertia.Back(ctx.Response().Writer, ctx.Request())
+		return nil
+	}
+
+	password := ctx.FormValue("password")
+	confirmPassword := ctx.FormValue("password_confirmation")
+
+	if password != confirmPassword {
+		msg.Danger(ctx, "Password confirmation does not match. Please try again.")
+		h.Inertia.Back(ctx.Response().Writer, ctx.Request())
+		return nil
+	}
+
+	_, err = h.orm.User.
+		UpdateOneID(usr.ID).
+		SetPassword(password).
+		Save(ctx.Request().Context())
+	if err != nil {
+		msg.Danger(ctx, "Something went wrong while saving your new password.")
+		h.Inertia.Back(ctx.Response().Writer, ctx.Request())
+		return nil
+	}
+
+	usr, err = h.orm.User.Get(ctx.Request().Context(), usr.ID)
+	if err != nil {
+		msg.Danger(ctx, "Something went wrong while refreshing your session.")
+		h.Inertia.Back(ctx.Response().Writer, ctx.Request())
+		return nil
+	}
+
+	msg.Success(ctx, "Your password has been updated successfully.")
+	h.Inertia.Redirect(ctx.Response().Writer, ctx.Request(), "/profile/password")
 	return nil
 }
