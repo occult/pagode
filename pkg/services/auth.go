@@ -215,9 +215,3 @@ func (c *AuthClient) ValidateEmailVerificationToken(token string) (string, error
 
 	return "", errors.New("invalid or expired token")
 }
-
-// HashPassword hashes a plain text password using bcrypt
-func (c *AuthClient) HashPassword(password string) (string, error) {
-	bytes, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
-	return string(bytes), err
-}
