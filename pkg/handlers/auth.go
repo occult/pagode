@@ -161,11 +161,13 @@ func (h *Auth) LoginSubmit(ctx echo.Context) error {
 
 	var input forms.Login
 
+	uriLogin := ctx.Echo().Reverse(routenames.Login)
+
 	authFailed := func() error {
 		input.SetFieldError("Email", "")
 		input.SetFieldError("Password", "")
 		msg.Danger(ctx, "Invalid credentials. Please try again.")
-		h.Inertia.Back(w, r)
+		h.Inertia.Redirect(w, r, uriLogin)
 		return nil
 	}
 
@@ -205,9 +207,11 @@ func (h *Auth) LoginSubmit(ctx echo.Context) error {
 		return fail(err, "unable to log in user")
 	}
 
+	uriDashboard := ctx.Echo().Reverse(routenames.Dashboard)
+
 	msg.Success(ctx, fmt.Sprintf("Welcome back, %s. You are now logged in.", u.Name))
 
-	h.Inertia.Redirect(w, r, "/dashboard")
+	h.Inertia.Redirect(w, r, uriDashboard)
 	return nil
 }
 
@@ -246,6 +250,8 @@ func (h *Auth) RegisterSubmit(ctx echo.Context) error {
 	var input forms.Register
 	err := form.Submit(ctx, &input)
 
+	uriLogin := ctx.Echo().Reverse(routenames.Login)
+
 	log.Ctx(ctx).Info("🔍 Register form submitted", "input", input)
 
 	// Validate submitted form data
@@ -255,12 +261,12 @@ func (h *Auth) RegisterSubmit(ctx echo.Context) error {
 
 	case validator.ValidationErrors:
 		msg.Danger(ctx, "Please fill in all required fields correctly.")
-		h.Inertia.Back(w, r)
+		h.Inertia.Redirect(w, r, uriLogin)
 		return nil
 
 	default:
 		msg.Danger(ctx, "Something went wrong. Please try again.")
-		h.Inertia.Back(w, r)
+		h.Inertia.Redirect(w, r, uriLogin)
 		return nil
 	}
 
@@ -280,7 +286,7 @@ func (h *Auth) RegisterSubmit(ctx echo.Context) error {
 		)
 	case *ent.ConstraintError:
 		msg.Warning(ctx, "A user with this email address already exists. Please log in.")
-		h.Inertia.Back(w, r)
+		h.Inertia.Redirect(w, r, uriLogin)
 		return nil
 	default:
 		return fail(err, "unable to create user")
@@ -290,7 +296,7 @@ func (h *Auth) RegisterSubmit(ctx echo.Context) error {
 	err = h.auth.Login(ctx, u.ID)
 	if err != nil {
 		msg.Info(ctx, "Your account has been created.")
-		h.Inertia.Redirect(w, r, "/login")
+		h.Inertia.Redirect(w, r, uriLogin)
 		return nil
 	}
 
@@ -299,7 +305,9 @@ func (h *Auth) RegisterSubmit(ctx echo.Context) error {
 	// Send verification email
 	h.sendVerificationEmail(ctx, u)
 
-	h.Inertia.Redirect(w, r, "/dashboard")
+	uriDashboard := ctx.Echo().Reverse(routenames.Dashboard)
+
+	h.Inertia.Redirect(w, r, uriDashboard)
 	return nil
 }
 
