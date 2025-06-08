@@ -13,7 +13,7 @@ type RegisterForm = {
   name: string;
   email: string;
   password: string;
-  "password-confirm": string;
+  password_confirmation: string;
 };
 
 export default function Register() {
@@ -23,7 +23,7 @@ export default function Register() {
     name: "",
     email: "",
     password: "",
-    "password-confirm": "",
+    password_confirmation: "",
   });
 
   const submit: FormEventHandler = (e) => {
@@ -93,11 +93,11 @@ export default function Register() {
               type="password"
               required
               autoComplete="new-password"
-              value={data["password-confirm"]}
-              onChange={(e) => setData("password-confirm", e.target.value)}
+              value={data.password_confirmation}
+              onChange={(e) => setData("password_confirmation", e.target.value)}
               placeholder="Confirm your password"
             />
-            <InputError message={errors["password-confirm"]} />
+            <InputError message={errors["password_confirmation"]} />
           </div>
 
           <Button type="submit" className="mt-4 w-full" disabled={processing}>

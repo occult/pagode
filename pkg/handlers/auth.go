@@ -246,6 +246,8 @@ func (h *Auth) RegisterSubmit(ctx echo.Context) error {
 	var input forms.Register
 	err := form.Submit(ctx, &input)
 
+	log.Ctx(ctx).Info("🔍 Register form submitted", "input", input)
+
 	// Validate submitted form data
 	switch err.(type) {
 	case nil:
@@ -297,7 +299,7 @@ func (h *Auth) RegisterSubmit(ctx echo.Context) error {
 	// Send verification email
 	h.sendVerificationEmail(ctx, u)
 
-	h.Inertia.Redirect(w, r, routenames.Dashboard)
+	h.Inertia.Redirect(w, r, "/dashboard")
 	return nil
 }
 

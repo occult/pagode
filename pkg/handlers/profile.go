@@ -1,6 +1,8 @@
 package handlers
 
 import (
+	"fmt"
+
 	"github.com/labstack/echo/v4"
 	"github.com/mikestefanello/pagoda/ent"
 	"github.com/mikestefanello/pagoda/pkg/context"
@@ -32,7 +34,7 @@ func (h *Profile) Init(c *services.Container) error {
 func (h *Profile) Routes(g *echo.Group) {
 	profile := g.Group("/profile")
 	profile.GET("/info", h.EditPage).Name = routenames.ProfileEdit
-	profile.POST("/update", h.Update).Name = routenames.ProfileUpdate
+	profile.POST("/update", h.UpdateBasicInfo).Name = routenames.ProfileUpdate
 	profile.DELETE("/delete", h.Delete).Name = routenames.ProfileDestroy
 
 	profile.GET("/appearance", h.AppearancePage).Name = routenames.ProfileAppearance
@@ -47,7 +49,7 @@ func (h *Profile) EditPage(ctx echo.Context) error {
 	)
 }
 
-func (h *Profile) Update(ctx echo.Context) error {
+func (h *Profile) UpdateBasicInfo(ctx echo.Context) error {
 	usr, ok := ctx.Get(context.AuthenticatedUserKey).(*ent.User)
 	if !ok {
 		msg.Danger(ctx, "You must be logged in.")
@@ -114,4 +116,19 @@ func (h *Profile) PasswordPage(ctx echo.Context) error {
 		ctx.Request(),
 		"Settings/Password",
 	)
+}
+
+func (h *Profile) UpdatePassword(ctx echo.Context) error {
+	usr, ok := ctx.Get(context.AuthenticatedUserKey).(*ent.User)
+	if !ok {
+		msg.Danger(ctx, "You must be logged in.")
+		h.Inertia.Back(ctx.Response().Writer, ctx.Request())
+		return nil
+	}
+
+	// password := ctx.FormValue("password")
+	// confirmPassword := ctx.FormValue("")
+	fmt.Print(usr)
+
+	return nil
 }
