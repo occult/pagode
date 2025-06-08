@@ -33,7 +33,7 @@ export default function Profile({
 }) {
   const { auth } = usePage<SharedData>().props;
 
-  const { data, setData, patch, errors, processing, recentlySuccessful } =
+  const { data, setData, post, errors, processing, recentlySuccessful } =
     useForm<Required<ProfileForm>>({
       name: auth.user.name,
       email: auth.user.email,
@@ -42,8 +42,9 @@ export default function Profile({
   const submit: FormEventHandler = (e) => {
     e.preventDefault();
 
-    patch("/user/profile", {
+    post("/profile/update", {
       preserveScroll: true,
+      forceFormData: true,
     });
   };
 

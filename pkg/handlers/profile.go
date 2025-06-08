@@ -32,7 +32,7 @@ func (h *Profile) Init(c *services.Container) error {
 func (h *Profile) Routes(g *echo.Group) {
 	profile := g.Group("/profile")
 	profile.GET("/info", h.EditPage).Name = routenames.ProfileEdit
-	profile.PATCH("/update", h.Update).Name = routenames.ProfileUpdate
+	profile.POST("/update", h.Update).Name = routenames.ProfileUpdate
 	profile.DELETE("/delete", h.Delete).Name = routenames.ProfileDestroy
 
 	profile.GET("/appearance", h.AppearancePage).Name = routenames.ProfileAppearance
@@ -47,30 +47,42 @@ func (h *Profile) EditPage(ctx echo.Context) error {
 	)
 }
 
-// TODO: Implement this later
 func (h *Profile) Update(ctx echo.Context) error {
-	// usr := ctx.Get(context.AuthenticatedUserKey).(*ent.User)
-	//
-	// var input forms.ProfileUpdate
-	// if err := form.Submit(ctx, &input); err != nil {
-	// 	switch err.(type) {
-	// 	case validator.ValidationErrors:
-	// 		return h.EditPage(ctx)
-	// 	default:
-	// 		return err
-	// 	}
-	// }
-	//
-	// _, err := usr.Update().
-	// 	SetName(input.Name).
-	// 	SetEmail(strings.ToLower(input.Email)).
-	// 	Save(ctx.Request().Context())
-	// if err != nil {
-	// 	return fail(err, "unable to update user profile")
-	// }
+	usr, ok := ctx.Get(context.AuthenticatedUserKey).(*ent.User)
+	if !ok {
+		msg.Danger(ctx, "You must be logged in.")
+		h.Inertia.Back(ctx.Response().Writer, ctx.Request())
+		return nil
+	}
+
+	name := ctx.FormValue("name")
+	email := ctx.FormValue("email")
+
+	if name == "" && email == "" {
+		msg.Info(ctx, "Nothing to update.")
+		h.Inertia.Back(ctx.Response().Writer, ctx.Request())
+		return nil
+	}
+
+	update := h.orm.User.UpdateOne(usr)
+
+	if name != "" {
+		update = update.SetName(name)
+	}
+	if email != "" {
+		update = update.SetEmail(email)
+	}
+
+	_, err := update.Save(ctx.Request().Context())
+	if err != nil {
+		msg.Danger(ctx, "Failed to update user")
+		h.Inertia.Back(ctx.Response().Writer, ctx.Request())
+		return nil
+	}
 
 	msg.Success(ctx, "Your profile has been updated.")
-	return redirect.New(ctx).Route(routenames.ProfileEdit).Go()
+	h.Inertia.Back(ctx.Response().Writer, ctx.Request())
+	return nil
 }
 
 func (h *Profile) Delete(ctx echo.Context) error {

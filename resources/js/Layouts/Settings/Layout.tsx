@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { type NavItem } from "@/types";
 import { Link } from "@inertiajs/react";
 import { type PropsWithChildren } from "react";
+import { Toaster } from "@/components/ui/sonner";
 
 const sidebarNavItems: NavItem[] = [
   {
@@ -38,6 +39,8 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
         title="Settings"
         description="Manage your profile and account settings"
       />
+
+      <Toaster richColors position="top-center" />
 
       <div className="flex flex-col space-y-8 lg:flex-row lg:space-y-0 lg:space-x-12">
         <aside className="w-full max-w-xl lg:w-48">
