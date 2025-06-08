@@ -12,7 +12,7 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen text-foreground flex flex-col">
       <Toaster />
-      <header className="flex items-center justify-end px-6 py-4 border-b border">
+      <header className="flex items-center justify-end px-6 py-4 border-b ">
         <div className="space-x-4">
           <Link
             href="/user/login"
