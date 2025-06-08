@@ -137,7 +137,8 @@ func (h *Profile) UpdatePassword(ctx echo.Context) error {
 	password := ctx.FormValue("password")
 	confirmPassword := ctx.FormValue("password_confirmation")
 
-	if password != confirmPassword {
+	err = h.auth.CheckPassword(password, confirmPassword)
+	if err != nil {
 		msg.Danger(ctx, "Password confirmation does not match. Please try again.")
 		h.Inertia.Back(ctx.Response().Writer, ctx.Request())
 		return nil
