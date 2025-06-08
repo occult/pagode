@@ -8,21 +8,18 @@ import { Link } from "@inertiajs/react";
 import AuthLayout from "@/Layouts/AuthLayout";
 
 export default function Register() {
-  const { data, setData, post, processing, errors } = useForm<{
-    Name: string;
-    Email: string;
-    Password: string;
-    ConfirmPassword: string;
-  }>({
-    Name: "",
-    Email: "",
-    Password: "",
-    ConfirmPassword: "",
+  const { data, setData, post, processing, errors } = useForm({
+    name: "",
+    email: "",
+    password: "",
+    "password-confirm": "",
   });
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
-    post("/user/register");
+    post("/user/register", {
+      forceFormData: true,
+    });
   };
 
   return (
@@ -35,63 +32,63 @@ export default function Register() {
         <CardContent>
           <form onSubmit={submit} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="Name">Name</Label>
+              <Label htmlFor="name">Name</Label>
               <Input
-                id="Name"
+                id="name"
                 type="text"
-                value={data.Name}
-                onChange={(e) => setData("Name", e.target.value)}
+                value={data.name}
+                onChange={(e) => setData("name", e.target.value)}
                 required
                 className="bg-muted text-card-foreground placeholder:text-muted-foreground"
               />
-              {errors.Name && (
-                <p className="text-sm text-destructive">{errors.Name}</p>
+              {errors.name && (
+                <p className="text-sm text-destructive">{errors.name}</p>
               )}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="Email">Email</Label>
+              <Label htmlFor="email">Email</Label>
               <Input
-                id="Email"
+                id="email"
                 type="email"
-                value={data.Email}
-                onChange={(e) => setData("Email", e.target.value)}
+                value={data.email}
+                onChange={(e) => setData("email", e.target.value)}
                 required
                 className="bg-muted text-card-foreground placeholder:text-muted-foreground"
               />
-              {errors.Email && (
-                <p className="text-sm text-destructive">{errors.Email}</p>
+              {errors.email && (
+                <p className="text-sm text-destructive">{errors.email}</p>
               )}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="Password">Password</Label>
+              <Label htmlFor="password">Password</Label>
               <Input
-                id="Password"
+                id="password"
                 type="password"
-                value={data.Password}
-                onChange={(e) => setData("Password", e.target.value)}
+                value={data.password}
+                onChange={(e) => setData("password", e.target.value)}
                 required
                 className="bg-muted text-card-foreground placeholder:text-muted-foreground"
               />
-              {errors.Password && (
-                <p className="text-sm text-destructive">{errors.Password}</p>
+              {errors.password && (
+                <p className="text-sm text-destructive">{errors.password}</p>
               )}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="ConfirmPassword">Confirm Password</Label>
+              <Label htmlFor="password-confirm">Confirm Password</Label>
               <Input
-                id="ConfirmPassword"
+                id="password-confirm"
                 type="password"
-                value={data.ConfirmPassword}
-                onChange={(e) => setData("ConfirmPassword", e.target.value)}
+                value={data["password-confirm"]}
+                onChange={(e) => setData("password-confirm", e.target.value)}
                 required
                 className="bg-muted text-card-foreground placeholder:text-muted-foreground"
               />
-              {errors.ConfirmPassword && (
+              {errors["password-confirm"] && (
                 <p className="text-sm text-destructive">
-                  {errors.ConfirmPassword}
+                  {errors["password-confirm"]}
                 </p>
               )}
             </div>

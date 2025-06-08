@@ -238,6 +238,7 @@ func (h *Auth) RegisterSubmit(ctx echo.Context) error {
 	switch err.(type) {
 	case nil:
 		log.Ctx(ctx).Info("Form submitted successfully", "data", input)
+
 	case validator.ValidationErrors:
 		msg.Danger(ctx, "Please fill in all required fields correctly.")
 		h.Inertia.Back(w, r)
