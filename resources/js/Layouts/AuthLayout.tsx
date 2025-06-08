@@ -8,7 +8,6 @@ export default function AuthLayout({
   children,
   title,
   description,
-  logo,
   ...props
 }: {
   children: React.ReactNode;
@@ -21,12 +20,7 @@ export default function AuthLayout({
   useFlashToasts(flash);
 
   return (
-    <AuthLayoutTemplate
-      title={title}
-      description={description}
-      logo={logo}
-      {...props}
-    >
+    <AuthLayoutTemplate title={title} description={description} {...props}>
       <Toaster richColors position="top-center" />
       {children}
     </AuthLayoutTemplate>

@@ -5,14 +5,12 @@ interface AuthLayoutProps {
   name?: string;
   title?: string;
   description?: string;
-  logo?: string;
 }
 
 export default function AuthSimpleLayout({
   children,
   title,
   description,
-  logo,
 }: PropsWithChildren<AuthLayoutProps>) {
   return (
     <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-background p-6 md:p-10">
@@ -26,7 +24,7 @@ export default function AuthSimpleLayout({
               <div className="mb-1 flex h-9 items-center justify-center rounded-md">
                 {/* TODO: Make this an image */}
                 <span className="text-2xl font-bold tracking-tighter text-foreground">
-                  {logo}
+                  🥁 Pagode
                 </span>
               </div>
               <span className="sr-only">{title}</span>

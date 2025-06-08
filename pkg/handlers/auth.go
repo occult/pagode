@@ -65,7 +65,17 @@ func (h *Auth) Routes(g *echo.Group) {
 }
 
 func (h *Auth) ForgotPasswordPage(ctx echo.Context) error {
-	return pages.ForgotPassword(ctx, form.Get[forms.ForgotPassword](ctx))
+	err := h.Inertia.Render(
+		ctx.Response().Writer,
+		ctx.Request(),
+		"Auth/ForgotPassword",
+	)
+	if err != nil {
+		handleServerErr(ctx.Response().Writer, err)
+		return err
+	}
+
+	return nil
 }
 
 func (h *Auth) ForgotPasswordSubmit(ctx echo.Context) error {
@@ -127,12 +137,14 @@ func (h *Auth) ForgotPasswordSubmit(ctx echo.Context) error {
 }
 
 func (h *Auth) LoginPage(ctx echo.Context) error {
+	canResetPassword := true
+
 	err := h.Inertia.Render(
 		ctx.Response().Writer,
 		ctx.Request(),
 		"Auth/Login",
 		inertia.Props{
-			"text": "Teste",
+			"canResetPassword": canResetPassword,
 		},
 	)
 	if err != nil {

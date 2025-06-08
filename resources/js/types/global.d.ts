@@ -1,3 +1,5 @@
+import { User } from ".";
+
 export type FlashMessages = {
   success?: string[];
   info?: string[];
@@ -7,4 +9,7 @@ export type FlashMessages = {
 
 export type SharedProps = {
   flash: FlashMessages;
+  auth: {
+    user: User | null;
+  };
 };
