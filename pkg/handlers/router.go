@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/sessions"
+	"github.com/labstack/echo/v4"
 	echomw "github.com/labstack/echo/v4/middleware"
 	"github.com/mikestefanello/pagoda/config"
 	"github.com/mikestefanello/pagoda/pkg/context"
@@ -60,7 +61,12 @@ func BuildRouter(c *services.Container) error {
 	)
 
 	// Error handler.
-	c.Web.HTTPErrorHandler = new(Error).Page
+	errHandler := &Error{}
+	_ = errHandler.Init(c)
+
+	c.Web.HTTPErrorHandler = func(err error, ctx echo.Context) {
+		errHandler.Page(err, ctx)
+	}
 
 	// Initialize and register all handlers.
 	for _, h := range GetHandlers() {
