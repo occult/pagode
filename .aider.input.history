@@ -1,0 +1,19 @@
+
+# 2025-06-08 21:03:27.814907
++/add pkg/handlers/profile.go
+
+# 2025-06-08 21:03:52.957879
++create test file for this handler, if you need example, see: pkg/handlers/handlers_test.go
+
+# 2025-06-08 21:03:54.103258
++y
+
+# 2025-06-08 21:04:37.020879
++d
+
+# 2025-06-08 21:04:59.905982
++ undefined: tests.RouteTest compiler (UndeclaredImportedName) [27, 20]
++   │ │   ├╴  undefined: tests.TestRoute compiler (UndeclaredImportedName) [74, 10]
++   │ │   ├╴  undefined: tests.NewMockInertia compiler (UndeclaredImportedName) [81, 20]
++   │ │   ├╴  undefined: tests.NewMockInertia compiler (UndeclaredImportedName) [93, 20]
++   │ │   └╴  undefined: tests.NewMockInertia compiler (UndeclaredImportedName) [105, 

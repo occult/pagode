@@ -8,7 +8,6 @@ import (
 	"github.com/mikestefanello/pagoda/pkg/form"
 	"github.com/mikestefanello/pagoda/pkg/log"
 	"github.com/mikestefanello/pagoda/pkg/msg"
-	"github.com/mikestefanello/pagoda/pkg/redirect"
 	"github.com/mikestefanello/pagoda/pkg/routenames"
 	"github.com/mikestefanello/pagoda/pkg/services"
 	inertia "github.com/romsar/gonertia/v2"
@@ -53,7 +52,7 @@ func (h *Profile) Routes(g *echo.Group) {
 	profile := g.Group("/profile")
 	profile.GET("/info", h.EditPage).Name = routenames.ProfileEdit
 	profile.POST("/update", h.UpdateBasicInfo).Name = routenames.ProfileUpdate
-	profile.DELETE("/delete", h.DeleteAccount).Name = routenames.ProfileDestroy
+	profile.POST("/delete", h.DeleteAccount).Name = routenames.ProfileDestroy
 
 	profile.GET("/appearance", h.AppearancePage).Name = routenames.ProfileAppearance
 	profile.GET("/password", h.PasswordPage).Name = routenames.ProfilePassword
@@ -175,8 +174,11 @@ func (h *Profile) DeleteAccount(ctx echo.Context) error {
 		return fail(err, "unable to delete user account")
 	}
 
+	uri := ctx.Echo().Reverse(routenames.Welcome)
+
 	msg.Success(ctx, "Your account has been deleted.")
-	return redirect.New(ctx).Route(routenames.Home).Go()
+	h.Inertia.Redirect(ctx.Response().Writer, ctx.Request(), uri)
+	return nil
 }
 
 func (h *Profile) AppearancePage(ctx echo.Context) error {
