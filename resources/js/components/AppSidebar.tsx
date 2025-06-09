@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/sidebar";
 import { type NavItem } from "@/types";
 import { Link } from "@inertiajs/react";
-import { BookOpen, Folder, LayoutGrid } from "lucide-react";
+import { BookOpen, Folder, LayoutGrid, UploadCloud } from "lucide-react";
 import { NavMain } from "./NavMain";
 import { NavFooter } from "./NavFooter";
 import { NavUser } from "./NavUser";
@@ -19,6 +19,11 @@ const mainNavItems: NavItem[] = [
     title: "Dashboard",
     href: "/dashboard",
     icon: LayoutGrid,
+  },
+  {
+    title: "Upload Files",
+    href: "/files",
+    icon: UploadCloud,
   },
 ];
 

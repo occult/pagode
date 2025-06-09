@@ -4,6 +4,7 @@ import { type BreadcrumbItem } from "@/types";
 import { type ReactNode } from "react";
 import { useFlashToasts } from "@/hooks/useFlashToast";
 import { SharedProps } from "@/types/global";
+import { Toaster } from "sonner";
 
 interface AppLayoutProps {
   children: ReactNode;
@@ -21,6 +22,7 @@ export default function AppLayout({
 
   return (
     <AppLayoutTemplate breadcrumbs={breadcrumbs} {...props}>
+      <Toaster richColors position="top-center" />
       {children}
     </AppLayoutTemplate>
   );

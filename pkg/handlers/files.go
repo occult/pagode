@@ -9,13 +9,13 @@ import (
 	"github.com/occult/pagode/pkg/msg"
 	"github.com/occult/pagode/pkg/routenames"
 	"github.com/occult/pagode/pkg/services"
-	"github.com/occult/pagode/pkg/ui/models"
-	"github.com/occult/pagode/pkg/ui/pages"
+	inertia "github.com/romsar/gonertia/v2"
 	"github.com/spf13/afero"
 )
 
 type Files struct {
-	files afero.Fs
+	files   afero.Fs
+	Inertia *inertia.Inertia
 }
 
 func init() {
@@ -24,38 +24,46 @@ func init() {
 
 func (h *Files) Init(c *services.Container) error {
 	h.files = c.Files
+	h.Inertia = c.Inertia
 	return nil
 }
 
 func (h *Files) Routes(g *echo.Group) {
-	g.GET("/files", h.Page).Name = routenames.Files
+	g.GET("/files", h.UploadFilePage).Name = routenames.Files
 	g.POST("/files", h.Submit).Name = routenames.FilesSubmit
 }
 
-func (h *Files) Page(ctx echo.Context) error {
-	// Compile a list of all uploaded files to be rendered.
+func (h *Files) UploadFilePage(ctx echo.Context) error {
 	info, err := afero.ReadDir(h.files, "")
 	if err != nil {
 		return err
 	}
 
-	files := make([]*models.File, 0)
+	files := make([]map[string]interface{}, 0, len(info))
 	for _, file := range info {
-		files = append(files, &models.File{
-			Name:     file.Name(),
-			Size:     file.Size(),
-			Modified: file.ModTime().Format(time.DateTime),
+		files = append(files, map[string]interface{}{
+			"id":       file.Name(),
+			"name":     file.Name(),
+			"size":     file.Size(),
+			"modified": file.ModTime().Format(time.DateTime),
 		})
 	}
 
-	return pages.UploadFile(ctx, files)
+	return h.Inertia.Render(
+		ctx.Response().Writer,
+		ctx.Request(),
+		"UploadFile",
+		inertia.Props{
+			"files": files,
+		},
+	)
 }
 
 func (h *Files) Submit(ctx echo.Context) error {
 	file, err := ctx.FormFile("file")
 	if err != nil {
 		msg.Danger(ctx, "A file is required.")
-		return h.Page(ctx)
+		return h.UploadFilePage(ctx)
 	}
 
 	src, err := file.Open()
@@ -76,5 +84,11 @@ func (h *Files) Submit(ctx echo.Context) error {
 
 	msg.Success(ctx, fmt.Sprintf("%s was uploaded successfully.", file.Filename))
 
-	return h.Page(ctx)
+	h.Inertia.Redirect(
+		ctx.Response().Writer,
+		ctx.Request(),
+		ctx.Echo().Reverse(routenames.Files),
+	)
+
+	return nil
 }
