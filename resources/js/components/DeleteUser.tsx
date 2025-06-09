@@ -17,10 +17,14 @@ import {
 import InputError from "./InputError";
 import HeadingSmall from "./HeadingSmall";
 
+type DeleteUserForm = {
+  password: string;
+};
+
 export default function DeleteUser() {
   const passwordInput = useRef<HTMLInputElement>(null);
   const { data, setData, post, processing, reset, errors, clearErrors } =
-    useForm<Required<{ password: string }>>({ password: "" });
+    useForm<Required<DeleteUserForm>>({ password: "" });
 
   const deleteUser: FormEventHandler = (e) => {
     e.preventDefault();
