@@ -18,8 +18,7 @@ import (
 	"github.com/mikestefanello/pagoda/pkg/routenames"
 	"github.com/mikestefanello/pagoda/pkg/services"
 	"github.com/mikestefanello/pagoda/pkg/ui/emails"
-	"github.com/mikestefanello/pagoda/pkg/ui/forms"
-	"github.com/mikestefanello/pagoda/pkg/ui/pages"
+
 	inertia "github.com/romsar/gonertia/v2"
 )
 
@@ -29,6 +28,20 @@ type Auth struct {
 	mail    *services.MailClient
 	orm     *ent.Client
 	Inertia *inertia.Inertia
+}
+
+type RegisterForm struct {
+	Name            string `form:"name" validate:"required"`
+	Email           string `form:"email" validate:"required,email"`
+	Password        string `form:"password" validate:"required"`
+	ConfirmPassword string `form:"password_confirmation" validate:"required,eqfield=Password"`
+	form.Submission
+}
+
+type LoginForm struct {
+	Email    string `form:"email" validate:"required,email"`
+	Password string `form:"password" validate:"required"`
+	form.Submission
 }
 
 func init() {
@@ -53,87 +66,6 @@ func (h *Auth) Routes(g *echo.Group) {
 	noAuth.POST("/login", h.LoginSubmit).Name = routenames.LoginSubmit
 	noAuth.GET("/register", h.RegisterPage).Name = routenames.Register
 	noAuth.POST("/register", h.RegisterSubmit).Name = routenames.RegisterSubmit
-	noAuth.GET("/password", h.ForgotPasswordPage).Name = routenames.ForgotPassword
-	noAuth.POST("/password", h.ForgotPasswordSubmit).Name = routenames.ForgotPasswordSubmit
-
-	resetGroup := noAuth.Group("/password/reset",
-		middleware.LoadUser(h.orm),
-		middleware.LoadValidPasswordToken(h.auth),
-	)
-	resetGroup.GET("/token/:user/:password_token/:token", h.ResetPasswordPage).Name = routenames.ResetPassword
-	resetGroup.POST("/token/:user/:password_token/:token", h.ResetPasswordSubmit).Name = routenames.ResetPasswordSubmit
-}
-
-func (h *Auth) ForgotPasswordPage(ctx echo.Context) error {
-	err := h.Inertia.Render(
-		ctx.Response().Writer,
-		ctx.Request(),
-		"Auth/ForgotPassword",
-	)
-	if err != nil {
-		handleServerErr(ctx.Response().Writer, err)
-		return err
-	}
-
-	return nil
-}
-
-func (h *Auth) ForgotPasswordSubmit(ctx echo.Context) error {
-	var input forms.ForgotPassword
-
-	succeed := func() error {
-		form.Clear(ctx)
-		msg.Success(ctx, "An email containing a link to reset your password will be sent to this address if it exists in our system.")
-		return h.ForgotPasswordPage(ctx)
-	}
-
-	err := form.Submit(ctx, &input)
-
-	switch err.(type) {
-	case nil:
-	case validator.ValidationErrors:
-		return h.ForgotPasswordPage(ctx)
-	default:
-		return err
-	}
-
-	// Attempt to load the user.
-	u, err := h.orm.User.
-		Query().
-		Where(user.Email(strings.ToLower(input.Email))).
-		Only(ctx.Request().Context())
-
-	switch err.(type) {
-	case *ent.NotFoundError:
-		return succeed()
-	case nil:
-	default:
-		return fail(err, "error querying user during forgot password")
-	}
-
-	// Generate the token.
-	token, pt, err := h.auth.GeneratePasswordResetToken(ctx, u.ID)
-	if err != nil {
-		return fail(err, "error generating password reset token")
-	}
-
-	log.Ctx(ctx).Info("generated password reset token",
-		"user_id", u.ID,
-	)
-
-	// Email the user.
-	url := ctx.Echo().Reverse(routenames.ResetPassword, u.ID, pt.ID, token)
-	err = h.mail.
-		Compose().
-		To(u.Email).
-		Subject("Reset your password").
-		Body(fmt.Sprintf("Go here to reset your password: %s", h.config.App.Host+url)).
-		Send(ctx)
-	if err != nil {
-		return fail(err, "error sending password reset email")
-	}
-
-	return succeed()
 }
 
 func (h *Auth) LoginPage(ctx echo.Context) error {
@@ -159,7 +91,7 @@ func (h *Auth) LoginSubmit(ctx echo.Context) error {
 	w := ctx.Response().Writer
 	r := ctx.Request()
 
-	var input forms.Login
+	var input LoginForm
 
 	uriLogin := ctx.Echo().Reverse(routenames.Login)
 
@@ -247,7 +179,7 @@ func (h *Auth) RegisterSubmit(ctx echo.Context) error {
 	w := ctx.Response().Writer
 	r := ctx.Request()
 
-	var input forms.Register
+	var input RegisterForm
 	err := form.Submit(ctx, &input)
 
 	uriLogin := ctx.Echo().Reverse(routenames.Login)
@@ -338,47 +270,6 @@ func (h *Auth) sendVerificationEmail(ctx echo.Context, usr *ent.User) {
 	}
 
 	msg.Info(ctx, "An email was sent to you to verify your email address.")
-}
-
-func (h *Auth) ResetPasswordPage(ctx echo.Context) error {
-	return pages.ResetPassword(ctx, form.Get[forms.ResetPassword](ctx))
-}
-
-func (h *Auth) ResetPasswordSubmit(ctx echo.Context) error {
-	var input forms.ResetPassword
-
-	err := form.Submit(ctx, &input)
-
-	switch err.(type) {
-	case nil:
-	case validator.ValidationErrors:
-		return h.ResetPasswordPage(ctx)
-	default:
-		return err
-	}
-
-	// Get the requesting user.
-	usr := ctx.Get(context.UserKey).(*ent.User)
-
-	// Update the user.
-	_, err = usr.
-		Update().
-		SetPassword(input.Password).
-		Save(ctx.Request().Context())
-	if err != nil {
-		return fail(err, "unable to update password")
-	}
-
-	// Delete all password tokens for this user.
-	err = h.auth.DeletePasswordTokens(ctx, usr.ID)
-	if err != nil {
-		return fail(err, "unable to delete password tokens")
-	}
-
-	msg.Success(ctx, "Your password has been updated.")
-	return redirect.New(ctx).
-		Route(routenames.Login).
-		Go()
 }
 
 func (h *Auth) VerifyEmail(ctx echo.Context) error {
