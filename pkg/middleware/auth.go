@@ -97,7 +97,7 @@ func RequireAuthentication(next echo.HandlerFunc) echo.HandlerFunc {
 func RequireNoAuthentication(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		if u := c.Get(context.AuthenticatedUserKey); u != nil {
-			return echo.NewHTTPError(http.StatusForbidden)
+			return c.Redirect(http.StatusSeeOther, c.Echo().Reverse(routenames.Dashboard))
 		}
 
 		return next(c)
