@@ -5,7 +5,7 @@ import (
 
 	"github.com/gorilla/sessions"
 	"github.com/labstack/echo/v4"
-	"github.com/mikestefanello/pagoda/pkg/context"
+	"github.com/occult/pagode/pkg/context"
 )
 
 // ErrStoreNotFound indicates that the session store was not present in the context

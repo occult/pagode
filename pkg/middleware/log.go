@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/labstack/echo/v4"
-	"github.com/mikestefanello/pagoda/pkg/log"
+	"github.com/occult/pagode/pkg/log"
 )
 
 // SetLogger initializes a logger for the current request and stores it in the context.

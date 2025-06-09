@@ -1,4 +1,4 @@
-module github.com/mikestefanello/pagoda
+module github.com/occult/pagode
 
 go 1.24.0
 

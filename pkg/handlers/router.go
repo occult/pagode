@@ -6,10 +6,10 @@ import (
 	"github.com/gorilla/sessions"
 	"github.com/labstack/echo/v4"
 	echomw "github.com/labstack/echo/v4/middleware"
-	"github.com/mikestefanello/pagoda/config"
-	"github.com/mikestefanello/pagoda/pkg/context"
-	"github.com/mikestefanello/pagoda/pkg/middleware"
-	"github.com/mikestefanello/pagoda/pkg/services"
+	"github.com/occult/pagode/config"
+	"github.com/occult/pagode/pkg/context"
+	"github.com/occult/pagode/pkg/middleware"
+	"github.com/occult/pagode/pkg/services"
 )
 
 // BuildRouter builds the router.

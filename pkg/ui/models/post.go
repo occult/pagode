@@ -3,8 +3,8 @@ package models
 import (
 	"fmt"
 
-	"github.com/mikestefanello/pagoda/pkg/pager"
-	"github.com/mikestefanello/pagoda/pkg/ui"
+	"github.com/occult/pagode/pkg/pager"
+	"github.com/occult/pagode/pkg/ui"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )

@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/mikestefanello/pagoda/ent"
-	"github.com/mikestefanello/pagoda/pkg/context"
-	"github.com/mikestefanello/pagoda/pkg/tests"
+	"github.com/occult/pagode/ent"
+	"github.com/occult/pagode/pkg/context"
+	"github.com/occult/pagode/pkg/tests"
 
 	"github.com/stretchr/testify/require"
 

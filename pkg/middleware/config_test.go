@@ -3,9 +3,9 @@ package middleware
 import (
 	"testing"
 
-	"github.com/mikestefanello/pagoda/config"
-	"github.com/mikestefanello/pagoda/pkg/context"
-	"github.com/mikestefanello/pagoda/pkg/tests"
+	"github.com/occult/pagode/config"
+	"github.com/occult/pagode/pkg/context"
+	"github.com/occult/pagode/pkg/tests"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

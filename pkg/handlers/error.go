@@ -4,9 +4,9 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
-	"github.com/mikestefanello/pagoda/pkg/context"
-	"github.com/mikestefanello/pagoda/pkg/log"
-	"github.com/mikestefanello/pagoda/pkg/services"
+	"github.com/occult/pagode/pkg/context"
+	"github.com/occult/pagode/pkg/log"
+	"github.com/occult/pagode/pkg/services"
 	inertia "github.com/romsar/gonertia/v2"
 )
 

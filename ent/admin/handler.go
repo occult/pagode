@@ -10,9 +10,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"github.com/labstack/echo/v4"
 
-	"github.com/mikestefanello/pagoda/ent"
-	"github.com/mikestefanello/pagoda/ent/passwordtoken"
-	"github.com/mikestefanello/pagoda/ent/user"
+	"github.com/occult/pagode/ent"
+	"github.com/occult/pagode/ent/passwordtoken"
+	"github.com/occult/pagode/ent/user"
 )
 
 const dateTimeFormat = "2006-01-02T15:04:05"

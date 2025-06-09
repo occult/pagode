@@ -1,10 +1,10 @@
 package layouts
 
 import (
-	"github.com/mikestefanello/pagoda/pkg/routenames"
-	"github.com/mikestefanello/pagoda/pkg/ui"
-	"github.com/mikestefanello/pagoda/pkg/ui/cache"
-	. "github.com/mikestefanello/pagoda/pkg/ui/components"
+	"github.com/occult/pagode/pkg/routenames"
+	"github.com/occult/pagode/pkg/ui"
+	"github.com/occult/pagode/pkg/ui/cache"
+	. "github.com/occult/pagode/pkg/ui/components"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )

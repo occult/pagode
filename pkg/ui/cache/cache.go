@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"sync"
 
-	"github.com/mikestefanello/pagoda/pkg/log"
+	"github.com/occult/pagode/pkg/log"
 	"maragu.dev/gomponents"
 )
 

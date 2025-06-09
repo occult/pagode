@@ -56,7 +56,7 @@ func ValidColumn(column string) bool {
 // package on the initialization of the application. Therefore,
 // it should be imported in the main as follows:
 //
-//	import _ "github.com/mikestefanello/pagoda/ent/runtime"
+//	import _ "github.com/occult/pagode/ent/runtime"
 var (
 	Hooks [1]ent.Hook
 	// TokenValidator is a validator for the "token" field. It is called by the builders before save.

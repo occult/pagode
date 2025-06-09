@@ -2,8 +2,8 @@ package emails
 
 import (
 	"github.com/labstack/echo/v4"
-	"github.com/mikestefanello/pagoda/pkg/routenames"
-	"github.com/mikestefanello/pagoda/pkg/ui"
+	"github.com/occult/pagode/pkg/routenames"
+	"github.com/occult/pagode/pkg/ui"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )

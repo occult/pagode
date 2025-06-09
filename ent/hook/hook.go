@@ -6,7 +6,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/mikestefanello/pagoda/ent"
+	"github.com/occult/pagode/ent"
 )
 
 // The PasswordTokenFunc type is an adapter to allow the use of ordinary

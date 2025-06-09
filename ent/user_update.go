@@ -10,9 +10,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/mikestefanello/pagoda/ent/passwordtoken"
-	"github.com/mikestefanello/pagoda/ent/predicate"
-	"github.com/mikestefanello/pagoda/ent/user"
+	"github.com/occult/pagode/ent/passwordtoken"
+	"github.com/occult/pagode/ent/predicate"
+	"github.com/occult/pagode/ent/user"
 )
 
 // UserUpdate is the builder for updating User entities.

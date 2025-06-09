@@ -3,8 +3,8 @@ package msg
 import (
 	"github.com/gorilla/sessions"
 	"github.com/labstack/echo/v4"
-	"github.com/mikestefanello/pagoda/pkg/log"
-	"github.com/mikestefanello/pagoda/pkg/session"
+	"github.com/occult/pagode/pkg/log"
+	"github.com/occult/pagode/pkg/session"
 )
 
 // Type is a message type.

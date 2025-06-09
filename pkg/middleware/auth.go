@@ -5,12 +5,12 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/mikestefanello/pagoda/ent"
-	"github.com/mikestefanello/pagoda/pkg/context"
-	"github.com/mikestefanello/pagoda/pkg/log"
-	"github.com/mikestefanello/pagoda/pkg/msg"
-	"github.com/mikestefanello/pagoda/pkg/routenames"
-	"github.com/mikestefanello/pagoda/pkg/services"
+	"github.com/occult/pagode/ent"
+	"github.com/occult/pagode/pkg/context"
+	"github.com/occult/pagode/pkg/log"
+	"github.com/occult/pagode/pkg/msg"
+	"github.com/occult/pagode/pkg/routenames"
+	"github.com/occult/pagode/pkg/services"
 
 	"github.com/labstack/echo/v4"
 )

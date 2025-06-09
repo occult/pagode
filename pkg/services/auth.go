@@ -8,12 +8,12 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/mikestefanello/pagoda/config"
-	"github.com/mikestefanello/pagoda/ent"
-	"github.com/mikestefanello/pagoda/ent/passwordtoken"
-	"github.com/mikestefanello/pagoda/ent/user"
-	"github.com/mikestefanello/pagoda/pkg/context"
-	"github.com/mikestefanello/pagoda/pkg/session"
+	"github.com/occult/pagode/config"
+	"github.com/occult/pagode/ent"
+	"github.com/occult/pagode/ent/passwordtoken"
+	"github.com/occult/pagode/ent/user"
+	"github.com/occult/pagode/pkg/context"
+	"github.com/occult/pagode/pkg/session"
 
 	"github.com/labstack/echo/v4"
 	"golang.org/x/crypto/bcrypt"

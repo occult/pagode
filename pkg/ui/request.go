@@ -2,10 +2,10 @@ package ui
 
 import (
 	"github.com/labstack/echo/v4"
-	"github.com/mikestefanello/pagoda/config"
-	"github.com/mikestefanello/pagoda/ent"
-	"github.com/mikestefanello/pagoda/pkg/context"
-	"github.com/mikestefanello/pagoda/pkg/htmx"
+	"github.com/occult/pagode/config"
+	"github.com/occult/pagode/ent"
+	"github.com/occult/pagode/pkg/context"
+	"github.com/occult/pagode/pkg/htmx"
 	"maragu.dev/gomponents"
 )
 

@@ -3,7 +3,7 @@ package components
 import (
 	"fmt"
 
-	"github.com/mikestefanello/pagoda/pkg/ui"
+	"github.com/occult/pagode/pkg/ui"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )

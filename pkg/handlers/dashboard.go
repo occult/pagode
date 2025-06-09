@@ -2,8 +2,8 @@ package handlers
 
 import (
 	"github.com/labstack/echo/v4"
-	"github.com/mikestefanello/pagoda/pkg/routenames"
-	"github.com/mikestefanello/pagoda/pkg/services"
+	"github.com/occult/pagode/pkg/routenames"
+	"github.com/occult/pagode/pkg/services"
 	inertia "github.com/romsar/gonertia/v2"
 )
 

@@ -8,7 +8,7 @@ import (
 
 	"entgo.io/ent/entc"
 	"entgo.io/ent/entc/gen"
-	"github.com/mikestefanello/pagoda/ent/admin"
+	"github.com/occult/pagode/ent/admin"
 )
 
 func main() {

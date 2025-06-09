@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"errors"
 
-	"github.com/mikestefanello/pagoda/config"
-	"github.com/mikestefanello/pagoda/pkg/log"
+	"github.com/occult/pagode/config"
+	"github.com/occult/pagode/pkg/log"
 	"maragu.dev/gomponents"
 
 	"github.com/labstack/echo/v4"

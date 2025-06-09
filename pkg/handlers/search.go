@@ -5,10 +5,10 @@ import (
 	"math/rand"
 
 	"github.com/labstack/echo/v4"
-	"github.com/mikestefanello/pagoda/pkg/routenames"
-	"github.com/mikestefanello/pagoda/pkg/services"
-	"github.com/mikestefanello/pagoda/pkg/ui/models"
-	"github.com/mikestefanello/pagoda/pkg/ui/pages"
+	"github.com/occult/pagode/pkg/routenames"
+	"github.com/occult/pagode/pkg/services"
+	"github.com/occult/pagode/pkg/ui/models"
+	"github.com/occult/pagode/pkg/ui/pages"
 )
 
 type Search struct{}

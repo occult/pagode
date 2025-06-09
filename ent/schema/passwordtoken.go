@@ -7,8 +7,8 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
-	ge "github.com/mikestefanello/pagoda/ent"
-	"github.com/mikestefanello/pagoda/ent/hook"
+	ge "github.com/occult/pagode/ent"
+	"github.com/occult/pagode/ent/hook"
 	"golang.org/x/crypto/bcrypt"
 )
 

@@ -2,8 +2,8 @@ package middleware
 
 import (
 	"github.com/labstack/echo/v4"
-	"github.com/mikestefanello/pagoda/pkg/context"
-	"github.com/mikestefanello/pagoda/pkg/msg"
+	"github.com/occult/pagode/pkg/context"
+	"github.com/occult/pagode/pkg/msg"
 	"github.com/romsar/gonertia/v2"
 )
 

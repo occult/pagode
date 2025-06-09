@@ -1,8 +1,8 @@
 package components
 
 import (
-	"github.com/mikestefanello/pagoda/pkg/form"
-	"github.com/mikestefanello/pagoda/pkg/ui"
+	"github.com/occult/pagode/pkg/form"
+	"github.com/occult/pagode/pkg/ui"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )

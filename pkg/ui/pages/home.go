@@ -4,11 +4,11 @@ import (
 	"fmt"
 
 	"github.com/labstack/echo/v4"
-	"github.com/mikestefanello/pagoda/pkg/routenames"
-	"github.com/mikestefanello/pagoda/pkg/ui"
-	. "github.com/mikestefanello/pagoda/pkg/ui/components"
-	"github.com/mikestefanello/pagoda/pkg/ui/layouts"
-	"github.com/mikestefanello/pagoda/pkg/ui/models"
+	"github.com/occult/pagode/pkg/routenames"
+	"github.com/occult/pagode/pkg/ui"
+	. "github.com/occult/pagode/pkg/ui/components"
+	"github.com/occult/pagode/pkg/ui/layouts"
+	"github.com/occult/pagode/pkg/ui/models"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/components"
 	. "maragu.dev/gomponents/html"
@@ -76,7 +76,7 @@ func Home(ctx echo.Context, posts *models.Posts) error {
 						),
 						If(!r.IsAdmin, Span(
 							Class("is-size-7 ml-3"),
-							Raw(`(<a href="https://github.com/mikestefanello/pagoda#create-an-admin-account">click here</a> for instructions to make an admin account)`),
+							Raw(`(<a href="https://github.com/occult/pagode#create-an-admin-account">click here</a> for instructions to make an admin account)`),
 						)),
 					),
 				),

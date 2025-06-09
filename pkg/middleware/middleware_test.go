@@ -4,10 +4,10 @@ import (
 	"os"
 	"testing"
 
-	"github.com/mikestefanello/pagoda/config"
-	"github.com/mikestefanello/pagoda/ent"
-	"github.com/mikestefanello/pagoda/pkg/services"
-	"github.com/mikestefanello/pagoda/pkg/tests"
+	"github.com/occult/pagode/config"
+	"github.com/occult/pagode/ent"
+	"github.com/occult/pagode/pkg/services"
+	"github.com/occult/pagode/pkg/tests"
 )
 
 var (

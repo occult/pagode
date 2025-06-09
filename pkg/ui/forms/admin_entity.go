@@ -6,10 +6,10 @@ import (
 
 	"entgo.io/ent/entc/load"
 	"entgo.io/ent/schema/field"
-	"github.com/mikestefanello/pagoda/ent/admin"
-	"github.com/mikestefanello/pagoda/pkg/routenames"
-	"github.com/mikestefanello/pagoda/pkg/ui"
-	. "github.com/mikestefanello/pagoda/pkg/ui/components"
+	"github.com/occult/pagode/ent/admin"
+	"github.com/occult/pagode/pkg/routenames"
+	"github.com/occult/pagode/pkg/ui"
+	. "github.com/occult/pagode/pkg/ui/components"
 	. "maragu.dev/gomponents"
 	. "maragu.dev/gomponents/html"
 )

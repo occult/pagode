@@ -20,14 +20,14 @@ import (
 	"github.com/labstack/echo/v4"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/mikestefanello/backlite"
-	"github.com/mikestefanello/pagoda/config"
-	"github.com/mikestefanello/pagoda/ent"
-	"github.com/mikestefanello/pagoda/pkg/log"
+	"github.com/occult/pagode/config"
+	"github.com/occult/pagode/ent"
+	"github.com/occult/pagode/pkg/log"
 	inertia "github.com/romsar/gonertia/v2"
 	"github.com/spf13/afero"
 
 	// Required by ent.
-	_ "github.com/mikestefanello/pagoda/ent/runtime"
+	_ "github.com/occult/pagode/ent/runtime"
 )
 
 // Container contains all services used by the application and provides an easy way to handle dependency

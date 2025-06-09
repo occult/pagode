@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/mikestefanello/pagoda/config"
+	"github.com/occult/pagode/config"
 )
 
 var (
