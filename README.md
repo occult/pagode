@@ -185,6 +185,14 @@ Once you have one admin account, you can use that account to manage other users 
 
 ### Start the application
 
+Before starting, install the frontend dependencies:
+
+`npm install`
+
+Then, start the Vite frontend development server:
+
+`npx vite`
+
 From within the root of the codebase, simply run `make run`.
 
 By default, you should be able to access the application in your browser at `localhost:8000`. Your data will be stored within the `dbs` directory. If you ever want to quickly delete all data, just remove this directory.
