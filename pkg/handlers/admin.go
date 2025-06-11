@@ -36,11 +36,32 @@ func (h *AdminUser) Routes(g *echo.Group) {
 }
 
 func (h *AdminUser) Page(ctx echo.Context) error {
-	users, err := h.orm.User.Query().All(ctx.Request().Context())
+	pageStr := ctx.QueryParam("page")
+	page, err := strconv.Atoi(pageStr)
+	if err != nil || page < 1 {
+		page = 1
+	}
+
+	limit := 10
+	offset := (page - 1) * limit
+
+	total, err := h.orm.User.Query().Count(ctx.Request().Context())
+	if err != nil {
+		msg.Danger(ctx, "Failed to count users.")
+		return ctx.NoContent(500)
+	}
+
+	users, err := h.orm.User.
+		Query().
+		Limit(limit).
+		Offset(offset).
+		All(ctx.Request().Context())
 	if err != nil {
 		msg.Danger(ctx, "Failed to load users.")
 		return ctx.NoContent(500)
 	}
+
+	totalPages := (total + limit - 1) / limit
 
 	err = h.Inertia.Render(
 		ctx.Response().Writer,
@@ -48,6 +69,12 @@ func (h *AdminUser) Page(ctx echo.Context) error {
 		"Admin/AdminView",
 		inertia.Props{
 			"users": users,
+			"pagination": map[string]any{
+				"total":      total,
+				"page":       page,
+				"perPage":    limit,
+				"totalPages": totalPages,
+			},
 		},
 	)
 	if err != nil {
