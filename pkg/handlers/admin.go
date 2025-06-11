@@ -9,6 +9,7 @@ import (
 	"github.com/occult/pagode/ent"
 	"github.com/occult/pagode/pkg/form"
 	"github.com/occult/pagode/pkg/msg"
+	"github.com/occult/pagode/pkg/routenames"
 	"github.com/occult/pagode/pkg/services"
 	inertia "github.com/romsar/gonertia/v2"
 )
@@ -30,9 +31,10 @@ func (h *AdminUser) Init(c *services.Container) error {
 
 func (h *AdminUser) Routes(g *echo.Group) {
 	ag := g.Group("/admin/users")
-	ag.GET("", h.Page).Name = "admin_dashboard"
-	ag.POST("/add", h.AddUser).Name = "admin_user_add"
-	ag.POST("/:id/edit", h.EditUser).Name = "admin_user_edit"
+	ag.GET("", h.Page).Name = routenames.AdminDashboard
+	ag.POST("/add", h.AddUser).Name = routenames.AdminUserAdd
+	ag.POST("/:id/edit", h.EditUser).Name = routenames.AdminUserEdit
+	ag.POST("/:id/delete", h.DeleteUser).Name = routenames.AdminUserDelete
 }
 
 func (h *AdminUser) Page(ctx echo.Context) error {
@@ -172,6 +174,30 @@ func (h *AdminUser) EditUser(ctx echo.Context) error {
 	}
 
 	msg.Success(ctx, "User successfully updated.")
+	h.Inertia.Redirect(w, r, uri)
+	return nil
+}
+
+func (h *AdminUser) DeleteUser(ctx echo.Context) error {
+	w := ctx.Response().Writer
+	r := ctx.Request()
+	uri := ctx.Echo().Reverse("admin_dashboard")
+
+	id, err := strconv.Atoi(ctx.Param("id"))
+	if err != nil {
+		msg.Danger(ctx, "Invalid user ID.")
+		h.Inertia.Redirect(w, r, uri)
+		return nil
+	}
+
+	err = h.orm.User.DeleteOneID(id).Exec(r.Context())
+	if err != nil {
+		msg.Danger(ctx, "Failed to delete user: "+err.Error())
+		h.Inertia.Redirect(w, r, uri)
+		return nil
+	}
+
+	msg.Success(ctx, "User successfully deleted.")
 	h.Inertia.Redirect(w, r, uri)
 	return nil
 }

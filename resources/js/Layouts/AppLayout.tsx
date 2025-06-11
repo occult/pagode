@@ -23,7 +23,9 @@ export default function AppLayout({
   return (
     <AppLayoutTemplate breadcrumbs={breadcrumbs} {...props}>
       <Toaster richColors position="top-center" />
-      {children}
+      <div className="flex flex-col h-full">
+        {children}
+      </div>
     </AppLayoutTemplate>
   );
 }

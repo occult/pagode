@@ -52,22 +52,35 @@ export default function AdminView({ users, pagination }: Props) {
     });
   };
 
+  const handleDeleteUser = (userId: number) => {
+    if (!confirm("Are you sure you want to delete this user?")) return;
+
+    router.post(
+      `/admin/users/${userId}/delete`,
+      {},
+      {
+        preserveScroll: true,
+        preserveState: true,
+      },
+    );
+  };
+
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
       <Head title="User" />
 
-      <div className="flex flex-col w-full justify-start p-6">
-        <div className="w-full space-y-6 flex-1">
-          <Card className="h-full flex flex-col">
+      <div className="flex flex-col w-full h-full p-6">
+        <div className="w-full flex-1 min-h-0">
+          <Card className="h-full flex flex-col min-h-0">
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle>User</CardTitle>
               <Button onClick={openAddModal}>Add User</Button>
             </CardHeader>
 
-            <CardContent>
+            <CardContent className="flex flex-col gap-4 h-full min-h-0">
               {users.length > 0 ? (
                 <>
-                  <div className="overflow-auto">
+                  <div className="flex-1 min-h-0 overflow-auto">
                     <Table className="min-w-full">
                       <TableHeader>
                         <TableRow>
@@ -108,10 +121,11 @@ export default function AdminView({ users, pagination }: Props) {
                               </Button>
                             </TableCell>
                             <TableCell>
-                              <Button asChild variant="destructive">
-                                <Link href={`/admin/users/${user.id}/delete`}>
-                                  Delete
-                                </Link>
+                              <Button
+                                variant="destructive"
+                                onClick={() => handleDeleteUser(user.id)}
+                              >
+                                Delete
                               </Button>
                             </TableCell>
                           </TableRow>
@@ -120,7 +134,7 @@ export default function AdminView({ users, pagination }: Props) {
                     </Table>
                   </div>
 
-                  <div className="flex justify-center items-center gap-4 pt-6">
+                  <div className="flex justify-center items-center gap-4">
                     <Button
                       variant="ghost"
                       disabled={pagination.page === 1}

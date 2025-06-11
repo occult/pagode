@@ -11,6 +11,7 @@ const (
 	AdminDashboard        = "admin_dashboard"
 	AdminUserAdd          = "admin_user_add"
 	AdminUserEdit         = "admin_user_edit"
+	AdminUserDelete       = "admin_user_delete"
 	About                 = "about"
 	Contact               = "contact"
 	ContactSubmit         = "contact.submit"
