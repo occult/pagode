@@ -46,7 +46,7 @@ export function AppSidebar() {
       ? [
           {
             title: "Admin Panel",
-            href: "/admin",
+            href: "/admin/users",
             icon: LayoutGrid,
           },
         ]

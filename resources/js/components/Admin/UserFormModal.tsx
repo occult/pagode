@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useForm } from "@inertiajs/react";
-import { useEffect } from "react";
 import { User } from "@/types";
 
 type UserFormData = {
@@ -27,31 +26,12 @@ type Props = {
 export function UserFormModal({ open, onClose, user }: Props) {
   const isEdit = !!user;
 
-  const { data, setData, reset, post, processing, errors } =
-    useForm<UserFormData>({
-      name: "",
-      email: "",
-      admin: false,
-      emailVerified: false,
-    });
-
-  useEffect(() => {
-    if (isEdit && user) {
-      setData({
-        name: user.name ?? "",
-        email: user.email ?? "",
-        admin: !!user.admin,
-        emailVerified: !!user.emailVerified,
-      });
-    } else {
-      setData({
-        name: "",
-        email: "",
-        admin: false,
-        emailVerified: false,
-      });
-    }
-  }, [user, isEdit, reset]);
+  const { data, setData, post, processing, errors } = useForm<UserFormData>({
+    name: user?.name ?? "",
+    email: user?.email ?? "",
+    admin: !!user?.admin,
+    emailVerified: !!user?.emailVerified,
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
