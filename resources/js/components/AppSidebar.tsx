@@ -42,16 +42,15 @@ export function AppSidebar() {
       href: "/files",
       icon: UploadCloud,
     },
-    ...(auth.user?.admin
-      ? [
-          {
-            title: "Admin Panel",
-            href: "/admin/users",
-            icon: LayoutGrid,
-          },
-        ]
-      : []),
   ];
+
+  if (auth.user?.admin) {
+    mainNavItems.push({
+      title: "Admin Panel",
+      href: "/admin/users",
+      icon: LayoutGrid,
+    });
+  }
 
   return (
     <Sidebar collapsible="icon" variant="inset">
