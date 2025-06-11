@@ -30,7 +30,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 export default function UploadFile({ files }: Props) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const { data, setData, post, processing, errors, reset } = useForm<{
+  const { setData, post, processing, errors, reset } = useForm<{
     file: File | null;
   }>({
     file: null,
