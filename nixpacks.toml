@@ -1,0 +1,23 @@
+[build]
+builder = "nixpacks"
+
+[phases.setup]
+nixPkgs = ["go", "gcc", "pkg-config", "nodejs", "git", "sqlite"]
+
+[phases.install]
+cmds = [
+    "go mod download",
+    "npm install"
+]
+
+[phases.build]
+cmds = [
+    "npx vite build",
+    "CGO_ENABLED=1 go build -o pagode ./cmd/web"
+]
+
+[start]
+cmd = "./pagode"
+
+[variables]
+CGO_ENABLED = "1"
