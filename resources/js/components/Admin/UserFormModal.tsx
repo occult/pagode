@@ -7,8 +7,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useForm } from "@inertiajs/react";
-import { User } from "@/types";
 
 type UserFormData = {
   name: string;
@@ -20,37 +18,27 @@ type UserFormData = {
 type Props = {
   open: boolean;
   onClose: () => void;
-  user: User | null;
+  isEdit: boolean;
+  handleSubmit: (e: React.FormEvent) => void;
+  data: UserFormData;
+  errors: Partial<Record<keyof UserFormData, string>>;
+  setData: <K extends keyof UserFormData>(
+    key: K,
+    value: UserFormData[K],
+  ) => void;
+  processing: boolean;
 };
 
-export function UserFormModal({ open, onClose, user }: Props) {
-  const isEdit = !!user;
-
-  const { data, setData, post, processing, errors } = useForm<UserFormData>({
-    name: user?.name ?? "",
-    email: user?.email ?? "",
-    admin: !!user?.admin,
-    emailVerified: !!user?.emailVerified,
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (isEdit) {
-      post(`/admin/users/${user!.id}/edit`, {
-        forceFormData: true,
-        preserveScroll: true,
-        onSuccess: onClose,
-      });
-    } else {
-      post("/admin/users/add", {
-        forceFormData: true,
-        preserveScroll: true,
-        onSuccess: onClose,
-      });
-    }
-  };
-
+export function UserFormModal({
+  open,
+  onClose,
+  isEdit,
+  handleSubmit,
+  data,
+  errors,
+  setData,
+  processing,
+}: Props) {
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent>

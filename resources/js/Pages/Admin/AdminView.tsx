@@ -1,4 +1,4 @@
-import { Head, Link, router } from "@inertiajs/react";
+import { Head, router, useForm } from "@inertiajs/react";
 import AppLayout from "@/Layouts/AppLayout";
 import { BreadcrumbItem, User } from "@/types";
 import { Button } from "@/components/ui/button";
@@ -24,6 +24,13 @@ type Props = {
   };
 };
 
+type UserFormData = {
+  name: string;
+  email: string;
+  admin: boolean;
+  emailVerified: boolean;
+};
+
 const breadcrumbs: BreadcrumbItem[] = [
   {
     title: "Admin",
@@ -35,14 +42,51 @@ export default function AdminView({ users, pagination }: Props) {
   const [showModal, setShowModal] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
 
+  const { data, setData, post, processing, errors, reset } =
+    useForm<UserFormData>({
+      name: "",
+      email: "",
+      admin: false,
+      emailVerified: false,
+    });
+
   const openAddModal = () => {
     setEditingUser(null);
+    setData({
+      name: "",
+      email: "",
+      admin: false,
+      emailVerified: false,
+    });
     setShowModal(true);
   };
 
   const openEditModal = (user: User) => {
     setEditingUser(user);
+    setData({
+      name: user.name ?? "",
+      email: user.email ?? "",
+      admin: !!user.admin,
+      emailVerified: !!user.emailVerified,
+    });
     setShowModal(true);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const url = editingUser
+      ? `/admin/users/${editingUser.id}/edit`
+      : "/admin/users/add";
+
+    post(url, {
+      forceFormData: true,
+      preserveScroll: true,
+      onSuccess: () => {
+        setShowModal(false);
+        reset();
+      },
+    });
   };
 
   const goToPage = (page: number) => {
@@ -164,7 +208,12 @@ export default function AdminView({ users, pagination }: Props) {
         <UserFormModal
           open={showModal}
           onClose={() => setShowModal(false)}
-          user={editingUser}
+          isEdit={!!editingUser}
+          handleSubmit={handleSubmit}
+          data={data}
+          setData={setData}
+          errors={errors}
+          processing={processing}
         />
       </div>
     </AppLayout>
