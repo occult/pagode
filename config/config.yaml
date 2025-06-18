@@ -52,4 +52,4 @@ mail:
   user: "admin"
   password: "admin"
   fromAddress: "admin@localhost"
-  resendApiKey: "re_RyPiwDUJ_EX98aex2Nv7AEAWPArhdRFN7"
+  resendApiKey: "your-api-key"
