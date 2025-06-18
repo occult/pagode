@@ -118,11 +118,12 @@ type (
 
 	// MailConfig stores the mail configuration.
 	MailConfig struct {
-		Hostname    string
-		Port        uint16
-		User        string
-		Password    string
-		FromAddress string
+		Hostname     string
+		Port         uint16
+		User         string
+		Password     string
+		FromAddress  string
+		ResendApiKey string
 	}
 )
 

@@ -17,7 +17,8 @@ import (
 	"github.com/occult/pagode/pkg/redirect"
 	"github.com/occult/pagode/pkg/routenames"
 	"github.com/occult/pagode/pkg/services"
-	"github.com/occult/pagode/pkg/ui/emails"
+	"github.com/occult/pagode/pkg/ui"
+	"github.com/resend/resend-go/v2"
 
 	inertia "github.com/romsar/gonertia/v2"
 )
@@ -236,7 +237,13 @@ func (h *Auth) RegisterSubmit(ctx echo.Context) error {
 	msg.Success(ctx, "Your account has been created. You are now logged in.")
 
 	// Send verification email
-	h.sendVerificationEmail(ctx, u)
+	err = h.sendVerificationEmail(ctx, u)
+	if err != nil {
+		log.Ctx(ctx).Error("unable to send email verification",
+			"user_id", u.ID,
+			"error", err,
+		)
+	}
 
 	uriDashboard := ctx.Echo().Reverse(routenames.Dashboard)
 
@@ -244,7 +251,9 @@ func (h *Auth) RegisterSubmit(ctx echo.Context) error {
 	return nil
 }
 
-func (h *Auth) sendVerificationEmail(ctx echo.Context, usr *ent.User) {
+func (h *Auth) sendVerificationEmail(ctx echo.Context, usr *ent.User) error {
+	client := resend.NewClient(h.config.Mail.ResendApiKey)
+
 	// Generate a token.
 	token, err := h.auth.GenerateEmailVerificationToken(usr.Email)
 	if err != nil {
@@ -252,29 +261,45 @@ func (h *Auth) sendVerificationEmail(ctx echo.Context, usr *ent.User) {
 			"user_id", usr.ID,
 			"error", err,
 		)
-		return
+		return err
 	}
 
-	// Send the email.
-	err = h.mail.
-		Compose().
-		To(usr.Email).
-		Subject("Confirm your email address").
-		Component(emails.ConfirmEmailAddress(ctx, usr.Name, token)).
-		Send(ctx)
+	url := ui.NewRequest(ctx).
+		Url(routenames.VerifyEmail, token)
+
+	subject := "Confirm your email address"
+	html := fmt.Sprintf(`
+		<p>Hello %s,</p>
+		<p>Thank you for signing up. Please verify your email address by clicking the link below:</p>
+		<p><a href="%s">Verify Email</a></p>
+		<p>If you didn’t create an account, you can ignore this email.</p>
+	`, usr.Name, url)
+
+	params := &resend.SendEmailRequest{
+		From:    "noreply@deulance.com.br",
+		To:      []string{usr.Email},
+		Subject: subject,
+		Html:    html,
+	}
+
+	_, err = client.Emails.Send(params)
 	if err != nil {
-		log.Ctx(ctx).Error("unable to send email verification link",
+		log.Ctx(ctx).Error("unable to send email verification token",
 			"user_id", usr.ID,
 			"error", err,
 		)
-		return
+		return err
 	}
 
 	msg.Info(ctx, "An email was sent to you to verify your email address.")
+	return nil
 }
 
 func (h *Auth) VerifyEmail(ctx echo.Context) error {
 	var usr *ent.User
+
+	w := ctx.Response().Writer
+	r := ctx.Request()
 
 	// Validate the token.
 	token := ctx.Param("token")
@@ -317,10 +342,11 @@ func (h *Auth) VerifyEmail(ctx echo.Context) error {
 		}
 	}
 
+	uriWelcome := ctx.Echo().Reverse(routenames.Welcome)
 	msg.Success(ctx, "Your email has been successfully verified.")
-	return redirect.New(ctx).
-		Route(routenames.Home).
-		Go()
+
+	h.Inertia.Redirect(w, r, uriWelcome)
+	return nil
 }
 
 func (h *Auth) ForgotPasswordPage(ctx echo.Context) error {
