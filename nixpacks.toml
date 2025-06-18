@@ -2,7 +2,7 @@
 builder = "nixpacks"
 
 [phases.setup]
-nixPkgs = ["go", "gcc", "pkg-config", "nodejs", "git", "sqlite"]
+nixPkgs = ["go", "nodejs", "gcc", "pkg-config", "sqlite"]
 
 [phases.install]
 cmds = [
@@ -12,12 +12,26 @@ cmds = [
 
 [phases.build]
 cmds = [
+    # Build frontend
     "npx vite build",
-    "CGO_ENABLED=1 go build -o pagode ./cmd/web"
+    
+    # Create target directory (absolute path to ensure location)
+    "mkdir -p /app/static/public/build",
+    
+    # Copy with preserved permissions (verbose for debugging)
+    "cp -rv public/build /app/static/public/",
+    
+    # Build Go binary
+    "CGO_ENABLED=1 go build -o pagode ./cmd/web",
+    
+    # Verification step (will appear in build logs)
+    "echo 'Verifying files were copied:' && ls -la /app/static/public/build"
 ]
 
 [start]
-cmd = "./pagode"
+cmd = "./pagode --port $PORT"
 
 [variables]
+PORT = "8000"
 CGO_ENABLED = "1"
+NODE_ENV = "production"
