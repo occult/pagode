@@ -66,6 +66,7 @@ func (h *Auth) Routes(g *echo.Group) {
 	noAuth.POST("/login", h.LoginSubmit).Name = routenames.LoginSubmit
 	noAuth.GET("/register", h.RegisterPage).Name = routenames.Register
 	noAuth.POST("/register", h.RegisterSubmit).Name = routenames.RegisterSubmit
+	noAuth.GET("/password", h.ForgotPasswordPage).Name = routenames.ForgotPassword
 }
 
 func (h *Auth) LoginPage(ctx echo.Context) error {
@@ -320,4 +321,18 @@ func (h *Auth) VerifyEmail(ctx echo.Context) error {
 	return redirect.New(ctx).
 		Route(routenames.Home).
 		Go()
+}
+
+func (h *Auth) ForgotPasswordPage(ctx echo.Context) error {
+	err := h.Inertia.Render(
+		ctx.Response().Writer,
+		ctx.Request(),
+		"Auth/ForgotPassword",
+	)
+	if err != nil {
+		handleServerErr(ctx.Response().Writer, err)
+		return err
+	}
+
+	return nil
 }

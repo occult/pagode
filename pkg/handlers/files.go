@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/labstack/echo/v4"
+	"github.com/occult/pagode/pkg/middleware"
 	"github.com/occult/pagode/pkg/msg"
 	"github.com/occult/pagode/pkg/routenames"
 	"github.com/occult/pagode/pkg/services"
@@ -29,8 +30,10 @@ func (h *Files) Init(c *services.Container) error {
 }
 
 func (h *Files) Routes(g *echo.Group) {
-	g.GET("/files", h.UploadFilePage).Name = routenames.Files
-	g.POST("/files", h.Submit).Name = routenames.FilesSubmit
+	authGroup := g.Group("")
+	authGroup.Use(middleware.RequireAuthentication)
+	authGroup.GET("/files", h.UploadFilePage).Name = routenames.Files
+	authGroup.POST("/files", h.Submit).Name = routenames.FilesSubmit
 }
 
 func (h *Files) UploadFilePage(ctx echo.Context) error {
