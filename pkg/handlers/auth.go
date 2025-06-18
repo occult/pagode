@@ -45,6 +45,17 @@ type LoginForm struct {
 	form.Submission
 }
 
+type ForgotPassword struct {
+	Email string `form:"email" validate:"required,email"`
+	form.Submission
+}
+
+type ResetPassword struct {
+	Password        string `form:"password" validate:"required"`
+	ConfirmPassword string `form:"password-confirm" validate:"required,eqfield=Password"`
+	form.Submission
+}
+
 func init() {
 	Register(new(Auth))
 }
@@ -361,4 +372,103 @@ func (h *Auth) ForgotPasswordPage(ctx echo.Context) error {
 	}
 
 	return nil
+}
+
+func (h *Auth) ForgotPasswordSubmit(ctx echo.Context) error {
+	var input ForgotPassword
+
+	succeed := func() error {
+		form.Clear(ctx)
+		msg.Success(ctx, "An email containing a link to reset your password will be sent to this address if it exists in our system.")
+		return h.ForgotPasswordPage(ctx)
+	}
+
+	err := form.Submit(ctx, &input)
+
+	switch err.(type) {
+	case nil:
+	case validator.ValidationErrors:
+		return h.ForgotPasswordPage(ctx)
+	default:
+		return err
+	}
+
+	// Attempt to load the user.
+	u, err := h.orm.User.
+		Query().
+		Where(user.Email(strings.ToLower(input.Email))).
+		Only(ctx.Request().Context())
+
+	switch err.(type) {
+	case *ent.NotFoundError:
+		return succeed()
+	case nil:
+	default:
+		return fail(err, "error querying user during forgot password")
+	}
+
+	// Generate the token.
+	token, pt, err := h.auth.GeneratePasswordResetToken(ctx, u.ID)
+	if err != nil {
+		return fail(err, "error generating password reset token")
+	}
+
+	log.Ctx(ctx).Info("generated password reset token",
+		"user_id", u.ID,
+	)
+
+	// Email the user.
+	url := ctx.Echo().Reverse(routenames.ResetPassword, u.ID, pt.ID, token)
+	err = h.mail.
+		Compose().
+		To(u.Email).
+		Subject("Reset your password").
+		Body(fmt.Sprintf("Go here to reset your password: %s", h.config.App.Host+url)).
+		Send(ctx)
+	if err != nil {
+		return fail(err, "error sending password reset email")
+	}
+
+	return succeed()
+}
+
+func (h *Auth) ResetPasswordPage(ctx echo.Context) error {
+	return nil
+}
+
+func (h *Auth) ResetPasswordSubmit(ctx echo.Context) error {
+	var input ResetPassword
+
+	err := form.Submit(ctx, &input)
+
+	switch err.(type) {
+	case nil:
+	case validator.ValidationErrors:
+		return h.ResetPasswordPage(ctx)
+	default:
+		return err
+	}
+
+	// Get the requesting user.
+	usr := ctx.Get(context.UserKey).(*ent.User)
+
+	// Update the user.
+	_, err = usr.
+		Update().
+		SetPassword(input.Password).
+		Save(ctx.Request().Context())
+	if err != nil {
+		return fail(err, "unable to update password")
+	}
+
+	// Delete all password tokens for this user.
+	err = h.auth.DeletePasswordTokens(ctx, usr.ID)
+	if err != nil {
+		return fail(err, "unable to delete password tokens")
+	}
+
+	msg.Success(ctx, "Your password has been updated.")
+	return redirect.New(ctx).
+		Route(routenames.Login).
+		Go()
 }
