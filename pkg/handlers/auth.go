@@ -298,7 +298,7 @@ func (h *Auth) sendVerificationEmail(ctx echo.Context, usr *ent.User) error {
 	`, usr.Name, url)
 
 	params := &resend.SendEmailRequest{
-		From:    "noreply@yourcompany.com",
+		From:    h.config.Mail.FromAddress,
 		To:      []string{usr.Email},
 		Subject: subject,
 		Html:    html,
@@ -450,7 +450,7 @@ func (h *Auth) ForgotPasswordSubmit(ctx echo.Context) error {
 	`, u.Name, h.config.App.Host+url)
 
 	params := &resend.SendEmailRequest{
-		From:    "noreply@yourcompany.com",
+		From:    h.config.Mail.FromAddress,
 		To:      []string{u.Email},
 		Subject: subject,
 		Html:    html,
