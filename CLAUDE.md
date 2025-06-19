@@ -77,6 +77,7 @@ All application dependencies are managed through a service container (`pkg/servi
 - Use `config.SwitchEnvironment(config.EnvTest)` before creating container
 - Test helpers in `pkg/handlers/router_test.go` for HTTP testing
 - goquery available for HTML response testing
+- **IMPORTANT**: Always run `make test` after making changes to ensure all tests pass
 
 ### Background Tasks
 - Uses Backlite (SQLite-based task queues)

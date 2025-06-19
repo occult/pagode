@@ -67,9 +67,10 @@ func TestRequireNoAuthentication(t *testing.T) {
 	require.NoError(t, err)
 	_ = tests.ExecuteMiddleware(ctx, LoadAuthenticatedUser(c.Auth))
 
-	// Logged in
+	// Logged in - should redirect
 	err = tests.ExecuteMiddleware(ctx, RequireNoAuthentication)
-	tests.AssertHTTPErrorCode(t, err, http.StatusForbidden)
+	assert.Nil(t, err)
+	assert.Equal(t, http.StatusSeeOther, ctx.Response().Status)
 }
 
 func TestLoadValidPasswordToken(t *testing.T) {
