@@ -39,9 +39,9 @@ export default function ResetPassword({
 
   const submit: FormEventHandler = (e) => {
     e.preventDefault();
-    post(`/token/${userID}/${passwordTokenID}/${token}`, {
+    post(`/user/password/reset/token/${userID}/${passwordTokenID}/${token}`, {
       forceFormData: true,
-      onFinish: () => reset("password", "password_confirmation"),
+      onSuccess: () => reset("password", "password_confirmation"),
     });
   };
 

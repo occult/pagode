@@ -54,7 +54,8 @@ type ForgotPassword struct {
 
 type ResetPassword struct {
 	Password        string `form:"password" validate:"required"`
-	ConfirmPassword string `form:"password-confirm" validate:"required,eqfield=Password"`
+	ConfirmPassword string `form:"password_confirmation" validate:"required,eqfield=Password"`
+
 	form.Submission
 }
 
@@ -322,14 +323,16 @@ func (h *Auth) VerifyEmail(ctx echo.Context) error {
 	w := ctx.Response().Writer
 	r := ctx.Request()
 
+	uriWelcome := ctx.Echo().Reverse(routenames.Welcome)
+
+	uriForgotPassword := ctx.Echo().Reverse(routenames.ForgotPassword)
+
 	// Validate the token.
 	token := ctx.Param("token")
 	email, err := h.auth.ValidateEmailVerificationToken(token)
 	if err != nil {
 		msg.Warning(ctx, "The link is either invalid or has expired.")
-		return redirect.New(ctx).
-			Route(routenames.Home).
-			Go()
+		h.Inertia.Redirect(w, r, uriForgotPassword)
 	}
 
 	// Check if it matches the authenticated user.
@@ -363,7 +366,6 @@ func (h *Auth) VerifyEmail(ctx echo.Context) error {
 		}
 	}
 
-	uriWelcome := ctx.Echo().Reverse(routenames.Welcome)
 	msg.Success(ctx, "Your email has been successfully verified.")
 
 	h.Inertia.Redirect(w, r, uriWelcome)
@@ -516,7 +518,10 @@ func (h *Auth) ResetPasswordSubmit(ctx echo.Context) error {
 	switch err.(type) {
 	case nil:
 	case validator.ValidationErrors:
-		return h.ResetPasswordPage(ctx)
+		log.Ctx(ctx).Warn("⚠️ Validation failed", "errors", err)
+		msg.Danger(ctx, "Please fill in the fields correctly.")
+		h.Inertia.Redirect(w, r, r.URL.Path)
+		return nil
 	default:
 		msg.Danger(ctx, "There was a problem processing your request.")
 		h.Inertia.Redirect(w, r, r.URL.Path)
