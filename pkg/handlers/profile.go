@@ -173,7 +173,7 @@ func (h *Profile) DeleteAccount(ctx echo.Context) error {
 	}
 
 	if err := h.orm.User.DeleteOne(usr).Exec(ctx.Request().Context()); err != nil {
-		return fail(err, "unable to delete user account")
+		return fail(err, "unable to delete user account", h.Inertia, ctx)
 	}
 
 	uri := ctx.Echo().Reverse(routenames.Welcome)

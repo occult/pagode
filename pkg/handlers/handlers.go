@@ -2,10 +2,11 @@ package handlers
 
 import (
 	"fmt"
-	"net/http"
 
 	"github.com/labstack/echo/v4"
+	"github.com/occult/pagode/pkg/msg"
 	"github.com/occult/pagode/pkg/services"
+	inertia "github.com/romsar/gonertia/v2"
 )
 
 var handlers []Handler
@@ -30,7 +31,12 @@ func GetHandlers() []Handler {
 }
 
 // fail is a helper to fail a request by returning a 500 error and logging the error
-func fail(err error, log string) error {
-	// The error handler will handle logging
-	return echo.NewHTTPError(http.StatusInternalServerError, fmt.Sprintf("%s: %v", log, err))
+func fail(err error, log string, inertia *inertia.Inertia, c echo.Context) error {
+	msg.Danger(c, fmt.Sprintf("%s: %v", log, err))
+
+	req := c.Request()
+	res := c.Response()
+
+	inertia.Back(res, req)
+	return nil
 }

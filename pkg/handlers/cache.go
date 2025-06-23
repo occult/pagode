@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"errors"
+	"log"
 	"time"
 
 	"github.com/labstack/echo/v4"
@@ -45,7 +46,8 @@ func (h *Cache) Page(ctx echo.Context) error {
 		f.CurrentValue = value.(string)
 	case errors.Is(err, services.ErrCacheMiss):
 	default:
-		return fail(err, "failed to fetch from cache")
+		log.Printf("failed to fetch from cache: %v", err)
+		// TODO: Implement return.fail
 	}
 
 	return pages.UpdateCache(ctx, f)
@@ -65,9 +67,9 @@ func (h *Cache) Submit(ctx echo.Context) error {
 		Data(input.Value).
 		Expiration(30 * time.Minute).
 		Save(ctx.Request().Context())
-
 	if err != nil {
-		return fail(err, "unable to set cache")
+		log.Printf("failed to fetch from cache: %v", err)
+		// TODO: Implement return.fail
 	}
 
 	form.Clear(ctx)

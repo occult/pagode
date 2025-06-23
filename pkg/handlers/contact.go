@@ -10,10 +10,12 @@ import (
 	"github.com/occult/pagode/pkg/services"
 	"github.com/occult/pagode/pkg/ui/forms"
 	"github.com/occult/pagode/pkg/ui/pages"
+	inertia "github.com/romsar/gonertia/v2"
 )
 
 type Contact struct {
-	mail *services.MailClient
+	mail    *services.MailClient
+	Inertia *inertia.Inertia
 }
 
 func init() {
@@ -53,9 +55,8 @@ func (h *Contact) Submit(ctx echo.Context) error {
 		Subject("Contact form submitted").
 		Body(fmt.Sprintf("The message is: %s", input.Message)).
 		Send(ctx)
-
 	if err != nil {
-		return fail(err, "unable to send email")
+		return fail(err, "unable to send email", h.Inertia, ctx)
 	}
 
 	return h.Page(ctx)
