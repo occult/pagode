@@ -20,7 +20,6 @@ import (
 	"github.com/occult/pagode/pkg/routenames"
 	"github.com/occult/pagode/pkg/services"
 	"github.com/occult/pagode/pkg/ui"
-	"github.com/resend/resend-go/v2"
 
 	inertia "github.com/romsar/gonertia/v2"
 )
@@ -274,23 +273,6 @@ func (h *Auth) RegisterSubmit(ctx echo.Context) error {
 }
 
 func (h *Auth) sendVerificationEmail(ctx echo.Context, usr *ent.User) error {
-	existingUser, err := h.orm.User.
-		Query().
-		Where(user.EmailEQ(usr.Email), user.IDNEQ(usr.ID)).
-		Only(ctx.Request().Context())
-
-	if err == nil && existingUser != nil {
-		return fail(fmt.Errorf("email already in use"), "this email is already associated with another account", h.Inertia, ctx)
-	}
-
-	if ent.IsNotFound(err) {
-		err = nil
-	} else if err != nil {
-		return fail(err, "failed to check for existing user by email", h.Inertia, ctx)
-	}
-
-	client := resend.NewClient(h.config.Mail.ResendApiKey)
-
 	token, err := h.auth.GenerateEmailVerificationToken(usr.Email)
 	if err != nil {
 		log.Ctx(ctx).Error("unable to generate email verification token",
@@ -311,19 +293,14 @@ func (h *Auth) sendVerificationEmail(ctx echo.Context, usr *ent.User) error {
 		<p>If you didn’t create an account, you can ignore this email.</p>
 	`, usr.Name, url)
 
-	params := &resend.SendEmailRequest{
-		From:    h.config.Mail.FromAddress,
-		To:      []string{usr.Email},
-		Subject: subject,
-		Html:    html,
-	}
+	if err := h.mail.Compose().
+		To(usr.Email).
+		Subject(subject).
+		Body(html).
+		Send(ctx); err != nil {
 
-	_, err = client.Emails.Send(params)
-	if err != nil {
 		log.Ctx(ctx).Error("unable to send email verification token",
-			"user_id", usr.ID,
-			"error", err,
-		)
+			"user_id", usr.ID, "error", err)
 		return fail(err, "failed to send verification email", h.Inertia, ctx)
 	}
 
@@ -439,8 +416,6 @@ func (h *Auth) ForgotPasswordSubmit(ctx echo.Context) error {
 		return fail(err, "error querying user during forgot password", h.Inertia, ctx)
 	}
 
-	client := resend.NewClient(h.config.Mail.ResendApiKey)
-
 	// Generate the token.
 	token, pt, err := h.auth.GeneratePasswordResetToken(ctx, u.ID)
 	if err != nil {
@@ -461,15 +436,12 @@ func (h *Auth) ForgotPasswordSubmit(ctx echo.Context) error {
 		<p>If you didn’t request a password update, you can ignore this email.</p>
 	`, u.Name, h.config.App.Host+url)
 
-	params := &resend.SendEmailRequest{
-		From:    h.config.Mail.FromAddress,
-		To:      []string{u.Email},
-		Subject: subject,
-		Html:    html,
-	}
+	if err := h.mail.Compose().
+		To(u.Email).
+		Subject(subject).
+		Body(html).
+		Send(ctx); err != nil {
 
-	_, err = client.Emails.Send(params)
-	if err != nil {
 		log.Ctx(ctx).Error("unable to send password reset email",
 			"user_id", u.ID,
 			"error", err,
