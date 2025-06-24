@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"errors"
-	"log"
 	"time"
 
 	"github.com/labstack/echo/v4"
@@ -11,10 +10,12 @@ import (
 	"github.com/occult/pagode/pkg/services"
 	"github.com/occult/pagode/pkg/ui/forms"
 	"github.com/occult/pagode/pkg/ui/pages"
+	inertia "github.com/romsar/gonertia/v2"
 )
 
 type Cache struct {
-	cache *services.CacheClient
+	cache   *services.CacheClient
+	inertia *inertia.Inertia
 }
 
 func init() {
@@ -23,6 +24,7 @@ func init() {
 
 func (h *Cache) Init(c *services.Container) error {
 	h.cache = c.Cache
+	h.inertia = c.Inertia
 	return nil
 }
 
@@ -46,8 +48,7 @@ func (h *Cache) Page(ctx echo.Context) error {
 		f.CurrentValue = value.(string)
 	case errors.Is(err, services.ErrCacheMiss):
 	default:
-		log.Printf("failed to fetch from cache: %v", err)
-		// TODO: Implement return.fail
+		return fail(err, "failed to fetch from cache", h.inertia, ctx)
 	}
 
 	return pages.UpdateCache(ctx, f)
@@ -68,8 +69,7 @@ func (h *Cache) Submit(ctx echo.Context) error {
 		Expiration(30 * time.Minute).
 		Save(ctx.Request().Context())
 	if err != nil {
-		log.Printf("failed to fetch from cache: %v", err)
-		// TODO: Implement return.fail
+		return fail(err, "failed to fetch from cache", h.inertia, ctx)
 	}
 
 	form.Clear(ctx)

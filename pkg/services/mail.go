@@ -93,7 +93,6 @@ func (m *MailClient) send(email *mail, ctx echo.Context) error {
 		Html:    email.body,
 	}
 
-	// Fire away.
 	if _, err := m.sender.Emails.Send(params); err != nil {
 		return fmt.Errorf("resend: %w", err)
 	}
