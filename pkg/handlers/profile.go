@@ -7,6 +7,7 @@ import (
 	"github.com/occult/pagode/pkg/context"
 	"github.com/occult/pagode/pkg/form"
 	"github.com/occult/pagode/pkg/log"
+	"github.com/occult/pagode/pkg/middleware"
 	"github.com/occult/pagode/pkg/msg"
 	"github.com/occult/pagode/pkg/routenames"
 	"github.com/occult/pagode/pkg/services"
@@ -50,6 +51,7 @@ func (h *Profile) Init(c *services.Container) error {
 
 func (h *Profile) Routes(g *echo.Group) {
 	profile := g.Group("/profile")
+	profile.Use(middleware.RequireAuthentication)
 	profile.GET("/info", h.EditPage).Name = routenames.ProfileEdit
 	profile.POST("/update", h.UpdateBasicInfo).Name = routenames.ProfileUpdate
 	profile.POST("/delete", h.DeleteAccount).Name = routenames.ProfileDestroy
@@ -171,7 +173,7 @@ func (h *Profile) DeleteAccount(ctx echo.Context) error {
 	}
 
 	if err := h.orm.User.DeleteOne(usr).Exec(ctx.Request().Context()); err != nil {
-		return fail(err, "unable to delete user account")
+		return fail(err, "unable to delete user account", h.Inertia, ctx)
 	}
 
 	uri := ctx.Echo().Reverse(routenames.Welcome)

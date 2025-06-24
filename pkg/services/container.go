@@ -332,7 +332,7 @@ func (c *Container) initInertia() {
 func vite(manifestPath, buildDir string) func(path string) (string, error) {
 	f, err := os.Open(manifestPath)
 	if err != nil {
-		log.Default().Error("cannot open provided vite manifest file: %s", err)
+		log.Default().Error("cannot open provided vite manifest file", "error", err)
 		panic(err)
 	}
 	defer f.Close()
@@ -348,7 +348,7 @@ func vite(manifestPath, buildDir string) func(path string) (string, error) {
 	}
 
 	if err != nil {
-		log.Default().Error("cannot unmarshal vite manifest file to json: %s", err)
+		log.Default().Error("cannot unmarshal vite manifest file to json", "error", err)
 		panic(err)
 	}
 

@@ -9,6 +9,7 @@ import (
 	"github.com/occult/pagode/pkg/routenames"
 	"github.com/occult/pagode/pkg/ui/forms"
 	"github.com/occult/pagode/pkg/ui/pages"
+	inertia "github.com/romsar/gonertia/v2"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
@@ -18,7 +19,8 @@ import (
 )
 
 type Task struct {
-	tasks *backlite.Client
+	tasks   *backlite.Client
+	Inertia *inertia.Inertia
 }
 
 func init() {
@@ -59,9 +61,8 @@ func (h *Task) Submit(ctx echo.Context) error {
 		}).
 		Wait(time.Duration(input.Delay) * time.Second).
 		Save()
-
 	if err != nil {
-		return fail(err, "unable to create a task")
+		return fail(err, "unable to create a task", h.Inertia, ctx)
 	}
 
 	msg.Success(ctx, fmt.Sprintf("The task has been created. Check the logs in %d seconds.", input.Delay))

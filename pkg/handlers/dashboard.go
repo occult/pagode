@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"github.com/labstack/echo/v4"
+	"github.com/occult/pagode/pkg/middleware"
 	"github.com/occult/pagode/pkg/routenames"
 	"github.com/occult/pagode/pkg/services"
 	inertia "github.com/romsar/gonertia/v2"
@@ -21,7 +22,9 @@ func (h *Dashboard) Init(c *services.Container) error {
 }
 
 func (h *Dashboard) Routes(g *echo.Group) {
-	g.GET("/dashboard", h.Page).Name = routenames.Dashboard
+	authGroup := g.Group("")
+	authGroup.Use(middleware.RequireAuthentication)
+	authGroup.GET("/dashboard", h.Page).Name = routenames.Dashboard
 }
 
 func (h *Dashboard) Page(ctx echo.Context) error {

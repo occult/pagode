@@ -11,6 +11,8 @@ import InputError from "@/components/InputError";
 interface ResetPasswordProps {
   token: string;
   email: string;
+  userID: string;
+  passwordTokenID: string;
 }
 
 type ResetPasswordForm = {
@@ -20,7 +22,12 @@ type ResetPasswordForm = {
   password_confirmation: string;
 };
 
-export default function ResetPassword({ token, email }: ResetPasswordProps) {
+export default function ResetPassword({
+  token,
+  email,
+  userID,
+  passwordTokenID,
+}: ResetPasswordProps) {
   const { data, setData, post, processing, errors, reset } = useForm<
     Required<ResetPasswordForm>
   >({
@@ -32,8 +39,9 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
 
   const submit: FormEventHandler = (e) => {
     e.preventDefault();
-    post("/user/password/reset", {
-      onFinish: () => reset("password", "password_confirmation"),
+    post(`/user/password/reset/token/${userID}/${passwordTokenID}/${token}`, {
+      forceFormData: true,
+      onSuccess: () => reset("password", "password_confirmation"),
     });
   };
 

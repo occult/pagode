@@ -3,9 +3,11 @@ package services
 import (
 	"bytes"
 	"errors"
+	"fmt"
 
 	"github.com/occult/pagode/config"
 	"github.com/occult/pagode/pkg/log"
+	"github.com/resend/resend-go/v2"
 	"maragu.dev/gomponents"
 
 	"github.com/labstack/echo/v4"
@@ -19,6 +21,7 @@ type (
 	MailClient struct {
 		// config stores application configuration.
 		config *config.Config
+		sender *resend.Client
 	}
 
 	// mail represents an email to be sent.
@@ -36,6 +39,7 @@ type (
 func NewMailClient(cfg *config.Config) (*MailClient, error) {
 	return &MailClient{
 		config: cfg,
+		sender: resend.NewClient(cfg.Mail.ResendApiKey),
 	}, nil
 }
 
@@ -81,12 +85,19 @@ func (m *MailClient) send(email *mail, ctx echo.Context) error {
 		return nil
 	}
 
-	// TODO: Finish based on your mail sender of choice or stop logging below!
-	log.Ctx(ctx).Info("sending email",
-		"to", email.to,
-		"subject", email.subject,
-		"body", email.body,
-	)
+	// Build Resend request.
+	params := &resend.SendEmailRequest{
+		From:    email.from,
+		To:      []string{email.to},
+		Subject: email.subject,
+		Html:    email.body,
+	}
+
+	if _, err := m.sender.Emails.Send(params); err != nil {
+		return fmt.Errorf("resend: %w", err)
+	}
+
+	log.Ctx(ctx).Info("email sent", "to", email.to, "subject", email.subject)
 	return nil
 }
 

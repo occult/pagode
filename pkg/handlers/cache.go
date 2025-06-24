@@ -10,10 +10,12 @@ import (
 	"github.com/occult/pagode/pkg/services"
 	"github.com/occult/pagode/pkg/ui/forms"
 	"github.com/occult/pagode/pkg/ui/pages"
+	inertia "github.com/romsar/gonertia/v2"
 )
 
 type Cache struct {
-	cache *services.CacheClient
+	cache   *services.CacheClient
+	inertia *inertia.Inertia
 }
 
 func init() {
@@ -22,6 +24,7 @@ func init() {
 
 func (h *Cache) Init(c *services.Container) error {
 	h.cache = c.Cache
+	h.inertia = c.Inertia
 	return nil
 }
 
@@ -45,7 +48,7 @@ func (h *Cache) Page(ctx echo.Context) error {
 		f.CurrentValue = value.(string)
 	case errors.Is(err, services.ErrCacheMiss):
 	default:
-		return fail(err, "failed to fetch from cache")
+		return fail(err, "failed to fetch from cache", h.inertia, ctx)
 	}
 
 	return pages.UpdateCache(ctx, f)
@@ -65,9 +68,8 @@ func (h *Cache) Submit(ctx echo.Context) error {
 		Data(input.Value).
 		Expiration(30 * time.Minute).
 		Save(ctx.Request().Context())
-
 	if err != nil {
-		return fail(err, "unable to set cache")
+		return fail(err, "failed to fetch from cache", h.inertia, ctx)
 	}
 
 	form.Clear(ctx)
