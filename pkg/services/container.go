@@ -426,21 +426,12 @@ func viteHotFileUrl(viteHotFile string) (string, error) {
 		return "", err
 	}
 	url := strings.TrimSpace(string(content))
-	// Instead of conditionals, just use unconditional string replacements
-	// to fix the linting issue (this is local development only)
-	url = strings.Replace(url, "http://localhost", "", 1)
-	url = strings.Replace(url, "http://127.0.0.1", "", 1)
-	if url == "" {
-		url = "//localhost:1323"
-	}
+	// Return the full URL as-is for hot reloading
 	return url, nil
 }
 
 // viteReactRefresh Generate React refresh runtime script
 func viteReactRefresh(url string) func() (template.HTML, error) {
-	// Use unconditional strings.Replace to fix linting warning
-	url = strings.Replace(url, "http:", "", 1)
-	url = strings.Replace(url, "https:", "", 1)
 	return func() (template.HTML, error) {
 		if url == "" {
 			return "", nil
