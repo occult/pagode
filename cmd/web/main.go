@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"syscall"
 
 	"github.com/occult/pagode/pkg/handlers"
 	"github.com/occult/pagode/pkg/log"
@@ -60,8 +61,7 @@ func main() {
 
 	// Wait for interrupt signal to gracefully shut down the web server and task runner.
 	quit := make(chan os.Signal, 1)
-	signal.Notify(quit, os.Interrupt)
-	signal.Notify(quit, os.Kill)
+	signal.Notify(quit, os.Interrupt, syscall.SIGTERM)
 	<-quit
 }
 

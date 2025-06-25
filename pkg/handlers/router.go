@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"net/http"
+	"path/filepath"
 
 	"github.com/gorilla/sessions"
 	"github.com/labstack/echo/v4"
@@ -14,11 +15,18 @@ import (
 
 // BuildRouter builds the router.
 func BuildRouter(c *services.Container) error {
-	// Static files with proper cache control.
-	// ui.File() should be used in ui components to append a cache key to the URL in order to break cache
-	// after each server restart.
-	c.Web.Group("", middleware.CacheControl(c.Config.Cache.Expiration.StaticFile)).
-		Static(config.StaticPrefix, config.StaticDir)
+	// Static files with proper cache control
+	staticGroup := c.Web.Group("", middleware.CacheControl(c.Config.Cache.Expiration.StaticFile))
+	
+	// Standard static files serving
+	staticGroup.Static(config.StaticPrefix, config.StaticDir)
+	
+	// Assets serving - unified path for all environments
+	if c.Config.App.Environment == config.EnvProduction {
+		staticGroup.Static("/files", "/app/static")
+	} else {
+		staticGroup.Static("/files", filepath.Join(services.ProjectRoot(), "public"))
+	}
 
 	// Non-static file route group.
 	g := c.Web.Group("")

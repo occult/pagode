@@ -1,0 +1,28 @@
+[build]
+builder = "nixpacks"
+
+[phases.setup]
+nixPkgs = ["go", "nodejs", "gcc", "pkg-config", "sqlite"]
+
+[phases.install]
+cmds = [
+    "go mod download",
+    "npm install"
+]
+
+[phases.build]
+cmds = [
+    "npx vite build",
+    "mkdir -p /app/static",
+    "cp -r public/* /app/static/",
+    "CGO_ENABLED=1 go build -o pagode ./cmd/web"
+]
+
+[start]
+cmd = "./pagode --port $PORT"
+
+[variables]
+PORT = "8000"
+CGO_ENABLED = "1"
+NODE_ENV = "production"
+PAGODA_APP_ENVIRONMENT = "prod"

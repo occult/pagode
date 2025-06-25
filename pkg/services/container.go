@@ -272,8 +272,15 @@ func (c *Container) getInertia() *inertia.Inertia {
 	rootDir := ProjectRoot()
 	viteHotFile := filepath.Join(rootDir, "public", "hot")
 	rootViewFile := filepath.Join(rootDir, "resources", "views", "root.html")
-	manifestPath := filepath.Join(rootDir, "public", "build", "manifest.json")
-	viteManifestPath := filepath.Join(rootDir, "public", "build", ".vite", "manifest.json")
+	
+	// Use different manifest paths based on environment
+	var manifestPath string
+	
+	if _, err := os.Stat("/app/static/build/manifest.json"); err == nil {
+		manifestPath = "/app/static/build/manifest.json"
+	} else {
+		manifestPath = filepath.Join(rootDir, "public", "build", "manifest.json")
+	}
 
 	// check if laravel-vite-plugin is running in dev mode (it puts a "hot" file in the public folder)
 	url, err := viteHotFileUrl(viteHotFile)
@@ -288,6 +295,10 @@ func (c *Container) getInertia() *inertia.Inertia {
 			panic(err)
 		}
 
+		i.ShareTemplateFunc("getEnvironment", func() string {
+			return string(c.Config.App.Environment)
+		})
+
 		i.ShareTemplateFunc("vite", func(entry string) (template.HTML, error) {
 			if entry != "" && !strings.HasPrefix(entry, "/") {
 				entry = "/" + entry
@@ -295,19 +306,23 @@ func (c *Container) getInertia() *inertia.Inertia {
 			htmlTag := fmt.Sprintf(`<script type="module" src="%s%s"></script>`, url, entry)
 			return template.HTML(htmlTag), nil
 		})
-		i.ShareTemplateFunc("viteReactRefresh", viteReactRefresh(url))
+		// Always define viteReactRefresh, but return empty content in production
+		if c.Config.App.Environment == "local" {
+			i.ShareTemplateFunc("viteReactRefresh", viteReactRefresh(url))
+		} else {
+			i.ShareTemplateFunc("viteReactRefresh", func() (template.HTML, error) {
+				return template.HTML(""), nil
+			})
+		}
 
 		return i
 	}
 
-	// laravel-vite-plugin not running in dev mode, use build manifest file
-	// check if the manifest file exists, if not, rename it
+	// Try to move Vite manifest if main manifest doesn't exist
 	if _, err := os.Stat(manifestPath); os.IsNotExist(err) {
-		// move the manifest from ./public/build/.vite/manifest.json to ./public/build/manifest.json
-		// so that the vite function can find it
-		err := os.Rename(viteManifestPath, manifestPath)
-		if err != nil {
-			return nil
+		viteManifestPath := filepath.Join(filepath.Dir(manifestPath), ".vite", "manifest.json")
+		if err := os.Rename(viteManifestPath, manifestPath); err != nil {
+			panic(fmt.Sprintf("manifest file not found at %s and failed to move from %s: %v", manifestPath, viteManifestPath, err))
 		}
 	}
 
@@ -319,8 +334,20 @@ func (c *Container) getInertia() *inertia.Inertia {
 		panic(err)
 	}
 
-	i.ShareTemplateFunc("vite", vite(manifestPath, "/public/build/"))
-	i.ShareTemplateFunc("viteReactRefresh", viteReactRefresh(url))
+	// Share environment with the template
+	i.ShareTemplateFunc("getEnvironment", func() string {
+		return string(c.Config.App.Environment)
+	})
+
+	i.ShareTemplateFunc("vite", vite(manifestPath, "/files/"))
+	// Always define viteReactRefresh, but return empty content in production
+	if c.Config.App.Environment == "local" {
+		i.ShareTemplateFunc("viteReactRefresh", viteReactRefresh(url))
+	} else {
+		i.ShareTemplateFunc("viteReactRefresh", func() (template.HTML, error) {
+			return template.HTML(""), nil
+		})
+	}
 
 	return i
 }
@@ -329,34 +356,41 @@ func (c *Container) initInertia() {
 	c.Inertia = c.getInertia()
 }
 
-func vite(manifestPath, buildDir string) func(path string) (string, error) {
+func vite(manifestPath, buildDir string) func(path string) (template.HTML, error) {
 	f, err := os.Open(manifestPath)
 	if err != nil {
-		log.Default().Error("cannot open provided vite manifest file", "error", err)
-		panic(err)
+		panic(fmt.Errorf("cannot open vite manifest file at %s: %w", manifestPath, err))
 	}
 	defer f.Close()
 
-	viteAssets := make(map[string]*struct {
-		File   string `json:"file"`
-		Source string `json:"src"`
-	})
-	err = json.NewDecoder(f).Decode(&viteAssets)
-	// print content of viteAssets
-	for k, v := range viteAssets {
-		log.Default().Debug("%s: %s\n", k, v.File)
+	var viteAssets map[string]struct {
+		File string   `json:"file"`
+		Css  []string `json:"css,omitempty"`
+	}
+	
+	if err := json.NewDecoder(f).Decode(&viteAssets); err != nil {
+		panic(fmt.Errorf("cannot decode vite manifest: %w", err))
 	}
 
-	if err != nil {
-		log.Default().Error("cannot unmarshal vite manifest file to json", "error", err)
-		panic(err)
-	}
-
-	return func(p string) (string, error) {
-		if val, ok := viteAssets[p]; ok {
-			return path.Join("/", buildDir, val.File), nil
+	return func(p string) (template.HTML, error) {
+		asset, ok := viteAssets[p]
+		if !ok {
+			return "", fmt.Errorf("asset %q not found in vite manifest", p)
 		}
-		return "", fmt.Errorf("asset %q not found", p)
+		
+		var tags strings.Builder
+		
+		// Add the main JS file
+		tags.WriteString(fmt.Sprintf(`<script type="module" crossorigin src="%s"></script>`, 
+			path.Join(buildDir, asset.File)))
+		
+		// Add CSS files if any
+		for _, cssFile := range asset.Css {
+			tags.WriteString(fmt.Sprintf(`<link rel="stylesheet" href="%s">`, 
+				path.Join(buildDir, cssFile)))
+		}
+		
+		return template.HTML(tags.String()), nil
 	}
 }
 
@@ -374,10 +408,8 @@ func openDB(driver, connection string) (*sql.DB, error) {
 			}
 		}
 
-		// Check if a random value is required, which is often used for in-memory test databases.
-		if strings.Contains(connection, "$RAND") {
-			connection = strings.Replace(connection, "$RAND", fmt.Sprint(rand.Int()), 1)
-		}
+		// Replace any random value placeholder, which is often used for in-memory test databases.
+		connection = strings.Replace(connection, "$RAND", fmt.Sprint(rand.Int()), 1)
 	}
 
 	return sql.Open(driver, connection)
@@ -394,11 +426,7 @@ func viteHotFileUrl(viteHotFile string) (string, error) {
 		return "", err
 	}
 	url := strings.TrimSpace(string(content))
-	if strings.HasPrefix(url, "http://") || strings.HasPrefix(url, "https://") {
-		url = url[strings.Index(url, ":")+1:]
-	} else {
-		url = "//localhost:1323"
-	}
+	// Return the full URL as-is for hot reloading
 	return url, nil
 }
 
