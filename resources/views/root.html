@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    {{ .inertiaHead }} {{ viteReactRefresh }} {{ vite "resources/js/app.jsx" }}
+    {{ .inertiaHead }} {{ if eq (getEnvironment) "local" }}{{ viteReactRefresh }}{{ end }} {{ vite "resources/js/app.jsx" }}
   </head>
 
   <body class="font-sans antialiased">

@@ -15,17 +15,28 @@ cmds = [
     # Build frontend
     "npx vite build",
     
-    # Create target directory (absolute path to ensure location)
-    "mkdir -p /app/static/public/build",
+    # Debug - show what files are created by Vite build
+    "echo 'Listing public directory:' && ls -la public",
+    "echo 'Listing public/build directory:' && ls -la public/build",
     
-    # Copy with preserved permissions (verbose for debugging)
-    "cp -rv public/build /app/static/public/",
+    # Create needed directories for static files
+    "mkdir -p /app/static",
+    
+    # Make sure the manifest files and assets are copied correctly
+    "cp -r public/* /app/static/",
+    
+    # Verify files were copied correctly
+    "echo 'Verifying static directory:' && ls -la /app/static",
+    "echo 'Verifying static/build directory:' && ls -la /app/static/build",
+    
+    # Create the root files directory that matches our /files/ URL path
+    "mkdir -p /app/files",
+    "cp -r public/build/assets /app/files/",
+    "echo 'Verifying files directory:' && ls -la /app/files",
+    "echo 'Verifying files/assets directory:' && ls -la /app/files/assets",
     
     # Build Go binary
-    "CGO_ENABLED=1 go build -o pagode ./cmd/web",
-    
-    # Verification step (will appear in build logs)
-    "echo 'Verifying files were copied:' && ls -la /app/static/public/build"
+    "CGO_ENABLED=1 go build -o pagode ./cmd/web"
 ]
 
 [start]
@@ -35,3 +46,4 @@ cmd = "./pagode --port $PORT"
 PORT = "8000"
 CGO_ENABLED = "1"
 NODE_ENV = "production"
+PAGODA_APP_ENVIRONMENT = "prod"

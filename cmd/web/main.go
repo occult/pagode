@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"syscall"
 
 	"github.com/occult/pagode/pkg/handlers"
 	"github.com/occult/pagode/pkg/log"
@@ -16,6 +17,16 @@ import (
 )
 
 func main() {
+	// Debug environment variables
+	envValue := os.Getenv("PAGODA_APP_ENVIRONMENT")
+	fmt.Fprintf(os.Stderr, "DEBUG: PAGODA_APP_ENVIRONMENT=%s\n", envValue)
+
+	// Also print all environment variables
+	fmt.Fprintf(os.Stderr, "DEBUG: All Environment Variables:\n")
+	for _, env := range os.Environ() {
+		fmt.Fprintf(os.Stderr, "DEBUG: %s\n", env)
+	}
+
 	// Start a new container.
 	c := services.NewContainer()
 	defer func() {
@@ -60,8 +71,7 @@ func main() {
 
 	// Wait for interrupt signal to gracefully shut down the web server and task runner.
 	quit := make(chan os.Signal, 1)
-	signal.Notify(quit, os.Interrupt)
-	signal.Notify(quit, os.Kill)
+	signal.Notify(quit, os.Interrupt, syscall.SIGTERM)
 	<-quit
 }
 
