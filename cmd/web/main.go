@@ -17,16 +17,6 @@ import (
 )
 
 func main() {
-	// Debug environment variables
-	envValue := os.Getenv("PAGODA_APP_ENVIRONMENT")
-	fmt.Fprintf(os.Stderr, "DEBUG: PAGODA_APP_ENVIRONMENT=%s\n", envValue)
-
-	// Also print all environment variables
-	fmt.Fprintf(os.Stderr, "DEBUG: All Environment Variables:\n")
-	for _, env := range os.Environ() {
-		fmt.Fprintf(os.Stderr, "DEBUG: %s\n", env)
-	}
-
 	// Start a new container.
 	c := services.NewContainer()
 	defer func() {

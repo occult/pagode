@@ -274,16 +274,12 @@ func (c *Container) getInertia() *inertia.Inertia {
 	rootViewFile := filepath.Join(rootDir, "resources", "views", "root.html")
 	
 	// Use different manifest paths based on environment
-	var manifestPath, viteManifestPath string
+	var manifestPath string
 	
-	// Check if we're in Docker environment
 	if _, err := os.Stat("/app/static/build/manifest.json"); err == nil {
-		log.Default().Info("Using Docker container paths for manifest")
 		manifestPath = "/app/static/build/manifest.json"
-		viteManifestPath = "/app/static/build/.vite/manifest.json"
 	} else {
 		manifestPath = filepath.Join(rootDir, "public", "build", "manifest.json")
-		viteManifestPath = filepath.Join(rootDir, "public", "build", ".vite", "manifest.json")
 	}
 
 	// check if laravel-vite-plugin is running in dev mode (it puts a "hot" file in the public folder)
@@ -322,29 +318,12 @@ func (c *Container) getInertia() *inertia.Inertia {
 		return i
 	}
 
-	// laravel-vite-plugin not running in dev mode, use build manifest file
-	// Add debug logging
-	log.Default().Info("Production asset loading", "environment", c.Config.App.Environment, "manifestPath", manifestPath, "viteManifestPath", viteManifestPath)
-	
-	// check if the manifest file exists, if not, rename it
+	// Try to move Vite manifest if main manifest doesn't exist
 	if _, err := os.Stat(manifestPath); os.IsNotExist(err) {
-		log.Default().Info("Main manifest not found, checking alternate location", "manifestPath", manifestPath)
-		
-		// Check if vite manifest exists
-		if _, viteErr := os.Stat(viteManifestPath); viteErr != nil {
-			log.Default().Error("Vite manifest also not found", "viteManifestPath", viteManifestPath, "error", viteErr)
+		viteManifestPath := filepath.Join(filepath.Dir(manifestPath), ".vite", "manifest.json")
+		if err := os.Rename(viteManifestPath, manifestPath); err != nil {
+			panic(fmt.Sprintf("manifest file not found at %s and failed to move from %s: %v", manifestPath, viteManifestPath, err))
 		}
-		
-		// move the manifest from ./public/build/.vite/manifest.json to ./public/build/manifest.json
-		// so that the vite function can find it
-		err := os.Rename(viteManifestPath, manifestPath)
-		if err != nil {
-			log.Default().Error("Failed to move manifest", "error", err)
-			return nil
-		}
-		log.Default().Info("Successfully moved manifest", "from", viteManifestPath, "to", manifestPath)
-	} else {
-		log.Default().Info("Manifest found at expected location", "manifestPath", manifestPath)
 	}
 
 	i, err := inertia.NewFromFile(
@@ -360,9 +339,6 @@ func (c *Container) getInertia() *inertia.Inertia {
 		return string(c.Config.App.Environment)
 	})
 
-	// Always use the standard path `/files/` as defined in config.StaticPrefix
-	// This works in both local and Docker environments since the static files server
-	// is configured to serve the `static` directory under the `/files` URL prefix
 	i.ShareTemplateFunc("vite", vite(manifestPath, "/files/"))
 	// Always define viteReactRefresh, but return empty content in production
 	if c.Config.App.Environment == "local" {
@@ -381,90 +357,40 @@ func (c *Container) initInertia() {
 }
 
 func vite(manifestPath, buildDir string) func(path string) (template.HTML, error) {
-	// Add more detailed logging for debugging paths
-	log.Default().Info("Vite manifest configuration", "manifestPath", manifestPath, "buildDir", buildDir)
-	
-	// Check if the manifest path exists
-	if _, err := os.Stat(manifestPath); os.IsNotExist(err) {
-		log.Default().Error("Manifest file does not exist", "manifestPath", manifestPath)
-	} else {
-		log.Default().Info("Manifest file exists", "manifestPath", manifestPath)
-	}
-	
-	// Check related directories to understand the filesystem layout
-	staticDir := filepath.Join(ProjectRoot(), "static")
-	log.Default().Info("Static directory details", "staticDir", staticDir)
-	
-	// List static directory
-	files, err := os.ReadDir(staticDir)
-	if err != nil {
-		log.Default().Error("Cannot read static directory", "error", err)
-	} else {
-		for _, file := range files {
-			log.Default().Info("Static dir file", "name", file.Name(), "isDir", file.IsDir())
-		}
-	}
-	
-	// Check the public/build directory too
-	publicBuildDir := filepath.Join(ProjectRoot(), "static", "public", "build")
-	log.Default().Info("Public build directory", "publicBuildDir", publicBuildDir)
-	
-	// Try to read the manifest
 	f, err := os.Open(manifestPath)
 	if err != nil {
-		log.Default().Error("cannot open provided vite manifest file", "error", err)
-		panic(err)
+		panic(fmt.Errorf("cannot open vite manifest file at %s: %w", manifestPath, err))
 	}
 	defer f.Close()
 
-	viteAssets := make(map[string]*struct {
-		File   string `json:"file"`
-		Source string `json:"src"`
-		Css    []string `json:"css,omitempty"`
-	})
-	err = json.NewDecoder(f).Decode(&viteAssets)
-	
-	// Debug - print content of viteAssets
-	log.Default().Info("Available assets in manifest:", "count", len(viteAssets))
-	for k, v := range viteAssets {
-		log.Default().Info("Asset entry", "path", k, "file", v.File, "cssCount", len(v.Css))
+	var viteAssets map[string]struct {
+		File string   `json:"file"`
+		Css  []string `json:"css,omitempty"`
 	}
-
-	if err != nil {
-		log.Default().Error("cannot unmarshal vite manifest file to json", "error", err)
-		panic(err)
+	
+	if err := json.NewDecoder(f).Decode(&viteAssets); err != nil {
+		panic(fmt.Errorf("cannot decode vite manifest: %w", err))
 	}
 
 	return func(p string) (template.HTML, error) {
-		log.Default().Info("Vite template function called", "path", p, "buildDir", buildDir)
-		
-		if val, ok := viteAssets[p]; ok {
-			log.Default().Info("Found asset in manifest", "path", p, "file", val.File)
-			
-			// Build HTML tags based on file type
-			var tags strings.Builder
-			
-			// Add the main JS file
-			jsPath := path.Join(buildDir, val.File)
-			tags.WriteString(fmt.Sprintf("<script type=\"module\" crossorigin src=\"%s\"></script>", jsPath))
-			log.Default().Info("Added JS script tag", "src", jsPath)
-			
-			// Add CSS files if any
-			for _, cssFile := range val.Css {
-				cssSrc := path.Join(buildDir, cssFile)
-				tags.WriteString(fmt.Sprintf("\n<link rel=\"stylesheet\" href=\"%s\">", cssSrc))
-				log.Default().Info("Added CSS link tag", "href", cssSrc)
-			}
-			
-			// Get the final HTML output
-			tagsHTML := tags.String()
-			log.Default().Info("Generated HTML tags", "html", tagsHTML)
-			return template.HTML(tagsHTML), nil
+		asset, ok := viteAssets[p]
+		if !ok {
+			return "", fmt.Errorf("asset %q not found in vite manifest", p)
 		}
 		
-		// Asset not found in manifest
-		log.Default().Error("Asset not found in manifest", "path", p)
-		return "", fmt.Errorf("asset %q not found in vite manifest", p)
+		var tags strings.Builder
+		
+		// Add the main JS file
+		tags.WriteString(fmt.Sprintf(`<script type="module" crossorigin src="%s"></script>`, 
+			path.Join(buildDir, asset.File)))
+		
+		// Add CSS files if any
+		for _, cssFile := range asset.Css {
+			tags.WriteString(fmt.Sprintf(`<link rel="stylesheet" href="%s">`, 
+				path.Join(buildDir, cssFile)))
+		}
+		
+		return template.HTML(tags.String()), nil
 	}
 }
 

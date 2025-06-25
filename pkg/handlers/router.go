@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"log/slog"
 	"net/http"
 	"path/filepath"
 
@@ -16,28 +15,17 @@ import (
 
 // BuildRouter builds the router.
 func BuildRouter(c *services.Container) error {
-	// Static files with proper cache control.
-	// ui.File() should be used in ui components to append a cache key to the URL in order to break cache
-	// after each server restart.
+	// Static files with proper cache control
+	staticGroup := c.Web.Group("", middleware.CacheControl(c.Config.Cache.Expiration.StaticFile))
 	
-	// Standard static files serving from 'static' directory
-	c.Web.Group("", middleware.CacheControl(c.Config.Cache.Expiration.StaticFile)).
-		Static(config.StaticPrefix, config.StaticDir)
+	// Standard static files serving
+	staticGroup.Static(config.StaticPrefix, config.StaticDir)
 	
-	// Additionally serve the public/build directory directly under /files in development
-	if c.Config.App.Environment == config.EnvLocal {
-		publicBuildPath := filepath.Join(services.ProjectRoot(), "public/build")
-		slog.Info("Serving local assets", "path", publicBuildPath, "url", "/files")
-		
-		c.Web.Group("", middleware.CacheControl(c.Config.Cache.Expiration.StaticFile)).
-			Static("/files", publicBuildPath)
-	}
-	
-	// In production environment, serve direct from /app/files path
-	// This is needed because vite assets are referenced with /files/ prefix in the HTML
+	// Assets serving - unified path for all environments
 	if c.Config.App.Environment == config.EnvProduction {
-		c.Web.Group("", middleware.CacheControl(c.Config.Cache.Expiration.StaticFile)).
-			Static("/files", "/app/files")
+		staticGroup.Static("/files", "/app/static")
+	} else {
+		staticGroup.Static("/files", filepath.Join(services.ProjectRoot(), "public"))
 	}
 
 	// Non-static file route group.

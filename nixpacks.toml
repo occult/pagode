@@ -12,30 +12,9 @@ cmds = [
 
 [phases.build]
 cmds = [
-    # Build frontend
     "npx vite build",
-    
-    # Debug - show what files are created by Vite build
-    "echo 'Listing public directory:' && ls -la public",
-    "echo 'Listing public/build directory:' && ls -la public/build",
-    
-    # Create needed directories for static files
     "mkdir -p /app/static",
-    
-    # Make sure the manifest files and assets are copied correctly
     "cp -r public/* /app/static/",
-    
-    # Verify files were copied correctly
-    "echo 'Verifying static directory:' && ls -la /app/static",
-    "echo 'Verifying static/build directory:' && ls -la /app/static/build",
-    
-    # Create the root files directory that matches our /files/ URL path
-    "mkdir -p /app/files",
-    "cp -r public/build/assets /app/files/",
-    "echo 'Verifying files directory:' && ls -la /app/files",
-    "echo 'Verifying files/assets directory:' && ls -la /app/files/assets",
-    
-    # Build Go binary
     "CGO_ENABLED=1 go build -o pagode ./cmd/web"
 ]
 
