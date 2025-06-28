@@ -1,0 +1,24 @@
+# Multi-language provider configuration for Go + Vite application  
+providers = ["node"]
+
+[variables]
+NODE_ENV = "production"
+
+[phases.setup]
+nixPkgs = ["nodejs", "go"]
+
+[phases.install]  
+cmds = [
+    "npm ci"
+]
+
+[phases.frontend-build]
+cmds = ["npm run build"]
+dependsOn = ["install"]
+
+[phases.build]
+cmds = ["go build -o app ./cmd/web"]
+dependsOn = ["frontend-build"]
+
+[start]
+cmd = "./app"

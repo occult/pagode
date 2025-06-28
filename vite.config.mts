@@ -7,8 +7,8 @@ export default defineConfig({
   plugins: [
     laravel({
       input: ["resources/js/app.jsx", "resources/css/app.css"],
-      publicDirectory: "public",
-      buildDirectory: "build",
+      publicDirectory: "dist",
+      buildDirectory: ".",
       refresh: true,
     }),
     react({ include: /\.(mdx|js|jsx|ts|tsx)$/ }),
@@ -19,7 +19,7 @@ export default defineConfig({
   },
   build: {
     manifest: true, // Generate manifest.json file
-    outDir: "public/build",
+    outDir: "dist",
     rollupOptions: {
       input: "resources/js/app.jsx",
       output: {

@@ -1,6 +1,8 @@
 package handlers
 
 import (
+	"embed"
+	"io/fs"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -9,7 +11,8 @@ import (
 )
 
 type Build struct {
-	files afero.Fs
+	files      afero.Fs
+	buildAssets embed.FS
 }
 
 func init() {
@@ -20,8 +23,16 @@ func (h *Build) Init(c *services.Container) error {
 	return nil
 }
 
+func (h *Build) SetBuildAssets(assets embed.FS) {
+	h.buildAssets = assets
+}
+
 func (h *Build) Routes(g *echo.Group) {
-	// Serve the build directory
-	fs := http.StripPrefix("/build/", http.FileServer(http.Dir("./public/build")))
+	// Serve the embedded build directory
+	distFS, err := fs.Sub(h.buildAssets, "dist")
+	if err != nil {
+		panic(err)
+	}
+	fs := http.StripPrefix("/build/", http.FileServer(http.FS(distFS)))
 	g.GET("/build/*", echo.WrapHandler(fs))
 }
