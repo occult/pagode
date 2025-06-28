@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"embed"
 	"net/http"
 
 	"github.com/gorilla/sessions"
@@ -13,7 +14,7 @@ import (
 )
 
 // BuildRouter builds the router.
-func BuildRouter(c *services.Container) error {
+func BuildRouter(c *services.Container, buildAssets embed.FS) error {
 	// Static files with proper cache control.
 	// ui.File() should be used in ui components to append a cache key to the URL in order to break cache
 	// after each server restart.
@@ -72,6 +73,11 @@ func BuildRouter(c *services.Container) error {
 	for _, h := range GetHandlers() {
 		if err := h.Init(c); err != nil {
 			return err
+		}
+
+		// Set build assets for Build handler
+		if buildHandler, ok := h.(*Build); ok {
+			buildHandler.SetBuildAssets(buildAssets)
 		}
 
 		h.Routes(g)

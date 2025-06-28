@@ -9,6 +9,7 @@ import (
 	"os"
 	"os/signal"
 
+	"github.com/occult/pagode/assets"
 	"github.com/occult/pagode/pkg/handlers"
 	"github.com/occult/pagode/pkg/log"
 	"github.com/occult/pagode/pkg/services"
@@ -24,7 +25,7 @@ func main() {
 	}()
 
 	// Build the router.
-	if err := handlers.BuildRouter(c); err != nil {
+	if err := handlers.BuildRouter(c, assets.Assets); err != nil {
 		fatal("failed to build the router", err)
 	}
 
