@@ -305,9 +305,8 @@ func (c *Container) getInertia() *inertia.Inertia {
 	if _, err := os.Stat(manifestPath); os.IsNotExist(err) {
 		// move the manifest from ./public/build/.vite/manifest.json to ./public/build/manifest.json
 		// so that the vite function can find it
-		err := os.Rename(viteManifestPath, manifestPath)
-		if err != nil {
-			return nil
+		if err := os.Rename(viteManifestPath, manifestPath); err != nil {
+			panic(fmt.Errorf("inertia build manifest file not found: %w", err))
 		}
 	}
 
