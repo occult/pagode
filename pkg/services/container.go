@@ -318,7 +318,7 @@ func (c *Container) getInertia() *inertia.Inertia {
 		panic(err)
 	}
 
-	i.ShareTemplateFunc("vite", vite(manifestPath, "/public/build/"))
+	i.ShareTemplateFunc("vite", vite(manifestPath, "/build/"))
 	i.ShareTemplateFunc("viteReactRefresh", viteReactRefresh(url))
 
 	return i
@@ -328,32 +328,36 @@ func (c *Container) initInertia() {
 	c.Inertia = c.getInertia()
 }
 
-func vite(manifestPath, buildDir string) func(path string) (string, error) {
+func vite(manifestPath, buildDir string) func(path string) (template.HTML, error) {
 	f, err := os.Open(manifestPath)
 	if err != nil {
-		log.Default().Error("cannot open provided vite manifest file", "error", err)
 		panic(err)
 	}
 	defer f.Close()
 
 	viteAssets := make(map[string]*struct {
-		File   string `json:"file"`
-		Source string `json:"src"`
+		File   string   `json:"file"`
+		Source string   `json:"src"`
+		CSS    []string `json:"css"`
 	})
 	err = json.NewDecoder(f).Decode(&viteAssets)
-	// print content of viteAssets
-	for k, v := range viteAssets {
-		log.Default().Debug("%s: %s\n", k, v.File)
-	}
-
 	if err != nil {
-		log.Default().Error("cannot unmarshal vite manifest file to json", "error", err)
 		panic(err)
 	}
 
-	return func(p string) (string, error) {
+	return func(p string) (template.HTML, error) {
 		if val, ok := viteAssets[p]; ok {
-			return path.Join("/", buildDir, val.File), nil
+			cssLinks := ""
+			for _, css := range val.CSS {
+				cssLinks += fmt.Sprintf(`<link rel="stylesheet" href="%s%s">`, buildDir, css)
+			}
+			htmlTag := fmt.Sprintf(
+				`%s<script type="module" src="%s%s"></script>`,
+				cssLinks,
+				buildDir,
+				val.File,
+			)
+			return template.HTML(htmlTag), nil
 		}
 		return "", fmt.Errorf("asset %q not found", p)
 	}
