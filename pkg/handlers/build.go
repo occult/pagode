@@ -1,9 +1,11 @@
 package handlers
 
 import (
+	"io/fs"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
+	assets "github.com/occult/pagode"
 	"github.com/occult/pagode/pkg/services"
 	"github.com/spf13/afero"
 )
@@ -21,7 +23,11 @@ func (h *Build) Init(c *services.Container) error {
 }
 
 func (h *Build) Routes(g *echo.Group) {
-	// Serve the build directory
-	fs := http.StripPrefix("/build/", http.FileServer(http.Dir("./public/build")))
-	g.GET("/build/*", echo.WrapHandler(fs))
+	sub, err := fs.Sub(assets.StaticFS, "public/build/assets")
+	if err != nil {
+		panic(err)
+	}
+
+	handler := http.StripPrefix("/build/assets/", http.FileServer(http.FS(sub)))
+	g.GET("/build/assets/*", echo.WrapHandler(handler))
 }
