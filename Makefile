@@ -39,3 +39,7 @@ test: ## Run all tests
 .PHONY: check-updates
 check-updates: ## Check for direct dependency updates
 	go list -u -m -f '{{if not .Indirect}}{{.}}{{end}}' all | grep "\["
+
+.PHONY: docker-build
+docker-build: ## Build the application
+	nixpacks build . --name pagode
