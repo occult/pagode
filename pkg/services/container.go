@@ -75,7 +75,13 @@ func NewContainer() *Container {
 	c := new(Container)
 	c.initConfig()
 	c.initValidator()
-	c.initWeb()
+	
+	// Only initialize web-related services if not running in CLI mode
+	if !isCLIMode() {
+		c.initWeb()
+		c.initInertia()
+	}
+	
 	c.initCache()
 	c.initDatabase()
 	c.initFiles()
@@ -83,17 +89,25 @@ func NewContainer() *Container {
 	c.initAuth()
 	c.initMail()
 	c.initTasks()
-	c.initInertia()
 	return c
+}
+
+// isCLIMode returns true if running as a CLI command
+func isCLIMode() bool {
+	exe := os.Args[0]
+	return strings.HasSuffix(exe, filepath.Base(os.Args[0])) || 
+		strings.Contains(exe, "go-build")
 }
 
 // Shutdown gracefully shuts the Container down and disconnects all connections.
 func (c *Container) Shutdown() error {
-	// Shutdown the web server.
-	webCtx, webCancel := context.WithTimeout(context.Background(), c.Config.HTTP.ShutdownTimeout)
-	defer webCancel()
-	if err := c.Web.Shutdown(webCtx); err != nil {
-		return err
+	// Shutdown the web server if initialized
+	if c.Web != nil {
+		webCtx, webCancel := context.WithTimeout(context.Background(), c.Config.HTTP.ShutdownTimeout)
+		defer webCancel()
+		if err := c.Web.Shutdown(webCtx); err != nil {
+			return err
+		}
 	}
 
 	// Shutdown the task runner.
