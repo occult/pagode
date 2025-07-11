@@ -29,6 +29,8 @@ const (
 	FieldCreatedAt = "created_at"
 	// EdgeOwner holds the string denoting the owner edge name in mutations.
 	EdgeOwner = "owner"
+	// EdgePaymentCustomer holds the string denoting the payment_customer edge name in mutations.
+	EdgePaymentCustomer = "payment_customer"
 	// Table holds the table name of the user in the database.
 	Table = "users"
 	// OwnerTable is the table that holds the owner relation/edge.
@@ -38,6 +40,13 @@ const (
 	OwnerInverseTable = "password_tokens"
 	// OwnerColumn is the table column denoting the owner relation/edge.
 	OwnerColumn = "user_id"
+	// PaymentCustomerTable is the table that holds the payment_customer relation/edge.
+	PaymentCustomerTable = "users"
+	// PaymentCustomerInverseTable is the table name for the PaymentCustomer entity.
+	// It exists in this package in order to avoid circular dependency with the "paymentcustomer" package.
+	PaymentCustomerInverseTable = "payment_customers"
+	// PaymentCustomerColumn is the table column denoting the payment_customer relation/edge.
+	PaymentCustomerColumn = "payment_customer_user"
 )
 
 // Columns holds all SQL columns for user fields.
@@ -51,10 +60,21 @@ var Columns = []string{
 	FieldCreatedAt,
 }
 
+// ForeignKeys holds the SQL foreign-keys that are owned by the "users"
+// table and are not defined as standalone fields in the schema.
+var ForeignKeys = []string{
+	"payment_customer_user",
+}
+
 // ValidColumn reports if the column name is valid (part of the table columns).
 func ValidColumn(column string) bool {
 	for i := range Columns {
 		if column == Columns[i] {
+			return true
+		}
+	}
+	for i := range ForeignKeys {
+		if column == ForeignKeys[i] {
 			return true
 		}
 	}
@@ -133,10 +153,24 @@ func ByOwner(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
 		sqlgraph.OrderByNeighborTerms(s, newOwnerStep(), append([]sql.OrderTerm{term}, terms...)...)
 	}
 }
+
+// ByPaymentCustomerField orders the results by payment_customer field.
+func ByPaymentCustomerField(field string, opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newPaymentCustomerStep(), sql.OrderByField(field, opts...))
+	}
+}
 func newOwnerStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
 		sqlgraph.To(OwnerInverseTable, FieldID),
 		sqlgraph.Edge(sqlgraph.O2M, true, OwnerTable, OwnerColumn),
+	)
+}
+func newPaymentCustomerStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(PaymentCustomerInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2O, true, PaymentCustomerTable, PaymentCustomerColumn),
 	)
 }

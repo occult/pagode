@@ -13,6 +13,7 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/occult/pagode/ent/passwordtoken"
+	"github.com/occult/pagode/ent/paymentcustomer"
 	"github.com/occult/pagode/ent/predicate"
 	"github.com/occult/pagode/ent/user"
 )
@@ -20,11 +21,13 @@ import (
 // UserQuery is the builder for querying User entities.
 type UserQuery struct {
 	config
-	ctx        *QueryContext
-	order      []user.OrderOption
-	inters     []Interceptor
-	predicates []predicate.User
-	withOwner  *PasswordTokenQuery
+	ctx                 *QueryContext
+	order               []user.OrderOption
+	inters              []Interceptor
+	predicates          []predicate.User
+	withOwner           *PasswordTokenQuery
+	withPaymentCustomer *PaymentCustomerQuery
+	withFKs             bool
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -76,6 +79,28 @@ func (uq *UserQuery) QueryOwner() *PasswordTokenQuery {
 			sqlgraph.From(user.Table, user.FieldID, selector),
 			sqlgraph.To(passwordtoken.Table, passwordtoken.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, true, user.OwnerTable, user.OwnerColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(uq.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
+// QueryPaymentCustomer chains the current query on the "payment_customer" edge.
+func (uq *UserQuery) QueryPaymentCustomer() *PaymentCustomerQuery {
+	query := (&PaymentCustomerClient{config: uq.config}).Query()
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := uq.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := uq.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(user.Table, user.FieldID, selector),
+			sqlgraph.To(paymentcustomer.Table, paymentcustomer.FieldID),
+			sqlgraph.Edge(sqlgraph.O2O, true, user.PaymentCustomerTable, user.PaymentCustomerColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(uq.driver.Dialect(), step)
 		return fromU, nil
@@ -270,12 +295,13 @@ func (uq *UserQuery) Clone() *UserQuery {
 		return nil
 	}
 	return &UserQuery{
-		config:     uq.config,
-		ctx:        uq.ctx.Clone(),
-		order:      append([]user.OrderOption{}, uq.order...),
-		inters:     append([]Interceptor{}, uq.inters...),
-		predicates: append([]predicate.User{}, uq.predicates...),
-		withOwner:  uq.withOwner.Clone(),
+		config:              uq.config,
+		ctx:                 uq.ctx.Clone(),
+		order:               append([]user.OrderOption{}, uq.order...),
+		inters:              append([]Interceptor{}, uq.inters...),
+		predicates:          append([]predicate.User{}, uq.predicates...),
+		withOwner:           uq.withOwner.Clone(),
+		withPaymentCustomer: uq.withPaymentCustomer.Clone(),
 		// clone intermediate query.
 		sql:  uq.sql.Clone(),
 		path: uq.path,
@@ -290,6 +316,17 @@ func (uq *UserQuery) WithOwner(opts ...func(*PasswordTokenQuery)) *UserQuery {
 		opt(query)
 	}
 	uq.withOwner = query
+	return uq
+}
+
+// WithPaymentCustomer tells the query-builder to eager-load the nodes that are connected to
+// the "payment_customer" edge. The optional arguments are used to configure the query builder of the edge.
+func (uq *UserQuery) WithPaymentCustomer(opts ...func(*PaymentCustomerQuery)) *UserQuery {
+	query := (&PaymentCustomerClient{config: uq.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	uq.withPaymentCustomer = query
 	return uq
 }
 
@@ -370,11 +407,19 @@ func (uq *UserQuery) prepareQuery(ctx context.Context) error {
 func (uq *UserQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*User, error) {
 	var (
 		nodes       = []*User{}
+		withFKs     = uq.withFKs
 		_spec       = uq.querySpec()
-		loadedTypes = [1]bool{
+		loadedTypes = [2]bool{
 			uq.withOwner != nil,
+			uq.withPaymentCustomer != nil,
 		}
 	)
+	if uq.withPaymentCustomer != nil {
+		withFKs = true
+	}
+	if withFKs {
+		_spec.Node.Columns = append(_spec.Node.Columns, user.ForeignKeys...)
+	}
 	_spec.ScanValues = func(columns []string) ([]any, error) {
 		return (*User).scanValues(nil, columns)
 	}
@@ -397,6 +442,12 @@ func (uq *UserQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*User, e
 		if err := uq.loadOwner(ctx, query, nodes,
 			func(n *User) { n.Edges.Owner = []*PasswordToken{} },
 			func(n *User, e *PasswordToken) { n.Edges.Owner = append(n.Edges.Owner, e) }); err != nil {
+			return nil, err
+		}
+	}
+	if query := uq.withPaymentCustomer; query != nil {
+		if err := uq.loadPaymentCustomer(ctx, query, nodes, nil,
+			func(n *User, e *PaymentCustomer) { n.Edges.PaymentCustomer = e }); err != nil {
 			return nil, err
 		}
 	}
@@ -430,6 +481,38 @@ func (uq *UserQuery) loadOwner(ctx context.Context, query *PasswordTokenQuery, n
 			return fmt.Errorf(`unexpected referenced foreign-key "user_id" returned %v for node %v`, fk, n.ID)
 		}
 		assign(node, n)
+	}
+	return nil
+}
+func (uq *UserQuery) loadPaymentCustomer(ctx context.Context, query *PaymentCustomerQuery, nodes []*User, init func(*User), assign func(*User, *PaymentCustomer)) error {
+	ids := make([]int, 0, len(nodes))
+	nodeids := make(map[int][]*User)
+	for i := range nodes {
+		if nodes[i].payment_customer_user == nil {
+			continue
+		}
+		fk := *nodes[i].payment_customer_user
+		if _, ok := nodeids[fk]; !ok {
+			ids = append(ids, fk)
+		}
+		nodeids[fk] = append(nodeids[fk], nodes[i])
+	}
+	if len(ids) == 0 {
+		return nil
+	}
+	query.Where(paymentcustomer.IDIn(ids...))
+	neighbors, err := query.All(ctx)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		nodes, ok := nodeids[n.ID]
+		if !ok {
+			return fmt.Errorf(`unexpected foreign-key "payment_customer_user" returned %v`, n.ID)
+		}
+		for i := range nodes {
+			assign(nodes[i], n)
+		}
 	}
 	return nil
 }

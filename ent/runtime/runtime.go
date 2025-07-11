@@ -6,7 +6,11 @@ import (
 	"time"
 
 	"github.com/occult/pagode/ent/passwordtoken"
+	"github.com/occult/pagode/ent/paymentcustomer"
+	"github.com/occult/pagode/ent/paymentintent"
+	"github.com/occult/pagode/ent/paymentmethod"
 	"github.com/occult/pagode/ent/schema"
+	"github.com/occult/pagode/ent/subscription"
 	"github.com/occult/pagode/ent/user"
 )
 
@@ -26,6 +30,150 @@ func init() {
 	passwordtokenDescCreatedAt := passwordtokenFields[2].Descriptor()
 	// passwordtoken.DefaultCreatedAt holds the default value on creation for the created_at field.
 	passwordtoken.DefaultCreatedAt = passwordtokenDescCreatedAt.Default.(func() time.Time)
+	paymentcustomerFields := schema.PaymentCustomer{}.Fields()
+	_ = paymentcustomerFields
+	// paymentcustomerDescProviderCustomerID is the schema descriptor for provider_customer_id field.
+	paymentcustomerDescProviderCustomerID := paymentcustomerFields[0].Descriptor()
+	// paymentcustomer.ProviderCustomerIDValidator is a validator for the "provider_customer_id" field. It is called by the builders before save.
+	paymentcustomer.ProviderCustomerIDValidator = paymentcustomerDescProviderCustomerID.Validators[0].(func(string) error)
+	// paymentcustomerDescProvider is the schema descriptor for provider field.
+	paymentcustomerDescProvider := paymentcustomerFields[1].Descriptor()
+	// paymentcustomer.DefaultProvider holds the default value on creation for the provider field.
+	paymentcustomer.DefaultProvider = paymentcustomerDescProvider.Default.(string)
+	// paymentcustomer.ProviderValidator is a validator for the "provider" field. It is called by the builders before save.
+	paymentcustomer.ProviderValidator = paymentcustomerDescProvider.Validators[0].(func(string) error)
+	// paymentcustomerDescEmail is the schema descriptor for email field.
+	paymentcustomerDescEmail := paymentcustomerFields[2].Descriptor()
+	// paymentcustomer.EmailValidator is a validator for the "email" field. It is called by the builders before save.
+	paymentcustomer.EmailValidator = paymentcustomerDescEmail.Validators[0].(func(string) error)
+	// paymentcustomerDescCreatedAt is the schema descriptor for created_at field.
+	paymentcustomerDescCreatedAt := paymentcustomerFields[5].Descriptor()
+	// paymentcustomer.DefaultCreatedAt holds the default value on creation for the created_at field.
+	paymentcustomer.DefaultCreatedAt = paymentcustomerDescCreatedAt.Default.(func() time.Time)
+	// paymentcustomerDescUpdatedAt is the schema descriptor for updated_at field.
+	paymentcustomerDescUpdatedAt := paymentcustomerFields[6].Descriptor()
+	// paymentcustomer.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	paymentcustomer.DefaultUpdatedAt = paymentcustomerDescUpdatedAt.Default.(func() time.Time)
+	// paymentcustomer.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	paymentcustomer.UpdateDefaultUpdatedAt = paymentcustomerDescUpdatedAt.UpdateDefault.(func() time.Time)
+	paymentintentFields := schema.PaymentIntent{}.Fields()
+	_ = paymentintentFields
+	// paymentintentDescProviderPaymentIntentID is the schema descriptor for provider_payment_intent_id field.
+	paymentintentDescProviderPaymentIntentID := paymentintentFields[0].Descriptor()
+	// paymentintent.ProviderPaymentIntentIDValidator is a validator for the "provider_payment_intent_id" field. It is called by the builders before save.
+	paymentintent.ProviderPaymentIntentIDValidator = paymentintentDescProviderPaymentIntentID.Validators[0].(func(string) error)
+	// paymentintentDescProvider is the schema descriptor for provider field.
+	paymentintentDescProvider := paymentintentFields[1].Descriptor()
+	// paymentintent.DefaultProvider holds the default value on creation for the provider field.
+	paymentintent.DefaultProvider = paymentintentDescProvider.Default.(string)
+	// paymentintent.ProviderValidator is a validator for the "provider" field. It is called by the builders before save.
+	paymentintent.ProviderValidator = paymentintentDescProvider.Validators[0].(func(string) error)
+	// paymentintentDescAmount is the schema descriptor for amount field.
+	paymentintentDescAmount := paymentintentFields[3].Descriptor()
+	// paymentintent.AmountValidator is a validator for the "amount" field. It is called by the builders before save.
+	paymentintent.AmountValidator = paymentintentDescAmount.Validators[0].(func(int64) error)
+	// paymentintentDescCurrency is the schema descriptor for currency field.
+	paymentintentDescCurrency := paymentintentFields[4].Descriptor()
+	// paymentintent.DefaultCurrency holds the default value on creation for the currency field.
+	paymentintent.DefaultCurrency = paymentintentDescCurrency.Default.(string)
+	// paymentintent.CurrencyValidator is a validator for the "currency" field. It is called by the builders before save.
+	paymentintent.CurrencyValidator = paymentintentDescCurrency.Validators[0].(func(string) error)
+	// paymentintentDescCreatedAt is the schema descriptor for created_at field.
+	paymentintentDescCreatedAt := paymentintentFields[8].Descriptor()
+	// paymentintent.DefaultCreatedAt holds the default value on creation for the created_at field.
+	paymentintent.DefaultCreatedAt = paymentintentDescCreatedAt.Default.(func() time.Time)
+	// paymentintentDescUpdatedAt is the schema descriptor for updated_at field.
+	paymentintentDescUpdatedAt := paymentintentFields[9].Descriptor()
+	// paymentintent.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	paymentintent.DefaultUpdatedAt = paymentintentDescUpdatedAt.Default.(func() time.Time)
+	// paymentintent.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	paymentintent.UpdateDefaultUpdatedAt = paymentintentDescUpdatedAt.UpdateDefault.(func() time.Time)
+	paymentmethodFields := schema.PaymentMethod{}.Fields()
+	_ = paymentmethodFields
+	// paymentmethodDescProviderPaymentMethodID is the schema descriptor for provider_payment_method_id field.
+	paymentmethodDescProviderPaymentMethodID := paymentmethodFields[0].Descriptor()
+	// paymentmethod.ProviderPaymentMethodIDValidator is a validator for the "provider_payment_method_id" field. It is called by the builders before save.
+	paymentmethod.ProviderPaymentMethodIDValidator = paymentmethodDescProviderPaymentMethodID.Validators[0].(func(string) error)
+	// paymentmethodDescProvider is the schema descriptor for provider field.
+	paymentmethodDescProvider := paymentmethodFields[1].Descriptor()
+	// paymentmethod.DefaultProvider holds the default value on creation for the provider field.
+	paymentmethod.DefaultProvider = paymentmethodDescProvider.Default.(string)
+	// paymentmethod.ProviderValidator is a validator for the "provider" field. It is called by the builders before save.
+	paymentmethod.ProviderValidator = paymentmethodDescProvider.Validators[0].(func(string) error)
+	// paymentmethodDescExpMonth is the schema descriptor for exp_month field.
+	paymentmethodDescExpMonth := paymentmethodFields[5].Descriptor()
+	// paymentmethod.ExpMonthValidator is a validator for the "exp_month" field. It is called by the builders before save.
+	paymentmethod.ExpMonthValidator = func() func(int) error {
+		validators := paymentmethodDescExpMonth.Validators
+		fns := [...]func(int) error{
+			validators[0].(func(int) error),
+			validators[1].(func(int) error),
+		}
+		return func(exp_month int) error {
+			for _, fn := range fns {
+				if err := fn(exp_month); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
+	// paymentmethodDescIsDefault is the schema descriptor for is_default field.
+	paymentmethodDescIsDefault := paymentmethodFields[7].Descriptor()
+	// paymentmethod.DefaultIsDefault holds the default value on creation for the is_default field.
+	paymentmethod.DefaultIsDefault = paymentmethodDescIsDefault.Default.(bool)
+	// paymentmethodDescCreatedAt is the schema descriptor for created_at field.
+	paymentmethodDescCreatedAt := paymentmethodFields[9].Descriptor()
+	// paymentmethod.DefaultCreatedAt holds the default value on creation for the created_at field.
+	paymentmethod.DefaultCreatedAt = paymentmethodDescCreatedAt.Default.(func() time.Time)
+	// paymentmethodDescUpdatedAt is the schema descriptor for updated_at field.
+	paymentmethodDescUpdatedAt := paymentmethodFields[10].Descriptor()
+	// paymentmethod.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	paymentmethod.DefaultUpdatedAt = paymentmethodDescUpdatedAt.Default.(func() time.Time)
+	// paymentmethod.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	paymentmethod.UpdateDefaultUpdatedAt = paymentmethodDescUpdatedAt.UpdateDefault.(func() time.Time)
+	subscriptionFields := schema.Subscription{}.Fields()
+	_ = subscriptionFields
+	// subscriptionDescProviderSubscriptionID is the schema descriptor for provider_subscription_id field.
+	subscriptionDescProviderSubscriptionID := subscriptionFields[0].Descriptor()
+	// subscription.ProviderSubscriptionIDValidator is a validator for the "provider_subscription_id" field. It is called by the builders before save.
+	subscription.ProviderSubscriptionIDValidator = subscriptionDescProviderSubscriptionID.Validators[0].(func(string) error)
+	// subscriptionDescProvider is the schema descriptor for provider field.
+	subscriptionDescProvider := subscriptionFields[1].Descriptor()
+	// subscription.DefaultProvider holds the default value on creation for the provider field.
+	subscription.DefaultProvider = subscriptionDescProvider.Default.(string)
+	// subscription.ProviderValidator is a validator for the "provider" field. It is called by the builders before save.
+	subscription.ProviderValidator = subscriptionDescProvider.Validators[0].(func(string) error)
+	// subscriptionDescPriceID is the schema descriptor for price_id field.
+	subscriptionDescPriceID := subscriptionFields[3].Descriptor()
+	// subscription.PriceIDValidator is a validator for the "price_id" field. It is called by the builders before save.
+	subscription.PriceIDValidator = subscriptionDescPriceID.Validators[0].(func(string) error)
+	// subscriptionDescAmount is the schema descriptor for amount field.
+	subscriptionDescAmount := subscriptionFields[4].Descriptor()
+	// subscription.AmountValidator is a validator for the "amount" field. It is called by the builders before save.
+	subscription.AmountValidator = subscriptionDescAmount.Validators[0].(func(int64) error)
+	// subscriptionDescCurrency is the schema descriptor for currency field.
+	subscriptionDescCurrency := subscriptionFields[5].Descriptor()
+	// subscription.DefaultCurrency holds the default value on creation for the currency field.
+	subscription.DefaultCurrency = subscriptionDescCurrency.Default.(string)
+	// subscription.CurrencyValidator is a validator for the "currency" field. It is called by the builders before save.
+	subscription.CurrencyValidator = subscriptionDescCurrency.Validators[0].(func(string) error)
+	// subscriptionDescIntervalCount is the schema descriptor for interval_count field.
+	subscriptionDescIntervalCount := subscriptionFields[7].Descriptor()
+	// subscription.DefaultIntervalCount holds the default value on creation for the interval_count field.
+	subscription.DefaultIntervalCount = subscriptionDescIntervalCount.Default.(int)
+	// subscription.IntervalCountValidator is a validator for the "interval_count" field. It is called by the builders before save.
+	subscription.IntervalCountValidator = subscriptionDescIntervalCount.Validators[0].(func(int) error)
+	// subscriptionDescCreatedAt is the schema descriptor for created_at field.
+	subscriptionDescCreatedAt := subscriptionFields[15].Descriptor()
+	// subscription.DefaultCreatedAt holds the default value on creation for the created_at field.
+	subscription.DefaultCreatedAt = subscriptionDescCreatedAt.Default.(func() time.Time)
+	// subscriptionDescUpdatedAt is the schema descriptor for updated_at field.
+	subscriptionDescUpdatedAt := subscriptionFields[16].Descriptor()
+	// subscription.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	subscription.DefaultUpdatedAt = subscriptionDescUpdatedAt.Default.(func() time.Time)
+	// subscription.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	subscription.UpdateDefaultUpdatedAt = subscriptionDescUpdatedAt.UpdateDefault.(func() time.Time)
 	userHooks := schema.User{}.Hooks()
 	user.Hooks[0] = userHooks[0]
 	userFields := schema.User{}.Fields()

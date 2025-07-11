@@ -13,6 +13,10 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"github.com/occult/pagode/ent/passwordtoken"
+	"github.com/occult/pagode/ent/paymentcustomer"
+	"github.com/occult/pagode/ent/paymentintent"
+	"github.com/occult/pagode/ent/paymentmethod"
+	"github.com/occult/pagode/ent/subscription"
 	"github.com/occult/pagode/ent/user"
 )
 
@@ -74,8 +78,12 @@ var (
 func checkColumn(table, column string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
-			passwordtoken.Table: passwordtoken.ValidColumn,
-			user.Table:          user.ValidColumn,
+			passwordtoken.Table:   passwordtoken.ValidColumn,
+			paymentcustomer.Table: paymentcustomer.ValidColumn,
+			paymentintent.Table:   paymentintent.ValidColumn,
+			paymentmethod.Table:   paymentmethod.ValidColumn,
+			subscription.Table:    subscription.ValidColumn,
+			user.Table:            user.ValidColumn,
 		})
 	})
 	return columnCheck(table, column)

@@ -53,3 +53,10 @@ mail:
   password: "admin"
   fromAddress: "admin@localhost"
   resendApiKey: "your-api-key"
+
+payment:
+  provider: "stripe"
+  stripe:
+    secretKey: "sk_test_your_secret_key_here"
+    webhookSecret: "whsec_your_webhook_secret_here"
+    currency: "usd"

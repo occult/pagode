@@ -14,6 +14,14 @@ type Tx struct {
 	config
 	// PasswordToken is the client for interacting with the PasswordToken builders.
 	PasswordToken *PasswordTokenClient
+	// PaymentCustomer is the client for interacting with the PaymentCustomer builders.
+	PaymentCustomer *PaymentCustomerClient
+	// PaymentIntent is the client for interacting with the PaymentIntent builders.
+	PaymentIntent *PaymentIntentClient
+	// PaymentMethod is the client for interacting with the PaymentMethod builders.
+	PaymentMethod *PaymentMethodClient
+	// Subscription is the client for interacting with the Subscription builders.
+	Subscription *SubscriptionClient
 	// User is the client for interacting with the User builders.
 	User *UserClient
 
@@ -148,6 +156,10 @@ func (tx *Tx) Client() *Client {
 
 func (tx *Tx) init() {
 	tx.PasswordToken = NewPasswordTokenClient(tx.config)
+	tx.PaymentCustomer = NewPaymentCustomerClient(tx.config)
+	tx.PaymentIntent = NewPaymentIntentClient(tx.config)
+	tx.PaymentMethod = NewPaymentMethodClient(tx.config)
+	tx.Subscription = NewSubscriptionClient(tx.config)
 	tx.User = NewUserClient(tx.config)
 }
 

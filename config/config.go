@@ -57,6 +57,7 @@ type (
 		Files    FilesConfig
 		Tasks    TasksConfig
 		Mail     MailConfig
+		Payment  PaymentConfig
 	}
 
 	// HTTPConfig stores HTTP configuration.
@@ -124,6 +125,19 @@ type (
 		Password     string
 		FromAddress  string
 		ResendApiKey string
+	}
+
+	// PaymentConfig stores the payment configuration.
+	PaymentConfig struct {
+		Provider string
+		Stripe   StripeConfig
+	}
+
+	// StripeConfig stores the Stripe-specific configuration.
+	StripeConfig struct {
+		SecretKey     string
+		WebhookSecret string
+		Currency      string
 	}
 )
 

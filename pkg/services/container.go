@@ -66,6 +66,9 @@ type Container struct {
 	// Tasks stores the task client.
 	Tasks *backlite.Client
 
+	// Payment stores the payment client.
+	Payment *PaymentClient
+
 	// Inertia for React
 	Inertia *inertia.Inertia
 }
@@ -83,6 +86,7 @@ func NewContainer() *Container {
 	c.initAuth()
 	c.initMail()
 	c.initTasks()
+	c.initPayment()
 	c.initInertia()
 	return c
 }
@@ -244,6 +248,20 @@ func (c *Container) initTasks() {
 	if err = c.Tasks.Install(); err != nil {
 		panic(fmt.Sprintf("failed to install task schema: %v", err))
 	}
+}
+
+// initPayment initializes the payment client.
+func (c *Container) initPayment() {
+	var provider PaymentProvider
+
+	switch c.Config.Payment.Provider {
+	case "stripe":
+		provider = NewStripeProvider(c.Config)
+	default:
+		panic(fmt.Sprintf("unsupported payment provider: %s", c.Config.Payment.Provider))
+	}
+
+	c.Payment = NewPaymentClient(c.Config, c.ORM, provider)
 }
 
 func ProjectRoot() string {

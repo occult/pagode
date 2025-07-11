@@ -12,6 +12,10 @@ import (
 
 	"github.com/occult/pagode/ent"
 	"github.com/occult/pagode/ent/passwordtoken"
+	"github.com/occult/pagode/ent/paymentcustomer"
+	"github.com/occult/pagode/ent/paymentintent"
+	"github.com/occult/pagode/ent/paymentmethod"
+	"github.com/occult/pagode/ent/subscription"
 	"github.com/occult/pagode/ent/user"
 )
 
@@ -34,6 +38,14 @@ func (h *Handler) Create(ctx echo.Context, entityType string) error {
 	switch entityType {
 	case "PasswordToken":
 		return h.PasswordTokenCreate(ctx)
+	case "PaymentCustomer":
+		return h.PaymentCustomerCreate(ctx)
+	case "PaymentIntent":
+		return h.PaymentIntentCreate(ctx)
+	case "PaymentMethod":
+		return h.PaymentMethodCreate(ctx)
+	case "Subscription":
+		return h.SubscriptionCreate(ctx)
 	case "User":
 		return h.UserCreate(ctx)
 	default:
@@ -45,6 +57,14 @@ func (h *Handler) Get(ctx echo.Context, entityType string, id int) (url.Values, 
 	switch entityType {
 	case "PasswordToken":
 		return h.PasswordTokenGet(ctx, id)
+	case "PaymentCustomer":
+		return h.PaymentCustomerGet(ctx, id)
+	case "PaymentIntent":
+		return h.PaymentIntentGet(ctx, id)
+	case "PaymentMethod":
+		return h.PaymentMethodGet(ctx, id)
+	case "Subscription":
+		return h.SubscriptionGet(ctx, id)
 	case "User":
 		return h.UserGet(ctx, id)
 	default:
@@ -56,6 +76,14 @@ func (h *Handler) Delete(ctx echo.Context, entityType string, id int) error {
 	switch entityType {
 	case "PasswordToken":
 		return h.PasswordTokenDelete(ctx, id)
+	case "PaymentCustomer":
+		return h.PaymentCustomerDelete(ctx, id)
+	case "PaymentIntent":
+		return h.PaymentIntentDelete(ctx, id)
+	case "PaymentMethod":
+		return h.PaymentMethodDelete(ctx, id)
+	case "Subscription":
+		return h.SubscriptionDelete(ctx, id)
 	case "User":
 		return h.UserDelete(ctx, id)
 	default:
@@ -67,6 +95,14 @@ func (h *Handler) Update(ctx echo.Context, entityType string, id int) error {
 	switch entityType {
 	case "PasswordToken":
 		return h.PasswordTokenUpdate(ctx, id)
+	case "PaymentCustomer":
+		return h.PaymentCustomerUpdate(ctx, id)
+	case "PaymentIntent":
+		return h.PaymentIntentUpdate(ctx, id)
+	case "PaymentMethod":
+		return h.PaymentMethodUpdate(ctx, id)
+	case "Subscription":
+		return h.SubscriptionUpdate(ctx, id)
 	case "User":
 		return h.UserUpdate(ctx, id)
 	default:
@@ -78,6 +114,14 @@ func (h *Handler) List(ctx echo.Context, entityType string) (*EntityList, error)
 	switch entityType {
 	case "PasswordToken":
 		return h.PasswordTokenList(ctx)
+	case "PaymentCustomer":
+		return h.PaymentCustomerList(ctx)
+	case "PaymentIntent":
+		return h.PaymentIntentList(ctx)
+	case "PaymentMethod":
+		return h.PaymentMethodList(ctx)
+	case "Subscription":
+		return h.SubscriptionList(ctx)
 	case "User":
 		return h.UserList(ctx)
 	default:
@@ -179,6 +223,722 @@ func (h *Handler) PasswordTokenGet(ctx echo.Context, id int) (url.Values, error)
 	v := url.Values{}
 	v.Set("user_id", fmt.Sprint(entity.UserID))
 	v.Set("created_at", entity.CreatedAt.Format(dateTimeFormat))
+	return v, err
+}
+
+func (h *Handler) PaymentCustomerCreate(ctx echo.Context) error {
+	var payload PaymentCustomer
+	if err := h.bind(ctx, &payload); err != nil {
+		return err
+	}
+
+	op := h.client.PaymentCustomer.Create()
+	op.SetProviderCustomerID(payload.ProviderCustomerID)
+	if payload.Provider != nil {
+		op.SetProvider(*payload.Provider)
+	}
+	op.SetEmail(payload.Email)
+	if payload.Name != nil {
+		op.SetName(*payload.Name)
+	}
+	if payload.Metadata != nil {
+		op.SetMetadata(*payload.Metadata)
+	}
+	if payload.CreatedAt != nil {
+		op.SetCreatedAt(*payload.CreatedAt)
+	}
+	if payload.UpdatedAt != nil {
+		op.SetUpdatedAt(*payload.UpdatedAt)
+	}
+	_, err := op.Save(ctx.Request().Context())
+	return err
+}
+
+func (h *Handler) PaymentCustomerUpdate(ctx echo.Context, id int) error {
+	entity, err := h.client.PaymentCustomer.Get(ctx.Request().Context(), id)
+	if err != nil {
+		return err
+	}
+
+	var payload PaymentCustomer
+	if err = h.bind(ctx, &payload); err != nil {
+		return err
+	}
+
+	op := entity.Update()
+	op.SetProviderCustomerID(payload.ProviderCustomerID)
+	if payload.Provider == nil {
+		var empty string
+		op.SetProvider(empty)
+	} else {
+		op.SetProvider(*payload.Provider)
+	}
+	op.SetEmail(payload.Email)
+	if payload.Name == nil {
+		op.ClearName()
+	} else {
+		op.SetName(*payload.Name)
+	}
+	if payload.Metadata == nil {
+		op.ClearMetadata()
+	} else {
+		op.SetMetadata(*payload.Metadata)
+	}
+	if payload.UpdatedAt == nil {
+		var empty time.Time
+		op.SetUpdatedAt(empty)
+	} else {
+		op.SetUpdatedAt(*payload.UpdatedAt)
+	}
+	_, err = op.Save(ctx.Request().Context())
+	return err
+}
+
+func (h *Handler) PaymentCustomerDelete(ctx echo.Context, id int) error {
+	return h.client.PaymentCustomer.DeleteOneID(id).
+		Exec(ctx.Request().Context())
+}
+
+func (h *Handler) PaymentCustomerList(ctx echo.Context) (*EntityList, error) {
+	page, offset := h.getPageAndOffset(ctx)
+	res, err := h.client.PaymentCustomer.
+		Query().
+		Limit(h.Config.ItemsPerPage + 1).
+		Offset(offset).
+		Order(paymentcustomer.ByID(sql.OrderDesc())).
+		All(ctx.Request().Context())
+
+	if err != nil {
+		return nil, err
+	}
+
+	list := &EntityList{
+		Columns: []string{
+			"Provider customer ID",
+			"Provider",
+			"Email",
+			"Name",
+			"Metadata",
+			"Created at",
+			"Updated at",
+		},
+		Entities:    make([]EntityValues, 0, len(res)),
+		Page:        page,
+		HasNextPage: len(res) > h.Config.ItemsPerPage,
+	}
+
+	for i := 0; i <= len(res)-1; i++ {
+		list.Entities = append(list.Entities, EntityValues{
+			ID: res[i].ID,
+			Values: []string{
+				res[i].ProviderCustomerID,
+				res[i].Provider,
+				res[i].Email,
+				res[i].Name,
+				fmt.Sprint(res[i].Metadata),
+				res[i].CreatedAt.Format(h.Config.TimeFormat),
+				res[i].UpdatedAt.Format(h.Config.TimeFormat),
+			},
+		})
+	}
+
+	return list, err
+}
+
+func (h *Handler) PaymentCustomerGet(ctx echo.Context, id int) (url.Values, error) {
+	entity, err := h.client.PaymentCustomer.Get(ctx.Request().Context(), id)
+	if err != nil {
+		return nil, err
+	}
+
+	v := url.Values{}
+	v.Set("provider_customer_id", entity.ProviderCustomerID)
+	v.Set("provider", entity.Provider)
+	v.Set("email", entity.Email)
+	v.Set("name", entity.Name)
+	v.Set("metadata", fmt.Sprint(entity.Metadata))
+	v.Set("updated_at", entity.UpdatedAt.Format(dateTimeFormat))
+	return v, err
+}
+
+func (h *Handler) PaymentIntentCreate(ctx echo.Context) error {
+	var payload PaymentIntent
+	if err := h.bind(ctx, &payload); err != nil {
+		return err
+	}
+
+	op := h.client.PaymentIntent.Create()
+	op.SetProviderPaymentIntentID(payload.ProviderPaymentIntentID)
+	if payload.Provider != nil {
+		op.SetProvider(*payload.Provider)
+	}
+	if payload.Status != nil {
+		op.SetStatus(*payload.Status)
+	}
+	op.SetAmount(payload.Amount)
+	if payload.Currency != nil {
+		op.SetCurrency(*payload.Currency)
+	}
+	if payload.Description != nil {
+		op.SetDescription(*payload.Description)
+	}
+	if payload.ClientSecret != nil {
+		op.SetClientSecret(*payload.ClientSecret)
+	}
+	if payload.Metadata != nil {
+		op.SetMetadata(*payload.Metadata)
+	}
+	if payload.CreatedAt != nil {
+		op.SetCreatedAt(*payload.CreatedAt)
+	}
+	if payload.UpdatedAt != nil {
+		op.SetUpdatedAt(*payload.UpdatedAt)
+	}
+	_, err := op.Save(ctx.Request().Context())
+	return err
+}
+
+func (h *Handler) PaymentIntentUpdate(ctx echo.Context, id int) error {
+	entity, err := h.client.PaymentIntent.Get(ctx.Request().Context(), id)
+	if err != nil {
+		return err
+	}
+
+	var payload PaymentIntent
+	if err = h.bind(ctx, &payload); err != nil {
+		return err
+	}
+
+	op := entity.Update()
+	op.SetProviderPaymentIntentID(payload.ProviderPaymentIntentID)
+	if payload.Provider == nil {
+		var empty string
+		op.SetProvider(empty)
+	} else {
+		op.SetProvider(*payload.Provider)
+	}
+	if payload.Status == nil {
+		var empty paymentintent.Status
+		op.SetStatus(empty)
+	} else {
+		op.SetStatus(*payload.Status)
+	}
+	op.SetAmount(payload.Amount)
+	if payload.Currency == nil {
+		var empty string
+		op.SetCurrency(empty)
+	} else {
+		op.SetCurrency(*payload.Currency)
+	}
+	if payload.Description == nil {
+		op.ClearDescription()
+	} else {
+		op.SetDescription(*payload.Description)
+	}
+	if payload.ClientSecret != nil {
+		op.SetClientSecret(*payload.ClientSecret)
+	}
+	if payload.Metadata == nil {
+		op.ClearMetadata()
+	} else {
+		op.SetMetadata(*payload.Metadata)
+	}
+	if payload.UpdatedAt == nil {
+		var empty time.Time
+		op.SetUpdatedAt(empty)
+	} else {
+		op.SetUpdatedAt(*payload.UpdatedAt)
+	}
+	_, err = op.Save(ctx.Request().Context())
+	return err
+}
+
+func (h *Handler) PaymentIntentDelete(ctx echo.Context, id int) error {
+	return h.client.PaymentIntent.DeleteOneID(id).
+		Exec(ctx.Request().Context())
+}
+
+func (h *Handler) PaymentIntentList(ctx echo.Context) (*EntityList, error) {
+	page, offset := h.getPageAndOffset(ctx)
+	res, err := h.client.PaymentIntent.
+		Query().
+		Limit(h.Config.ItemsPerPage + 1).
+		Offset(offset).
+		Order(paymentintent.ByID(sql.OrderDesc())).
+		All(ctx.Request().Context())
+
+	if err != nil {
+		return nil, err
+	}
+
+	list := &EntityList{
+		Columns: []string{
+			"Provider payment intent ID",
+			"Provider",
+			"Status",
+			"Amount",
+			"Currency",
+			"Description",
+			"Metadata",
+			"Created at",
+			"Updated at",
+		},
+		Entities:    make([]EntityValues, 0, len(res)),
+		Page:        page,
+		HasNextPage: len(res) > h.Config.ItemsPerPage,
+	}
+
+	for i := 0; i <= len(res)-1; i++ {
+		list.Entities = append(list.Entities, EntityValues{
+			ID: res[i].ID,
+			Values: []string{
+				res[i].ProviderPaymentIntentID,
+				res[i].Provider,
+				fmt.Sprint(res[i].Status),
+				fmt.Sprint(res[i].Amount),
+				res[i].Currency,
+				res[i].Description,
+				fmt.Sprint(res[i].Metadata),
+				res[i].CreatedAt.Format(h.Config.TimeFormat),
+				res[i].UpdatedAt.Format(h.Config.TimeFormat),
+			},
+		})
+	}
+
+	return list, err
+}
+
+func (h *Handler) PaymentIntentGet(ctx echo.Context, id int) (url.Values, error) {
+	entity, err := h.client.PaymentIntent.Get(ctx.Request().Context(), id)
+	if err != nil {
+		return nil, err
+	}
+
+	v := url.Values{}
+	v.Set("provider_payment_intent_id", entity.ProviderPaymentIntentID)
+	v.Set("provider", entity.Provider)
+	v.Set("status", fmt.Sprint(entity.Status))
+	v.Set("amount", fmt.Sprint(entity.Amount))
+	v.Set("currency", entity.Currency)
+	v.Set("description", entity.Description)
+	v.Set("metadata", fmt.Sprint(entity.Metadata))
+	v.Set("updated_at", entity.UpdatedAt.Format(dateTimeFormat))
+	return v, err
+}
+
+func (h *Handler) PaymentMethodCreate(ctx echo.Context) error {
+	var payload PaymentMethod
+	if err := h.bind(ctx, &payload); err != nil {
+		return err
+	}
+
+	op := h.client.PaymentMethod.Create()
+	op.SetProviderPaymentMethodID(payload.ProviderPaymentMethodID)
+	if payload.Provider != nil {
+		op.SetProvider(*payload.Provider)
+	}
+	if payload.Type != nil {
+		op.SetType(*payload.Type)
+	}
+	if payload.LastFour != nil {
+		op.SetLastFour(*payload.LastFour)
+	}
+	if payload.Brand != nil {
+		op.SetBrand(*payload.Brand)
+	}
+	if payload.ExpMonth != nil {
+		op.SetExpMonth(*payload.ExpMonth)
+	}
+	if payload.ExpYear != nil {
+		op.SetExpYear(*payload.ExpYear)
+	}
+	op.SetIsDefault(payload.IsDefault)
+	if payload.Metadata != nil {
+		op.SetMetadata(*payload.Metadata)
+	}
+	if payload.CreatedAt != nil {
+		op.SetCreatedAt(*payload.CreatedAt)
+	}
+	if payload.UpdatedAt != nil {
+		op.SetUpdatedAt(*payload.UpdatedAt)
+	}
+	_, err := op.Save(ctx.Request().Context())
+	return err
+}
+
+func (h *Handler) PaymentMethodUpdate(ctx echo.Context, id int) error {
+	entity, err := h.client.PaymentMethod.Get(ctx.Request().Context(), id)
+	if err != nil {
+		return err
+	}
+
+	var payload PaymentMethod
+	if err = h.bind(ctx, &payload); err != nil {
+		return err
+	}
+
+	op := entity.Update()
+	op.SetProviderPaymentMethodID(payload.ProviderPaymentMethodID)
+	if payload.Provider == nil {
+		var empty string
+		op.SetProvider(empty)
+	} else {
+		op.SetProvider(*payload.Provider)
+	}
+	if payload.Type == nil {
+		var empty paymentmethod.Type
+		op.SetType(empty)
+	} else {
+		op.SetType(*payload.Type)
+	}
+	if payload.LastFour == nil {
+		op.ClearLastFour()
+	} else {
+		op.SetLastFour(*payload.LastFour)
+	}
+	if payload.Brand == nil {
+		op.ClearBrand()
+	} else {
+		op.SetBrand(*payload.Brand)
+	}
+	if payload.ExpMonth == nil {
+		op.ClearExpMonth()
+	} else {
+		op.SetExpMonth(*payload.ExpMonth)
+	}
+	if payload.ExpYear == nil {
+		op.ClearExpYear()
+	} else {
+		op.SetExpYear(*payload.ExpYear)
+	}
+	op.SetIsDefault(payload.IsDefault)
+	if payload.Metadata == nil {
+		op.ClearMetadata()
+	} else {
+		op.SetMetadata(*payload.Metadata)
+	}
+	if payload.UpdatedAt == nil {
+		var empty time.Time
+		op.SetUpdatedAt(empty)
+	} else {
+		op.SetUpdatedAt(*payload.UpdatedAt)
+	}
+	_, err = op.Save(ctx.Request().Context())
+	return err
+}
+
+func (h *Handler) PaymentMethodDelete(ctx echo.Context, id int) error {
+	return h.client.PaymentMethod.DeleteOneID(id).
+		Exec(ctx.Request().Context())
+}
+
+func (h *Handler) PaymentMethodList(ctx echo.Context) (*EntityList, error) {
+	page, offset := h.getPageAndOffset(ctx)
+	res, err := h.client.PaymentMethod.
+		Query().
+		Limit(h.Config.ItemsPerPage + 1).
+		Offset(offset).
+		Order(paymentmethod.ByID(sql.OrderDesc())).
+		All(ctx.Request().Context())
+
+	if err != nil {
+		return nil, err
+	}
+
+	list := &EntityList{
+		Columns: []string{
+			"Provider payment method ID",
+			"Provider",
+			"Type",
+			"Last four",
+			"Brand",
+			"Exp month",
+			"Exp year",
+			"Is default",
+			"Metadata",
+			"Created at",
+			"Updated at",
+		},
+		Entities:    make([]EntityValues, 0, len(res)),
+		Page:        page,
+		HasNextPage: len(res) > h.Config.ItemsPerPage,
+	}
+
+	for i := 0; i <= len(res)-1; i++ {
+		list.Entities = append(list.Entities, EntityValues{
+			ID: res[i].ID,
+			Values: []string{
+				res[i].ProviderPaymentMethodID,
+				res[i].Provider,
+				fmt.Sprint(res[i].Type),
+				res[i].LastFour,
+				res[i].Brand,
+				fmt.Sprint(res[i].ExpMonth),
+				fmt.Sprint(res[i].ExpYear),
+				fmt.Sprint(res[i].IsDefault),
+				fmt.Sprint(res[i].Metadata),
+				res[i].CreatedAt.Format(h.Config.TimeFormat),
+				res[i].UpdatedAt.Format(h.Config.TimeFormat),
+			},
+		})
+	}
+
+	return list, err
+}
+
+func (h *Handler) PaymentMethodGet(ctx echo.Context, id int) (url.Values, error) {
+	entity, err := h.client.PaymentMethod.Get(ctx.Request().Context(), id)
+	if err != nil {
+		return nil, err
+	}
+
+	v := url.Values{}
+	v.Set("provider_payment_method_id", entity.ProviderPaymentMethodID)
+	v.Set("provider", entity.Provider)
+	v.Set("type", fmt.Sprint(entity.Type))
+	v.Set("last_four", entity.LastFour)
+	v.Set("brand", entity.Brand)
+	v.Set("exp_month", fmt.Sprint(entity.ExpMonth))
+	v.Set("exp_year", fmt.Sprint(entity.ExpYear))
+	v.Set("is_default", fmt.Sprint(entity.IsDefault))
+	v.Set("metadata", fmt.Sprint(entity.Metadata))
+	v.Set("updated_at", entity.UpdatedAt.Format(dateTimeFormat))
+	return v, err
+}
+
+func (h *Handler) SubscriptionCreate(ctx echo.Context) error {
+	var payload Subscription
+	if err := h.bind(ctx, &payload); err != nil {
+		return err
+	}
+
+	op := h.client.Subscription.Create()
+	op.SetProviderSubscriptionID(payload.ProviderSubscriptionID)
+	if payload.Provider != nil {
+		op.SetProvider(*payload.Provider)
+	}
+	if payload.Status != nil {
+		op.SetStatus(*payload.Status)
+	}
+	op.SetPriceID(payload.PriceID)
+	op.SetAmount(payload.Amount)
+	if payload.Currency != nil {
+		op.SetCurrency(*payload.Currency)
+	}
+	op.SetInterval(payload.Interval)
+	if payload.IntervalCount != nil {
+		op.SetIntervalCount(*payload.IntervalCount)
+	}
+	if payload.CurrentPeriodStart != nil {
+		op.SetCurrentPeriodStart(*payload.CurrentPeriodStart)
+	}
+	if payload.CurrentPeriodEnd != nil {
+		op.SetCurrentPeriodEnd(*payload.CurrentPeriodEnd)
+	}
+	if payload.TrialStart != nil {
+		op.SetTrialStart(*payload.TrialStart)
+	}
+	if payload.TrialEnd != nil {
+		op.SetTrialEnd(*payload.TrialEnd)
+	}
+	if payload.CanceledAt != nil {
+		op.SetCanceledAt(*payload.CanceledAt)
+	}
+	if payload.EndedAt != nil {
+		op.SetEndedAt(*payload.EndedAt)
+	}
+	if payload.Metadata != nil {
+		op.SetMetadata(*payload.Metadata)
+	}
+	if payload.CreatedAt != nil {
+		op.SetCreatedAt(*payload.CreatedAt)
+	}
+	if payload.UpdatedAt != nil {
+		op.SetUpdatedAt(*payload.UpdatedAt)
+	}
+	_, err := op.Save(ctx.Request().Context())
+	return err
+}
+
+func (h *Handler) SubscriptionUpdate(ctx echo.Context, id int) error {
+	entity, err := h.client.Subscription.Get(ctx.Request().Context(), id)
+	if err != nil {
+		return err
+	}
+
+	var payload Subscription
+	if err = h.bind(ctx, &payload); err != nil {
+		return err
+	}
+
+	op := entity.Update()
+	op.SetProviderSubscriptionID(payload.ProviderSubscriptionID)
+	if payload.Provider == nil {
+		var empty string
+		op.SetProvider(empty)
+	} else {
+		op.SetProvider(*payload.Provider)
+	}
+	if payload.Status == nil {
+		var empty subscription.Status
+		op.SetStatus(empty)
+	} else {
+		op.SetStatus(*payload.Status)
+	}
+	op.SetPriceID(payload.PriceID)
+	op.SetAmount(payload.Amount)
+	if payload.Currency == nil {
+		var empty string
+		op.SetCurrency(empty)
+	} else {
+		op.SetCurrency(*payload.Currency)
+	}
+	op.SetInterval(payload.Interval)
+	if payload.IntervalCount == nil {
+		var empty int
+		op.SetIntervalCount(empty)
+	} else {
+		op.SetIntervalCount(*payload.IntervalCount)
+	}
+	if payload.CurrentPeriodStart == nil {
+		op.ClearCurrentPeriodStart()
+	} else {
+		op.SetCurrentPeriodStart(*payload.CurrentPeriodStart)
+	}
+	if payload.CurrentPeriodEnd == nil {
+		op.ClearCurrentPeriodEnd()
+	} else {
+		op.SetCurrentPeriodEnd(*payload.CurrentPeriodEnd)
+	}
+	if payload.TrialStart == nil {
+		op.ClearTrialStart()
+	} else {
+		op.SetTrialStart(*payload.TrialStart)
+	}
+	if payload.TrialEnd == nil {
+		op.ClearTrialEnd()
+	} else {
+		op.SetTrialEnd(*payload.TrialEnd)
+	}
+	if payload.CanceledAt == nil {
+		op.ClearCanceledAt()
+	} else {
+		op.SetCanceledAt(*payload.CanceledAt)
+	}
+	if payload.EndedAt == nil {
+		op.ClearEndedAt()
+	} else {
+		op.SetEndedAt(*payload.EndedAt)
+	}
+	if payload.Metadata == nil {
+		op.ClearMetadata()
+	} else {
+		op.SetMetadata(*payload.Metadata)
+	}
+	if payload.UpdatedAt == nil {
+		var empty time.Time
+		op.SetUpdatedAt(empty)
+	} else {
+		op.SetUpdatedAt(*payload.UpdatedAt)
+	}
+	_, err = op.Save(ctx.Request().Context())
+	return err
+}
+
+func (h *Handler) SubscriptionDelete(ctx echo.Context, id int) error {
+	return h.client.Subscription.DeleteOneID(id).
+		Exec(ctx.Request().Context())
+}
+
+func (h *Handler) SubscriptionList(ctx echo.Context) (*EntityList, error) {
+	page, offset := h.getPageAndOffset(ctx)
+	res, err := h.client.Subscription.
+		Query().
+		Limit(h.Config.ItemsPerPage + 1).
+		Offset(offset).
+		Order(subscription.ByID(sql.OrderDesc())).
+		All(ctx.Request().Context())
+
+	if err != nil {
+		return nil, err
+	}
+
+	list := &EntityList{
+		Columns: []string{
+			"Provider subscription ID",
+			"Provider",
+			"Status",
+			"Price ID",
+			"Amount",
+			"Currency",
+			"Interval",
+			"Interval count",
+			"Current period start",
+			"Current period end",
+			"Trial start",
+			"Trial end",
+			"Canceled at",
+			"Ended at",
+			"Metadata",
+			"Created at",
+			"Updated at",
+		},
+		Entities:    make([]EntityValues, 0, len(res)),
+		Page:        page,
+		HasNextPage: len(res) > h.Config.ItemsPerPage,
+	}
+
+	for i := 0; i <= len(res)-1; i++ {
+		list.Entities = append(list.Entities, EntityValues{
+			ID: res[i].ID,
+			Values: []string{
+				res[i].ProviderSubscriptionID,
+				res[i].Provider,
+				fmt.Sprint(res[i].Status),
+				res[i].PriceID,
+				fmt.Sprint(res[i].Amount),
+				res[i].Currency,
+				fmt.Sprint(res[i].Interval),
+				fmt.Sprint(res[i].IntervalCount),
+				res[i].CurrentPeriodStart.Format(h.Config.TimeFormat),
+				res[i].CurrentPeriodEnd.Format(h.Config.TimeFormat),
+				res[i].TrialStart.Format(h.Config.TimeFormat),
+				res[i].TrialEnd.Format(h.Config.TimeFormat),
+				res[i].CanceledAt.Format(h.Config.TimeFormat),
+				res[i].EndedAt.Format(h.Config.TimeFormat),
+				fmt.Sprint(res[i].Metadata),
+				res[i].CreatedAt.Format(h.Config.TimeFormat),
+				res[i].UpdatedAt.Format(h.Config.TimeFormat),
+			},
+		})
+	}
+
+	return list, err
+}
+
+func (h *Handler) SubscriptionGet(ctx echo.Context, id int) (url.Values, error) {
+	entity, err := h.client.Subscription.Get(ctx.Request().Context(), id)
+	if err != nil {
+		return nil, err
+	}
+
+	v := url.Values{}
+	v.Set("provider_subscription_id", entity.ProviderSubscriptionID)
+	v.Set("provider", entity.Provider)
+	v.Set("status", fmt.Sprint(entity.Status))
+	v.Set("price_id", entity.PriceID)
+	v.Set("amount", fmt.Sprint(entity.Amount))
+	v.Set("currency", entity.Currency)
+	v.Set("interval", fmt.Sprint(entity.Interval))
+	v.Set("interval_count", fmt.Sprint(entity.IntervalCount))
+	v.Set("current_period_start", entity.CurrentPeriodStart.Format(dateTimeFormat))
+	v.Set("current_period_end", entity.CurrentPeriodEnd.Format(dateTimeFormat))
+	v.Set("trial_start", entity.TrialStart.Format(dateTimeFormat))
+	v.Set("trial_end", entity.TrialEnd.Format(dateTimeFormat))
+	v.Set("canceled_at", entity.CanceledAt.Format(dateTimeFormat))
+	v.Set("ended_at", entity.EndedAt.Format(dateTimeFormat))
+	v.Set("metadata", fmt.Sprint(entity.Metadata))
+	v.Set("updated_at", entity.UpdatedAt.Format(dateTimeFormat))
 	return v, err
 }
 

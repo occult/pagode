@@ -50,6 +50,9 @@ func (User) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.From("owner", PasswordToken.Type).
 			Ref("user"),
+		edge.From("payment_customer", PaymentCustomer.Type).
+			Ref("user").
+			Unique(),
 	}
 }
 

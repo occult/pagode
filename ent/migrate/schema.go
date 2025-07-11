@@ -29,6 +29,118 @@ var (
 			},
 		},
 	}
+	// PaymentCustomersColumns holds the columns for the "payment_customers" table.
+	PaymentCustomersColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "provider_customer_id", Type: field.TypeString},
+		{Name: "provider", Type: field.TypeString, Default: "stripe"},
+		{Name: "email", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString, Nullable: true},
+		{Name: "metadata", Type: field.TypeJSON, Nullable: true},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "updated_at", Type: field.TypeTime},
+	}
+	// PaymentCustomersTable holds the schema information for the "payment_customers" table.
+	PaymentCustomersTable = &schema.Table{
+		Name:       "payment_customers",
+		Columns:    PaymentCustomersColumns,
+		PrimaryKey: []*schema.Column{PaymentCustomersColumns[0]},
+	}
+	// PaymentIntentsColumns holds the columns for the "payment_intents" table.
+	PaymentIntentsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "provider_payment_intent_id", Type: field.TypeString, Unique: true},
+		{Name: "provider", Type: field.TypeString, Default: "stripe"},
+		{Name: "status", Type: field.TypeEnum, Enums: []string{"requires_payment_method", "requires_confirmation", "requires_action", "processing", "requires_capture", "canceled", "succeeded"}, Default: "requires_payment_method"},
+		{Name: "amount", Type: field.TypeInt64},
+		{Name: "currency", Type: field.TypeString, Default: "usd"},
+		{Name: "description", Type: field.TypeString, Nullable: true},
+		{Name: "client_secret", Type: field.TypeString, Nullable: true},
+		{Name: "metadata", Type: field.TypeJSON, Nullable: true},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "updated_at", Type: field.TypeTime},
+		{Name: "payment_customer_payment_intents", Type: field.TypeInt},
+	}
+	// PaymentIntentsTable holds the schema information for the "payment_intents" table.
+	PaymentIntentsTable = &schema.Table{
+		Name:       "payment_intents",
+		Columns:    PaymentIntentsColumns,
+		PrimaryKey: []*schema.Column{PaymentIntentsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "payment_intents_payment_customers_payment_intents",
+				Columns:    []*schema.Column{PaymentIntentsColumns[11]},
+				RefColumns: []*schema.Column{PaymentCustomersColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+		},
+	}
+	// PaymentMethodsColumns holds the columns for the "payment_methods" table.
+	PaymentMethodsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "provider_payment_method_id", Type: field.TypeString, Unique: true},
+		{Name: "provider", Type: field.TypeString, Default: "stripe"},
+		{Name: "type", Type: field.TypeEnum, Enums: []string{"card", "bank_account", "wallet"}, Default: "card"},
+		{Name: "last_four", Type: field.TypeString, Nullable: true},
+		{Name: "brand", Type: field.TypeString, Nullable: true},
+		{Name: "exp_month", Type: field.TypeInt, Nullable: true},
+		{Name: "exp_year", Type: field.TypeInt, Nullable: true},
+		{Name: "is_default", Type: field.TypeBool, Default: false},
+		{Name: "metadata", Type: field.TypeJSON, Nullable: true},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "updated_at", Type: field.TypeTime},
+		{Name: "payment_customer_payment_methods", Type: field.TypeInt},
+	}
+	// PaymentMethodsTable holds the schema information for the "payment_methods" table.
+	PaymentMethodsTable = &schema.Table{
+		Name:       "payment_methods",
+		Columns:    PaymentMethodsColumns,
+		PrimaryKey: []*schema.Column{PaymentMethodsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "payment_methods_payment_customers_payment_methods",
+				Columns:    []*schema.Column{PaymentMethodsColumns[12]},
+				RefColumns: []*schema.Column{PaymentCustomersColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+		},
+	}
+	// SubscriptionsColumns holds the columns for the "subscriptions" table.
+	SubscriptionsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "provider_subscription_id", Type: field.TypeString, Unique: true},
+		{Name: "provider", Type: field.TypeString, Default: "stripe"},
+		{Name: "status", Type: field.TypeEnum, Enums: []string{"incomplete", "incomplete_expired", "trialing", "active", "past_due", "canceled", "unpaid", "paused"}, Default: "incomplete"},
+		{Name: "price_id", Type: field.TypeString},
+		{Name: "amount", Type: field.TypeInt64},
+		{Name: "currency", Type: field.TypeString, Default: "usd"},
+		{Name: "interval", Type: field.TypeEnum, Enums: []string{"day", "week", "month", "year"}},
+		{Name: "interval_count", Type: field.TypeInt, Default: 1},
+		{Name: "current_period_start", Type: field.TypeTime, Nullable: true},
+		{Name: "current_period_end", Type: field.TypeTime, Nullable: true},
+		{Name: "trial_start", Type: field.TypeTime, Nullable: true},
+		{Name: "trial_end", Type: field.TypeTime, Nullable: true},
+		{Name: "canceled_at", Type: field.TypeTime, Nullable: true},
+		{Name: "ended_at", Type: field.TypeTime, Nullable: true},
+		{Name: "metadata", Type: field.TypeJSON, Nullable: true},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "updated_at", Type: field.TypeTime},
+		{Name: "payment_customer_subscriptions", Type: field.TypeInt},
+	}
+	// SubscriptionsTable holds the schema information for the "subscriptions" table.
+	SubscriptionsTable = &schema.Table{
+		Name:       "subscriptions",
+		Columns:    SubscriptionsColumns,
+		PrimaryKey: []*schema.Column{SubscriptionsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "subscriptions_payment_customers_subscriptions",
+				Columns:    []*schema.Column{SubscriptionsColumns[18]},
+				RefColumns: []*schema.Column{PaymentCustomersColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+		},
+	}
 	// UsersColumns holds the columns for the "users" table.
 	UsersColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
@@ -38,20 +150,37 @@ var (
 		{Name: "verified", Type: field.TypeBool, Default: false},
 		{Name: "admin", Type: field.TypeBool, Default: false},
 		{Name: "created_at", Type: field.TypeTime},
+		{Name: "payment_customer_user", Type: field.TypeInt, Unique: true, Nullable: true},
 	}
 	// UsersTable holds the schema information for the "users" table.
 	UsersTable = &schema.Table{
 		Name:       "users",
 		Columns:    UsersColumns,
 		PrimaryKey: []*schema.Column{UsersColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "users_payment_customers_user",
+				Columns:    []*schema.Column{UsersColumns[7]},
+				RefColumns: []*schema.Column{PaymentCustomersColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+		},
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
 		PasswordTokensTable,
+		PaymentCustomersTable,
+		PaymentIntentsTable,
+		PaymentMethodsTable,
+		SubscriptionsTable,
 		UsersTable,
 	}
 )
 
 func init() {
 	PasswordTokensTable.ForeignKeys[0].RefTable = UsersTable
+	PaymentIntentsTable.ForeignKeys[0].RefTable = PaymentCustomersTable
+	PaymentMethodsTable.ForeignKeys[0].RefTable = PaymentCustomersTable
+	SubscriptionsTable.ForeignKeys[0].RefTable = PaymentCustomersTable
+	UsersTable.ForeignKeys[0].RefTable = PaymentCustomersTable
 }

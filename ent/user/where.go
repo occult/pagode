@@ -363,6 +363,29 @@ func HasOwnerWith(preds ...predicate.PasswordToken) predicate.User {
 	})
 }
 
+// HasPaymentCustomer applies the HasEdge predicate on the "payment_customer" edge.
+func HasPaymentCustomer() predicate.User {
+	return predicate.User(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.Edge(sqlgraph.O2O, true, PaymentCustomerTable, PaymentCustomerColumn),
+		)
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasPaymentCustomerWith applies the HasEdge predicate on the "payment_customer" edge with a given conditions (other predicates).
+func HasPaymentCustomerWith(preds ...predicate.PaymentCustomer) predicate.User {
+	return predicate.User(func(s *sql.Selector) {
+		step := newPaymentCustomerStep()
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
+}
+
 // And groups predicates with the AND operator between them.
 func And(predicates ...predicate.User) predicate.User {
 	return predicate.User(sql.AndPredicates(predicates...))

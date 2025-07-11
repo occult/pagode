@@ -16,6 +16,10 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"github.com/occult/pagode/ent/passwordtoken"
+	"github.com/occult/pagode/ent/paymentcustomer"
+	"github.com/occult/pagode/ent/paymentintent"
+	"github.com/occult/pagode/ent/paymentmethod"
+	"github.com/occult/pagode/ent/subscription"
 	"github.com/occult/pagode/ent/user"
 )
 
@@ -26,6 +30,14 @@ type Client struct {
 	Schema *migrate.Schema
 	// PasswordToken is the client for interacting with the PasswordToken builders.
 	PasswordToken *PasswordTokenClient
+	// PaymentCustomer is the client for interacting with the PaymentCustomer builders.
+	PaymentCustomer *PaymentCustomerClient
+	// PaymentIntent is the client for interacting with the PaymentIntent builders.
+	PaymentIntent *PaymentIntentClient
+	// PaymentMethod is the client for interacting with the PaymentMethod builders.
+	PaymentMethod *PaymentMethodClient
+	// Subscription is the client for interacting with the Subscription builders.
+	Subscription *SubscriptionClient
 	// User is the client for interacting with the User builders.
 	User *UserClient
 }
@@ -40,6 +52,10 @@ func NewClient(opts ...Option) *Client {
 func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
 	c.PasswordToken = NewPasswordTokenClient(c.config)
+	c.PaymentCustomer = NewPaymentCustomerClient(c.config)
+	c.PaymentIntent = NewPaymentIntentClient(c.config)
+	c.PaymentMethod = NewPaymentMethodClient(c.config)
+	c.Subscription = NewSubscriptionClient(c.config)
 	c.User = NewUserClient(c.config)
 }
 
@@ -131,10 +147,14 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 	cfg := c.config
 	cfg.driver = tx
 	return &Tx{
-		ctx:           ctx,
-		config:        cfg,
-		PasswordToken: NewPasswordTokenClient(cfg),
-		User:          NewUserClient(cfg),
+		ctx:             ctx,
+		config:          cfg,
+		PasswordToken:   NewPasswordTokenClient(cfg),
+		PaymentCustomer: NewPaymentCustomerClient(cfg),
+		PaymentIntent:   NewPaymentIntentClient(cfg),
+		PaymentMethod:   NewPaymentMethodClient(cfg),
+		Subscription:    NewSubscriptionClient(cfg),
+		User:            NewUserClient(cfg),
 	}, nil
 }
 
@@ -152,10 +172,14 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 	cfg := c.config
 	cfg.driver = &txDriver{tx: tx, drv: c.driver}
 	return &Tx{
-		ctx:           ctx,
-		config:        cfg,
-		PasswordToken: NewPasswordTokenClient(cfg),
-		User:          NewUserClient(cfg),
+		ctx:             ctx,
+		config:          cfg,
+		PasswordToken:   NewPasswordTokenClient(cfg),
+		PaymentCustomer: NewPaymentCustomerClient(cfg),
+		PaymentIntent:   NewPaymentIntentClient(cfg),
+		PaymentMethod:   NewPaymentMethodClient(cfg),
+		Subscription:    NewSubscriptionClient(cfg),
+		User:            NewUserClient(cfg),
 	}, nil
 }
 
@@ -184,15 +208,23 @@ func (c *Client) Close() error {
 // Use adds the mutation hooks to all the entity clients.
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
-	c.PasswordToken.Use(hooks...)
-	c.User.Use(hooks...)
+	for _, n := range []interface{ Use(...Hook) }{
+		c.PasswordToken, c.PaymentCustomer, c.PaymentIntent, c.PaymentMethod,
+		c.Subscription, c.User,
+	} {
+		n.Use(hooks...)
+	}
 }
 
 // Intercept adds the query interceptors to all the entity clients.
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
-	c.PasswordToken.Intercept(interceptors...)
-	c.User.Intercept(interceptors...)
+	for _, n := range []interface{ Intercept(...Interceptor) }{
+		c.PasswordToken, c.PaymentCustomer, c.PaymentIntent, c.PaymentMethod,
+		c.Subscription, c.User,
+	} {
+		n.Intercept(interceptors...)
+	}
 }
 
 // Mutate implements the ent.Mutator interface.
@@ -200,6 +232,14 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 	switch m := m.(type) {
 	case *PasswordTokenMutation:
 		return c.PasswordToken.mutate(ctx, m)
+	case *PaymentCustomerMutation:
+		return c.PaymentCustomer.mutate(ctx, m)
+	case *PaymentIntentMutation:
+		return c.PaymentIntent.mutate(ctx, m)
+	case *PaymentMethodMutation:
+		return c.PaymentMethod.mutate(ctx, m)
+	case *SubscriptionMutation:
+		return c.Subscription.mutate(ctx, m)
 	case *UserMutation:
 		return c.User.mutate(ctx, m)
 	default:
@@ -357,6 +397,650 @@ func (c *PasswordTokenClient) mutate(ctx context.Context, m *PasswordTokenMutati
 	}
 }
 
+// PaymentCustomerClient is a client for the PaymentCustomer schema.
+type PaymentCustomerClient struct {
+	config
+}
+
+// NewPaymentCustomerClient returns a client for the PaymentCustomer from the given config.
+func NewPaymentCustomerClient(c config) *PaymentCustomerClient {
+	return &PaymentCustomerClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `paymentcustomer.Hooks(f(g(h())))`.
+func (c *PaymentCustomerClient) Use(hooks ...Hook) {
+	c.hooks.PaymentCustomer = append(c.hooks.PaymentCustomer, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `paymentcustomer.Intercept(f(g(h())))`.
+func (c *PaymentCustomerClient) Intercept(interceptors ...Interceptor) {
+	c.inters.PaymentCustomer = append(c.inters.PaymentCustomer, interceptors...)
+}
+
+// Create returns a builder for creating a PaymentCustomer entity.
+func (c *PaymentCustomerClient) Create() *PaymentCustomerCreate {
+	mutation := newPaymentCustomerMutation(c.config, OpCreate)
+	return &PaymentCustomerCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of PaymentCustomer entities.
+func (c *PaymentCustomerClient) CreateBulk(builders ...*PaymentCustomerCreate) *PaymentCustomerCreateBulk {
+	return &PaymentCustomerCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *PaymentCustomerClient) MapCreateBulk(slice any, setFunc func(*PaymentCustomerCreate, int)) *PaymentCustomerCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &PaymentCustomerCreateBulk{err: fmt.Errorf("calling to PaymentCustomerClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*PaymentCustomerCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &PaymentCustomerCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for PaymentCustomer.
+func (c *PaymentCustomerClient) Update() *PaymentCustomerUpdate {
+	mutation := newPaymentCustomerMutation(c.config, OpUpdate)
+	return &PaymentCustomerUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *PaymentCustomerClient) UpdateOne(pc *PaymentCustomer) *PaymentCustomerUpdateOne {
+	mutation := newPaymentCustomerMutation(c.config, OpUpdateOne, withPaymentCustomer(pc))
+	return &PaymentCustomerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *PaymentCustomerClient) UpdateOneID(id int) *PaymentCustomerUpdateOne {
+	mutation := newPaymentCustomerMutation(c.config, OpUpdateOne, withPaymentCustomerID(id))
+	return &PaymentCustomerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for PaymentCustomer.
+func (c *PaymentCustomerClient) Delete() *PaymentCustomerDelete {
+	mutation := newPaymentCustomerMutation(c.config, OpDelete)
+	return &PaymentCustomerDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *PaymentCustomerClient) DeleteOne(pc *PaymentCustomer) *PaymentCustomerDeleteOne {
+	return c.DeleteOneID(pc.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *PaymentCustomerClient) DeleteOneID(id int) *PaymentCustomerDeleteOne {
+	builder := c.Delete().Where(paymentcustomer.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &PaymentCustomerDeleteOne{builder}
+}
+
+// Query returns a query builder for PaymentCustomer.
+func (c *PaymentCustomerClient) Query() *PaymentCustomerQuery {
+	return &PaymentCustomerQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypePaymentCustomer},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a PaymentCustomer entity by its id.
+func (c *PaymentCustomerClient) Get(ctx context.Context, id int) (*PaymentCustomer, error) {
+	return c.Query().Where(paymentcustomer.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *PaymentCustomerClient) GetX(ctx context.Context, id int) *PaymentCustomer {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryUser queries the user edge of a PaymentCustomer.
+func (c *PaymentCustomerClient) QueryUser(pc *PaymentCustomer) *UserQuery {
+	query := (&UserClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := pc.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(paymentcustomer.Table, paymentcustomer.FieldID, id),
+			sqlgraph.To(user.Table, user.FieldID),
+			sqlgraph.Edge(sqlgraph.O2O, false, paymentcustomer.UserTable, paymentcustomer.UserColumn),
+		)
+		fromV = sqlgraph.Neighbors(pc.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryPaymentIntents queries the payment_intents edge of a PaymentCustomer.
+func (c *PaymentCustomerClient) QueryPaymentIntents(pc *PaymentCustomer) *PaymentIntentQuery {
+	query := (&PaymentIntentClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := pc.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(paymentcustomer.Table, paymentcustomer.FieldID, id),
+			sqlgraph.To(paymentintent.Table, paymentintent.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, paymentcustomer.PaymentIntentsTable, paymentcustomer.PaymentIntentsColumn),
+		)
+		fromV = sqlgraph.Neighbors(pc.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QuerySubscriptions queries the subscriptions edge of a PaymentCustomer.
+func (c *PaymentCustomerClient) QuerySubscriptions(pc *PaymentCustomer) *SubscriptionQuery {
+	query := (&SubscriptionClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := pc.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(paymentcustomer.Table, paymentcustomer.FieldID, id),
+			sqlgraph.To(subscription.Table, subscription.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, paymentcustomer.SubscriptionsTable, paymentcustomer.SubscriptionsColumn),
+		)
+		fromV = sqlgraph.Neighbors(pc.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryPaymentMethods queries the payment_methods edge of a PaymentCustomer.
+func (c *PaymentCustomerClient) QueryPaymentMethods(pc *PaymentCustomer) *PaymentMethodQuery {
+	query := (&PaymentMethodClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := pc.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(paymentcustomer.Table, paymentcustomer.FieldID, id),
+			sqlgraph.To(paymentmethod.Table, paymentmethod.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, paymentcustomer.PaymentMethodsTable, paymentcustomer.PaymentMethodsColumn),
+		)
+		fromV = sqlgraph.Neighbors(pc.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *PaymentCustomerClient) Hooks() []Hook {
+	return c.hooks.PaymentCustomer
+}
+
+// Interceptors returns the client interceptors.
+func (c *PaymentCustomerClient) Interceptors() []Interceptor {
+	return c.inters.PaymentCustomer
+}
+
+func (c *PaymentCustomerClient) mutate(ctx context.Context, m *PaymentCustomerMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&PaymentCustomerCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&PaymentCustomerUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&PaymentCustomerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&PaymentCustomerDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown PaymentCustomer mutation op: %q", m.Op())
+	}
+}
+
+// PaymentIntentClient is a client for the PaymentIntent schema.
+type PaymentIntentClient struct {
+	config
+}
+
+// NewPaymentIntentClient returns a client for the PaymentIntent from the given config.
+func NewPaymentIntentClient(c config) *PaymentIntentClient {
+	return &PaymentIntentClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `paymentintent.Hooks(f(g(h())))`.
+func (c *PaymentIntentClient) Use(hooks ...Hook) {
+	c.hooks.PaymentIntent = append(c.hooks.PaymentIntent, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `paymentintent.Intercept(f(g(h())))`.
+func (c *PaymentIntentClient) Intercept(interceptors ...Interceptor) {
+	c.inters.PaymentIntent = append(c.inters.PaymentIntent, interceptors...)
+}
+
+// Create returns a builder for creating a PaymentIntent entity.
+func (c *PaymentIntentClient) Create() *PaymentIntentCreate {
+	mutation := newPaymentIntentMutation(c.config, OpCreate)
+	return &PaymentIntentCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of PaymentIntent entities.
+func (c *PaymentIntentClient) CreateBulk(builders ...*PaymentIntentCreate) *PaymentIntentCreateBulk {
+	return &PaymentIntentCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *PaymentIntentClient) MapCreateBulk(slice any, setFunc func(*PaymentIntentCreate, int)) *PaymentIntentCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &PaymentIntentCreateBulk{err: fmt.Errorf("calling to PaymentIntentClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*PaymentIntentCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &PaymentIntentCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for PaymentIntent.
+func (c *PaymentIntentClient) Update() *PaymentIntentUpdate {
+	mutation := newPaymentIntentMutation(c.config, OpUpdate)
+	return &PaymentIntentUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *PaymentIntentClient) UpdateOne(pi *PaymentIntent) *PaymentIntentUpdateOne {
+	mutation := newPaymentIntentMutation(c.config, OpUpdateOne, withPaymentIntent(pi))
+	return &PaymentIntentUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *PaymentIntentClient) UpdateOneID(id int) *PaymentIntentUpdateOne {
+	mutation := newPaymentIntentMutation(c.config, OpUpdateOne, withPaymentIntentID(id))
+	return &PaymentIntentUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for PaymentIntent.
+func (c *PaymentIntentClient) Delete() *PaymentIntentDelete {
+	mutation := newPaymentIntentMutation(c.config, OpDelete)
+	return &PaymentIntentDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *PaymentIntentClient) DeleteOne(pi *PaymentIntent) *PaymentIntentDeleteOne {
+	return c.DeleteOneID(pi.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *PaymentIntentClient) DeleteOneID(id int) *PaymentIntentDeleteOne {
+	builder := c.Delete().Where(paymentintent.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &PaymentIntentDeleteOne{builder}
+}
+
+// Query returns a query builder for PaymentIntent.
+func (c *PaymentIntentClient) Query() *PaymentIntentQuery {
+	return &PaymentIntentQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypePaymentIntent},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a PaymentIntent entity by its id.
+func (c *PaymentIntentClient) Get(ctx context.Context, id int) (*PaymentIntent, error) {
+	return c.Query().Where(paymentintent.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *PaymentIntentClient) GetX(ctx context.Context, id int) *PaymentIntent {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryCustomer queries the customer edge of a PaymentIntent.
+func (c *PaymentIntentClient) QueryCustomer(pi *PaymentIntent) *PaymentCustomerQuery {
+	query := (&PaymentCustomerClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := pi.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(paymentintent.Table, paymentintent.FieldID, id),
+			sqlgraph.To(paymentcustomer.Table, paymentcustomer.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, paymentintent.CustomerTable, paymentintent.CustomerColumn),
+		)
+		fromV = sqlgraph.Neighbors(pi.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *PaymentIntentClient) Hooks() []Hook {
+	return c.hooks.PaymentIntent
+}
+
+// Interceptors returns the client interceptors.
+func (c *PaymentIntentClient) Interceptors() []Interceptor {
+	return c.inters.PaymentIntent
+}
+
+func (c *PaymentIntentClient) mutate(ctx context.Context, m *PaymentIntentMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&PaymentIntentCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&PaymentIntentUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&PaymentIntentUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&PaymentIntentDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown PaymentIntent mutation op: %q", m.Op())
+	}
+}
+
+// PaymentMethodClient is a client for the PaymentMethod schema.
+type PaymentMethodClient struct {
+	config
+}
+
+// NewPaymentMethodClient returns a client for the PaymentMethod from the given config.
+func NewPaymentMethodClient(c config) *PaymentMethodClient {
+	return &PaymentMethodClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `paymentmethod.Hooks(f(g(h())))`.
+func (c *PaymentMethodClient) Use(hooks ...Hook) {
+	c.hooks.PaymentMethod = append(c.hooks.PaymentMethod, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `paymentmethod.Intercept(f(g(h())))`.
+func (c *PaymentMethodClient) Intercept(interceptors ...Interceptor) {
+	c.inters.PaymentMethod = append(c.inters.PaymentMethod, interceptors...)
+}
+
+// Create returns a builder for creating a PaymentMethod entity.
+func (c *PaymentMethodClient) Create() *PaymentMethodCreate {
+	mutation := newPaymentMethodMutation(c.config, OpCreate)
+	return &PaymentMethodCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of PaymentMethod entities.
+func (c *PaymentMethodClient) CreateBulk(builders ...*PaymentMethodCreate) *PaymentMethodCreateBulk {
+	return &PaymentMethodCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *PaymentMethodClient) MapCreateBulk(slice any, setFunc func(*PaymentMethodCreate, int)) *PaymentMethodCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &PaymentMethodCreateBulk{err: fmt.Errorf("calling to PaymentMethodClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*PaymentMethodCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &PaymentMethodCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for PaymentMethod.
+func (c *PaymentMethodClient) Update() *PaymentMethodUpdate {
+	mutation := newPaymentMethodMutation(c.config, OpUpdate)
+	return &PaymentMethodUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *PaymentMethodClient) UpdateOne(pm *PaymentMethod) *PaymentMethodUpdateOne {
+	mutation := newPaymentMethodMutation(c.config, OpUpdateOne, withPaymentMethod(pm))
+	return &PaymentMethodUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *PaymentMethodClient) UpdateOneID(id int) *PaymentMethodUpdateOne {
+	mutation := newPaymentMethodMutation(c.config, OpUpdateOne, withPaymentMethodID(id))
+	return &PaymentMethodUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for PaymentMethod.
+func (c *PaymentMethodClient) Delete() *PaymentMethodDelete {
+	mutation := newPaymentMethodMutation(c.config, OpDelete)
+	return &PaymentMethodDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *PaymentMethodClient) DeleteOne(pm *PaymentMethod) *PaymentMethodDeleteOne {
+	return c.DeleteOneID(pm.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *PaymentMethodClient) DeleteOneID(id int) *PaymentMethodDeleteOne {
+	builder := c.Delete().Where(paymentmethod.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &PaymentMethodDeleteOne{builder}
+}
+
+// Query returns a query builder for PaymentMethod.
+func (c *PaymentMethodClient) Query() *PaymentMethodQuery {
+	return &PaymentMethodQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypePaymentMethod},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a PaymentMethod entity by its id.
+func (c *PaymentMethodClient) Get(ctx context.Context, id int) (*PaymentMethod, error) {
+	return c.Query().Where(paymentmethod.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *PaymentMethodClient) GetX(ctx context.Context, id int) *PaymentMethod {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryCustomer queries the customer edge of a PaymentMethod.
+func (c *PaymentMethodClient) QueryCustomer(pm *PaymentMethod) *PaymentCustomerQuery {
+	query := (&PaymentCustomerClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := pm.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(paymentmethod.Table, paymentmethod.FieldID, id),
+			sqlgraph.To(paymentcustomer.Table, paymentcustomer.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, paymentmethod.CustomerTable, paymentmethod.CustomerColumn),
+		)
+		fromV = sqlgraph.Neighbors(pm.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *PaymentMethodClient) Hooks() []Hook {
+	return c.hooks.PaymentMethod
+}
+
+// Interceptors returns the client interceptors.
+func (c *PaymentMethodClient) Interceptors() []Interceptor {
+	return c.inters.PaymentMethod
+}
+
+func (c *PaymentMethodClient) mutate(ctx context.Context, m *PaymentMethodMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&PaymentMethodCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&PaymentMethodUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&PaymentMethodUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&PaymentMethodDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown PaymentMethod mutation op: %q", m.Op())
+	}
+}
+
+// SubscriptionClient is a client for the Subscription schema.
+type SubscriptionClient struct {
+	config
+}
+
+// NewSubscriptionClient returns a client for the Subscription from the given config.
+func NewSubscriptionClient(c config) *SubscriptionClient {
+	return &SubscriptionClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `subscription.Hooks(f(g(h())))`.
+func (c *SubscriptionClient) Use(hooks ...Hook) {
+	c.hooks.Subscription = append(c.hooks.Subscription, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `subscription.Intercept(f(g(h())))`.
+func (c *SubscriptionClient) Intercept(interceptors ...Interceptor) {
+	c.inters.Subscription = append(c.inters.Subscription, interceptors...)
+}
+
+// Create returns a builder for creating a Subscription entity.
+func (c *SubscriptionClient) Create() *SubscriptionCreate {
+	mutation := newSubscriptionMutation(c.config, OpCreate)
+	return &SubscriptionCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of Subscription entities.
+func (c *SubscriptionClient) CreateBulk(builders ...*SubscriptionCreate) *SubscriptionCreateBulk {
+	return &SubscriptionCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *SubscriptionClient) MapCreateBulk(slice any, setFunc func(*SubscriptionCreate, int)) *SubscriptionCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &SubscriptionCreateBulk{err: fmt.Errorf("calling to SubscriptionClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*SubscriptionCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &SubscriptionCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for Subscription.
+func (c *SubscriptionClient) Update() *SubscriptionUpdate {
+	mutation := newSubscriptionMutation(c.config, OpUpdate)
+	return &SubscriptionUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *SubscriptionClient) UpdateOne(s *Subscription) *SubscriptionUpdateOne {
+	mutation := newSubscriptionMutation(c.config, OpUpdateOne, withSubscription(s))
+	return &SubscriptionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *SubscriptionClient) UpdateOneID(id int) *SubscriptionUpdateOne {
+	mutation := newSubscriptionMutation(c.config, OpUpdateOne, withSubscriptionID(id))
+	return &SubscriptionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for Subscription.
+func (c *SubscriptionClient) Delete() *SubscriptionDelete {
+	mutation := newSubscriptionMutation(c.config, OpDelete)
+	return &SubscriptionDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *SubscriptionClient) DeleteOne(s *Subscription) *SubscriptionDeleteOne {
+	return c.DeleteOneID(s.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *SubscriptionClient) DeleteOneID(id int) *SubscriptionDeleteOne {
+	builder := c.Delete().Where(subscription.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &SubscriptionDeleteOne{builder}
+}
+
+// Query returns a query builder for Subscription.
+func (c *SubscriptionClient) Query() *SubscriptionQuery {
+	return &SubscriptionQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeSubscription},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a Subscription entity by its id.
+func (c *SubscriptionClient) Get(ctx context.Context, id int) (*Subscription, error) {
+	return c.Query().Where(subscription.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *SubscriptionClient) GetX(ctx context.Context, id int) *Subscription {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryCustomer queries the customer edge of a Subscription.
+func (c *SubscriptionClient) QueryCustomer(s *Subscription) *PaymentCustomerQuery {
+	query := (&PaymentCustomerClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := s.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(subscription.Table, subscription.FieldID, id),
+			sqlgraph.To(paymentcustomer.Table, paymentcustomer.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, subscription.CustomerTable, subscription.CustomerColumn),
+		)
+		fromV = sqlgraph.Neighbors(s.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *SubscriptionClient) Hooks() []Hook {
+	return c.hooks.Subscription
+}
+
+// Interceptors returns the client interceptors.
+func (c *SubscriptionClient) Interceptors() []Interceptor {
+	return c.inters.Subscription
+}
+
+func (c *SubscriptionClient) mutate(ctx context.Context, m *SubscriptionMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&SubscriptionCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&SubscriptionUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&SubscriptionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&SubscriptionDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown Subscription mutation op: %q", m.Op())
+	}
+}
+
 // UserClient is a client for the User schema.
 type UserClient struct {
 	config
@@ -481,6 +1165,22 @@ func (c *UserClient) QueryOwner(u *User) *PasswordTokenQuery {
 	return query
 }
 
+// QueryPaymentCustomer queries the payment_customer edge of a User.
+func (c *UserClient) QueryPaymentCustomer(u *User) *PaymentCustomerQuery {
+	query := (&PaymentCustomerClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := u.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(user.Table, user.FieldID, id),
+			sqlgraph.To(paymentcustomer.Table, paymentcustomer.FieldID),
+			sqlgraph.Edge(sqlgraph.O2O, true, user.PaymentCustomerTable, user.PaymentCustomerColumn),
+		)
+		fromV = sqlgraph.Neighbors(u.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
 // Hooks returns the client hooks.
 func (c *UserClient) Hooks() []Hook {
 	hooks := c.hooks.User
@@ -510,9 +1210,11 @@ func (c *UserClient) mutate(ctx context.Context, m *UserMutation) (Value, error)
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		PasswordToken, User []ent.Hook
+		PasswordToken, PaymentCustomer, PaymentIntent, PaymentMethod, Subscription,
+		User []ent.Hook
 	}
 	inters struct {
-		PasswordToken, User []ent.Interceptor
+		PasswordToken, PaymentCustomer, PaymentIntent, PaymentMethod, Subscription,
+		User []ent.Interceptor
 	}
 )

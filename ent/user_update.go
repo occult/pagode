@@ -11,6 +11,7 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/occult/pagode/ent/passwordtoken"
+	"github.com/occult/pagode/ent/paymentcustomer"
 	"github.com/occult/pagode/ent/predicate"
 	"github.com/occult/pagode/ent/user"
 )
@@ -113,6 +114,25 @@ func (uu *UserUpdate) AddOwner(p ...*PasswordToken) *UserUpdate {
 	return uu.AddOwnerIDs(ids...)
 }
 
+// SetPaymentCustomerID sets the "payment_customer" edge to the PaymentCustomer entity by ID.
+func (uu *UserUpdate) SetPaymentCustomerID(id int) *UserUpdate {
+	uu.mutation.SetPaymentCustomerID(id)
+	return uu
+}
+
+// SetNillablePaymentCustomerID sets the "payment_customer" edge to the PaymentCustomer entity by ID if the given value is not nil.
+func (uu *UserUpdate) SetNillablePaymentCustomerID(id *int) *UserUpdate {
+	if id != nil {
+		uu = uu.SetPaymentCustomerID(*id)
+	}
+	return uu
+}
+
+// SetPaymentCustomer sets the "payment_customer" edge to the PaymentCustomer entity.
+func (uu *UserUpdate) SetPaymentCustomer(p *PaymentCustomer) *UserUpdate {
+	return uu.SetPaymentCustomerID(p.ID)
+}
+
 // Mutation returns the UserMutation object of the builder.
 func (uu *UserUpdate) Mutation() *UserMutation {
 	return uu.mutation
@@ -137,6 +157,12 @@ func (uu *UserUpdate) RemoveOwner(p ...*PasswordToken) *UserUpdate {
 		ids[i] = p[i].ID
 	}
 	return uu.RemoveOwnerIDs(ids...)
+}
+
+// ClearPaymentCustomer clears the "payment_customer" edge to the PaymentCustomer entity.
+func (uu *UserUpdate) ClearPaymentCustomer() *UserUpdate {
+	uu.mutation.ClearPaymentCustomer()
+	return uu
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
@@ -258,6 +284,35 @@ func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
+	if uu.mutation.PaymentCustomerCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2O,
+			Inverse: true,
+			Table:   user.PaymentCustomerTable,
+			Columns: []string{user.PaymentCustomerColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(paymentcustomer.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := uu.mutation.PaymentCustomerIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2O,
+			Inverse: true,
+			Table:   user.PaymentCustomerTable,
+			Columns: []string{user.PaymentCustomerColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(paymentcustomer.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
 	if n, err = sqlgraph.UpdateNodes(ctx, uu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{user.Label}
@@ -363,6 +418,25 @@ func (uuo *UserUpdateOne) AddOwner(p ...*PasswordToken) *UserUpdateOne {
 	return uuo.AddOwnerIDs(ids...)
 }
 
+// SetPaymentCustomerID sets the "payment_customer" edge to the PaymentCustomer entity by ID.
+func (uuo *UserUpdateOne) SetPaymentCustomerID(id int) *UserUpdateOne {
+	uuo.mutation.SetPaymentCustomerID(id)
+	return uuo
+}
+
+// SetNillablePaymentCustomerID sets the "payment_customer" edge to the PaymentCustomer entity by ID if the given value is not nil.
+func (uuo *UserUpdateOne) SetNillablePaymentCustomerID(id *int) *UserUpdateOne {
+	if id != nil {
+		uuo = uuo.SetPaymentCustomerID(*id)
+	}
+	return uuo
+}
+
+// SetPaymentCustomer sets the "payment_customer" edge to the PaymentCustomer entity.
+func (uuo *UserUpdateOne) SetPaymentCustomer(p *PaymentCustomer) *UserUpdateOne {
+	return uuo.SetPaymentCustomerID(p.ID)
+}
+
 // Mutation returns the UserMutation object of the builder.
 func (uuo *UserUpdateOne) Mutation() *UserMutation {
 	return uuo.mutation
@@ -387,6 +461,12 @@ func (uuo *UserUpdateOne) RemoveOwner(p ...*PasswordToken) *UserUpdateOne {
 		ids[i] = p[i].ID
 	}
 	return uuo.RemoveOwnerIDs(ids...)
+}
+
+// ClearPaymentCustomer clears the "payment_customer" edge to the PaymentCustomer entity.
+func (uuo *UserUpdateOne) ClearPaymentCustomer() *UserUpdateOne {
+	uuo.mutation.ClearPaymentCustomer()
+	return uuo
 }
 
 // Where appends a list predicates to the UserUpdate builder.
@@ -531,6 +611,35 @@ func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) 
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(passwordtoken.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if uuo.mutation.PaymentCustomerCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2O,
+			Inverse: true,
+			Table:   user.PaymentCustomerTable,
+			Columns: []string{user.PaymentCustomerColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(paymentcustomer.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := uuo.mutation.PaymentCustomerIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2O,
+			Inverse: true,
+			Table:   user.PaymentCustomerTable,
+			Columns: []string{user.PaymentCustomerColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(paymentcustomer.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

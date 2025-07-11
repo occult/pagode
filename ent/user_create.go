@@ -11,6 +11,7 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/occult/pagode/ent/passwordtoken"
+	"github.com/occult/pagode/ent/paymentcustomer"
 	"github.com/occult/pagode/ent/user"
 )
 
@@ -94,6 +95,25 @@ func (uc *UserCreate) AddOwner(p ...*PasswordToken) *UserCreate {
 		ids[i] = p[i].ID
 	}
 	return uc.AddOwnerIDs(ids...)
+}
+
+// SetPaymentCustomerID sets the "payment_customer" edge to the PaymentCustomer entity by ID.
+func (uc *UserCreate) SetPaymentCustomerID(id int) *UserCreate {
+	uc.mutation.SetPaymentCustomerID(id)
+	return uc
+}
+
+// SetNillablePaymentCustomerID sets the "payment_customer" edge to the PaymentCustomer entity by ID if the given value is not nil.
+func (uc *UserCreate) SetNillablePaymentCustomerID(id *int) *UserCreate {
+	if id != nil {
+		uc = uc.SetPaymentCustomerID(*id)
+	}
+	return uc
+}
+
+// SetPaymentCustomer sets the "payment_customer" edge to the PaymentCustomer entity.
+func (uc *UserCreate) SetPaymentCustomer(p *PaymentCustomer) *UserCreate {
+	return uc.SetPaymentCustomerID(p.ID)
 }
 
 // Mutation returns the UserMutation object of the builder.
@@ -250,6 +270,23 @@ func (uc *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := uc.mutation.PaymentCustomerIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2O,
+			Inverse: true,
+			Table:   user.PaymentCustomerTable,
+			Columns: []string{user.PaymentCustomerColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(paymentcustomer.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_node.payment_customer_user = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
 	return _node, _spec
