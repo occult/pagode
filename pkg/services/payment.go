@@ -61,6 +61,11 @@ func NewPaymentClient(cfg *config.Config, orm *ent.Client, provider PaymentProvi
 	}
 }
 
+// GetConfig returns the configuration
+func (c *PaymentClient) GetConfig() *config.Config {
+	return c.config
+}
+
 // CreateCustomerParams contains parameters for creating a customer
 type CreateCustomerParams struct {
 	Email    string                 `json:"email"`
@@ -361,5 +366,40 @@ func (c *PaymentClient) SetDefaultPaymentMethod(ctx echo.Context, customer *ent.
 
 	// Update in Stripe
 	_, err = c.provider.SetDefaultPaymentMethod(ctx.Request().Context(), customer.ProviderCustomerID, paymentMethodID)
+	return err
+}
+
+// GetCustomerSubscriptions retrieves all subscriptions for a customer
+func (c *PaymentClient) GetCustomerSubscriptions(ctx echo.Context, customer *ent.PaymentCustomer) ([]*ent.Subscription, error) {
+	return c.orm.Subscription.Query().
+		Where(subscription.HasCustomerWith(paymentcustomer.ID(customer.ID))).
+		All(ctx.Request().Context())
+}
+
+// CancelSubscription cancels a subscription
+func (c *PaymentClient) CancelSubscription(ctx echo.Context, customer *ent.PaymentCustomer, subscriptionID string) error {
+	// Get the subscription from database
+	sub, err := c.orm.Subscription.Query().
+		Where(
+			subscription.ProviderSubscriptionID(subscriptionID),
+			subscription.HasCustomerWith(paymentcustomer.ID(customer.ID)),
+		).
+		Only(ctx.Request().Context())
+	if err != nil {
+		return err
+	}
+
+	// Cancel with provider
+	_, err = c.provider.CancelSubscription(ctx.Request().Context(), subscriptionID)
+	if err != nil {
+		return err
+	}
+
+	// Update subscription status in database
+	_, err = c.orm.Subscription.UpdateOne(sub).
+		SetStatus(subscription.StatusCanceled).
+		SetCanceledAt(time.Now()).
+		Save(ctx.Request().Context())
+	
 	return err
 }

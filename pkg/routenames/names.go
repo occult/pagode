@@ -39,6 +39,10 @@ const (
 	ProfileAppearance     = "profile.appearance"
 	ProfilePassword       = "profile.password"
 	ProfileUpdatePassword = "profile.update_password"
+	Plans                 = "plans"
+	PlansSubscribe        = "plans.subscribe"
+	Billing               = "billing"
+	BillingCancel         = "billing.cancel"
 )
 
 func AdminEntityList(entityTypeName string) string {
