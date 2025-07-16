@@ -135,9 +135,10 @@ type (
 
 	// StripeConfig stores the Stripe-specific configuration.
 	StripeConfig struct {
-		SecretKey     string
-		WebhookSecret string
-		Currency      string
+		SecretKey      string
+		PublishableKey string
+		WebhookSecret  string
+		Currency       string
 	}
 )
 

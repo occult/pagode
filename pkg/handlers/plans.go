@@ -86,7 +86,7 @@ func (h *Plans) Page(ctx echo.Context) error {
 						"Unlimited Projects",
 						"API Access",
 					},
-					"priceId": "price_1Rjp2HRsIoLX1GcpdYi7XGNj", // Real Stripe Price ID
+					"priceId": "price_your_stripe_price_id_here", // Stripe Price ID
 				},
 			},
 		},
@@ -137,7 +137,7 @@ func (h *Plans) Subscribe(ctx echo.Context) error {
 	}
 
 	// Create the subscription with real Stripe Price ID
-	priceId := "price_1Rjp2HRsIoLX1GcpdYi7XGNj" // Real Stripe Price ID
+	priceId := "price_your_stripe_price_id_here" // Stripe Price ID
 	
 	_, err = h.Payment.CreateSubscription(ctx, paymentCustomer, priceId, &services.CreateSubscriptionParams{
 		PaymentMethodID: input.PaymentMethodId,

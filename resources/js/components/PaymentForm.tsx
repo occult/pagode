@@ -13,9 +13,10 @@ interface PaymentFormProps {
   onSubmit: (paymentMethodId: string) => void;
   isProcessing: boolean;
   stripePublishableKey: string;
+  mode?: 'subscription' | 'payment'; // Add mode prop
 }
 
-export function PaymentForm({ plan, onSubmit, isProcessing, stripePublishableKey }: PaymentFormProps) {
+export function PaymentForm({ plan, onSubmit, isProcessing, stripePublishableKey, mode = 'subscription' }: PaymentFormProps) {
   const [stripe, setStripe] = useState<any>(null);
   const [elements, setElements] = useState<any>(null);
   const [cardElement, setCardElement] = useState<any>(null);
@@ -163,7 +164,9 @@ export function PaymentForm({ plan, onSubmit, isProcessing, stripePublishableKey
                 Processing Payment...
               </div>
             ) : (
-              `Subscribe for ${formatPrice(plan.price, plan.currency)}/month`
+              mode === 'subscription' 
+                ? `Subscribe for ${formatPrice(plan.price, plan.currency)}/month`
+                : `Pay ${formatPrice(plan.price, plan.currency)}`
             )}
           </Button>
 

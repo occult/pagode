@@ -41,6 +41,8 @@ const (
 	ProfileUpdatePassword = "profile.update_password"
 	Plans                 = "plans"
 	PlansSubscribe        = "plans.subscribe"
+	Products              = "products"
+	ProductsPurchase      = "products.purchase"
 	Billing               = "billing"
 	BillingCancel         = "billing.cancel"
 )

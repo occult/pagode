@@ -23,7 +23,7 @@ type PaymentProvider interface {
 
 	// Payment intent operations (one-time payments)
 	CreatePaymentIntent(ctx context.Context, params *CreatePaymentIntentParams) (*PaymentIntentResult, error)
-	ConfirmPaymentIntent(ctx context.Context, paymentIntentID string) (*PaymentIntentResult, error)
+	ConfirmPaymentIntent(ctx context.Context, paymentIntentID string, paymentMethodID string) (*PaymentIntentResult, error)
 	GetPaymentIntent(ctx context.Context, paymentIntentID string) (*PaymentIntentResult, error)
 	CancelPaymentIntent(ctx context.Context, paymentIntentID string) (*PaymentIntentResult, error)
 
@@ -399,6 +399,30 @@ func (c *PaymentClient) CancelSubscription(ctx echo.Context, customer *ent.Payme
 	_, err = c.orm.Subscription.UpdateOne(sub).
 		SetStatus(subscription.StatusCanceled).
 		SetCanceledAt(time.Now()).
+		Save(ctx.Request().Context())
+	
+	return err
+}
+
+// GetCustomerPaymentIntents retrieves all payment intents for a customer
+func (c *PaymentClient) GetCustomerPaymentIntents(ctx echo.Context, customer *ent.PaymentCustomer) ([]*ent.PaymentIntent, error) {
+	return c.orm.PaymentIntent.Query().
+		Where(paymentintent.HasCustomerWith(paymentcustomer.ID(customer.ID))).
+		Order(ent.Desc(paymentintent.FieldCreatedAt)).
+		All(ctx.Request().Context())
+}
+
+// ConfirmPaymentIntent confirms a payment intent with a payment method
+func (c *PaymentClient) ConfirmPaymentIntent(ctx echo.Context, paymentIntent *ent.PaymentIntent, paymentMethodID string) error {
+	// Confirm payment intent with provider
+	providerPaymentIntent, err := c.provider.ConfirmPaymentIntent(ctx.Request().Context(), paymentIntent.ProviderPaymentIntentID, paymentMethodID)
+	if err != nil {
+		return err
+	}
+
+	// Update payment intent status in database
+	_, err = c.orm.PaymentIntent.UpdateOne(paymentIntent).
+		SetStatus(paymentintent.Status(providerPaymentIntent.Status)).
 		Save(ctx.Request().Context())
 	
 	return err

@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/sidebar";
 import { type NavItem } from "@/types";
 import { Link, usePage } from "@inertiajs/react";
-import { BookOpen, Folder, LayoutGrid, UploadCloud, CreditCard, Receipt } from "lucide-react";
+import { BookOpen, Folder, LayoutGrid, UploadCloud, CreditCard, Receipt, ShoppingBag } from "lucide-react";
 import { NavMain } from "./NavMain";
 import { NavFooter } from "./NavFooter";
 import { NavUser } from "./NavUser";
@@ -41,6 +41,11 @@ export function AppSidebar() {
       title: "Plans",
       href: "/plans",
       icon: CreditCard,
+    },
+    {
+      title: "Products",
+      href: "/products",
+      icon: ShoppingBag,
     },
     {
       title: "Upload Files",

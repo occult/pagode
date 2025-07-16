@@ -150,8 +150,11 @@ func (s *StripeProvider) CreatePaymentIntent(ctx context.Context, params *Create
 }
 
 // ConfirmPaymentIntent confirms a payment intent in Stripe
-func (s *StripeProvider) ConfirmPaymentIntent(ctx context.Context, paymentIntentID string) (*PaymentIntentResult, error) {
-	pi, err := paymentintent.Confirm(paymentIntentID, nil)
+func (s *StripeProvider) ConfirmPaymentIntent(ctx context.Context, paymentIntentID string, paymentMethodID string) (*PaymentIntentResult, error) {
+	params := &stripe.PaymentIntentConfirmParams{
+		PaymentMethod: stripe.String(paymentMethodID),
+	}
+	pi, err := paymentintent.Confirm(paymentIntentID, params)
 	if err != nil {
 		return nil, err
 	}

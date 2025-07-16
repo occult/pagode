@@ -57,6 +57,7 @@ mail:
 payment:
   provider: "stripe"
   stripe:
-    secretKey: "sk_test_your_secret_key_here"
+    secretKey: "sk_test_your_stripe_secret_key_here"
+    publishableKey: "pk_test_your_stripe_publishable_key_here"
     webhookSecret: "whsec_your_webhook_secret_here"
     currency: "usd"
