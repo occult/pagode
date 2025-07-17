@@ -55,8 +55,16 @@ All application dependencies are managed through a service container (`pkg/servi
 ### Authentication & Authorization
 - Session-based auth with JWT email verification
 - `middleware.RequireAuthentication()` and `middleware.RequireAdmin()` for route protection
+- `middleware.RequirePaidUser()` for premium content protection
 - User entity has `Admin` boolean field for admin access
 - Admin panel auto-generated for all Ent entities
+
+### Payment Integration
+- Comprehensive Stripe integration for subscriptions and one-time payments
+- Provider abstraction pattern allows easy switching between payment processors
+- Database entities: PaymentCustomer, PaymentMethod, Subscription, PaymentIntent
+- PCI-compliant payment processing using Stripe Elements
+- Premium content access control based on payment status
 
 ### Database
 - SQLite with automatic migrations on startup
@@ -107,6 +115,49 @@ When modifying Ent schemas:
 2. Run `make ent-gen` to regenerate all Ent code
 3. Admin panel code auto-generates for all entities
 
+## Payment System
+
+### Configuration
+Payment settings are configured in `config/config.yaml`:
+```yaml
+payment:
+  provider: "stripe"
+  stripe:
+    secretKey: "sk_test_your_stripe_secret_key_here"
+    publishableKey: "pk_test_your_stripe_publishable_key_here"
+    webhookSecret: "whsec_your_webhook_secret_here"
+    currency: "usd"
+```
+
+### Payment Routes & Pages
+- `/plans` - Subscription management (monthly/yearly billing)
+- `/products` - One-time product purchases
+- `/premium` - Protected premium content (requires payment)
+- `/billing` - Subscription and payment method management
+
+### Payment Entities (Ent ORM)
+- **PaymentCustomer**: Links users to Stripe customers
+- **PaymentMethod**: Stores payment method metadata (no sensitive card data)
+- **Subscription**: Tracks subscription status and billing periods
+- **PaymentIntent**: Handles one-time payments
+
+### Security & Compliance
+- No sensitive card data stored in database
+- Stripe Elements for PCI-compliant card collection
+- Server-side payment validation and processing
+- Payment method IDs used instead of raw card data
+
+### Premium Access Control
+Use `middleware.RequirePaidUser(orm)` to protect routes requiring payment:
+- Checks for active subscriptions (`subscription.StatusActive`)
+- Checks for successful payment intents (`paymentintent.StatusSucceeded`)
+- Redirects unauthorized users to purchase pages
+
+### Development & Testing
+- Use Stripe test cards: `4242 4242 4242 4242` (success)
+- Test environment automatically uses Stripe test mode
+- Payment status visible in admin panel for debugging
+
 ## Important Notes
 
 - Admin panel is dynamically generated - entity constraints must be defined in Ent schemas
@@ -114,3 +165,4 @@ When modifying Ent schemas:
 - Static files served from `static/` directory at `/files/` URL prefix
 - Email client is skeleton - must implement `MailClient.send()` method
 - Cache is in-memory (otter library) - tags supported but come with performance cost
+- Payment credentials should be stored as environment variables in production

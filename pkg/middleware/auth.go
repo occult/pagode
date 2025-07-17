@@ -6,6 +6,10 @@ import (
 	"strconv"
 
 	"github.com/occult/pagode/ent"
+	"github.com/occult/pagode/ent/paymentcustomer"
+	"github.com/occult/pagode/ent/paymentintent"
+	"github.com/occult/pagode/ent/subscription"
+	entuser "github.com/occult/pagode/ent/user"
 	"github.com/occult/pagode/pkg/context"
 	"github.com/occult/pagode/pkg/log"
 	"github.com/occult/pagode/pkg/msg"
@@ -116,5 +120,62 @@ func RequireAdmin(next echo.HandlerFunc) echo.HandlerFunc {
 		}
 
 		return echo.NewHTTPError(http.StatusUnauthorized)
+	}
+}
+
+// RequirePaidUser requires that the authenticated user has either an active subscription
+// or a successful payment intent in order to proceed.
+func RequirePaidUser(db *ent.Client) echo.MiddlewareFunc {
+	return func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(c echo.Context) error {
+			// First ensure user is authenticated
+			u := c.Get(context.AuthenticatedUserKey)
+			if u == nil {
+				return echo.NewHTTPError(http.StatusUnauthorized)
+			}
+
+			user, ok := u.(*ent.User)
+			if !ok {
+				return echo.NewHTTPError(http.StatusInternalServerError, "invalid user type")
+			}
+
+			// Check if user has an active subscription
+			hasActiveSubscription, err := db.Subscription.
+				Query().
+				Where(subscription.HasCustomerWith(
+					paymentcustomer.HasUserWith(entuser.IDEQ(user.ID)),
+				)).
+				Where(subscription.StatusEQ(subscription.StatusActive)).
+				Exist(c.Request().Context())
+			
+			if err != nil {
+				log.Ctx(c).Warn(fmt.Sprintf("error checking subscription status: %v", err))
+			}
+
+			if hasActiveSubscription {
+				return next(c)
+			}
+
+			// Check if user has a successful payment intent (one-time purchase)
+			hasSuccessfulPayment, err := db.PaymentIntent.
+				Query().
+				Where(paymentintent.HasCustomerWith(
+					paymentcustomer.HasUserWith(entuser.IDEQ(user.ID)),
+				)).
+				Where(paymentintent.StatusEQ(paymentintent.StatusSucceeded)).
+				Exist(c.Request().Context())
+			
+			if err != nil {
+				log.Ctx(c).Warn(fmt.Sprintf("error checking payment intent status: %v", err))
+			}
+
+			if hasSuccessfulPayment {
+				return next(c)
+			}
+
+			// User doesn't have valid payment, redirect to products page
+			msg.Warning(c, "Premium access required. Please purchase a product or subscribe to a plan.")
+			return c.Redirect(http.StatusSeeOther, c.Echo().Reverse(routenames.Products))
+		}
 	}
 }

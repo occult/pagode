@@ -43,6 +43,7 @@ const (
 	PlansSubscribe        = "plans.subscribe"
 	Products              = "products"
 	ProductsPurchase      = "products.purchase"
+	Premium               = "premium"
 	Billing               = "billing"
 	BillingCancel         = "billing.cancel"
 )
