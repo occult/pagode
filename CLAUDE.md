@@ -18,6 +18,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `make run` - Start the application (default: http://localhost:8000)
 - `make watch` - Start with hot reload (requires `make air-install` first)
 - `make test` - Run all tests
+- `go build -o /dev/null ./cmd/web` - Test compilation without generating binaries
 - `make admin email=user@example.com` - Create admin user account
 
 ### Database & ORM
