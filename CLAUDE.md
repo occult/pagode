@@ -69,7 +69,7 @@ All application dependencies are managed through a service container (`pkg/servi
 
 ### Database
 - SQLite with automatic migrations on startup
-- Separate in-memory test database when `PAGODA_APP_ENVIRONMENT=test`
+- Separate in-memory test database when `PAGODE_APP_ENVIRONMENT=test`
 - WAL mode enabled for better concurrent access
 
 ## Development Patterns
@@ -102,7 +102,7 @@ All application dependencies are managed through a service container (`pkg/servi
 
 ## Configuration
 
-Configuration uses Viper with `config/config.yaml` as base. Environment variables override config using `PAGODA_` prefix (e.g., `PAGODA_HTTP_PORT` overrides `http.port`).
+Configuration uses Viper with `config/config.yaml` as base. Environment variables override config using `PAGODE_` prefix (e.g., `PAGODE_HTTP_PORT` overrides `http.port`).
 
 Key config paths:
 - `Config.App.Environment` - Controls behavior (Local/Test/Production)

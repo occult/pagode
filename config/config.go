@@ -42,7 +42,7 @@ const (
 // currently running in.
 // This must be called prior to loading the configuration in order for it to take effect.
 func SwitchEnvironment(env environment) {
-	if err := os.Setenv("PAGODA_APP_ENVIRONMENT", string(env)); err != nil {
+	if err := os.Setenv("PAGODE_APP_ENVIRONMENT", string(env)); err != nil {
 		panic(err)
 	}
 }
@@ -155,7 +155,7 @@ func GetConfig() (Config, error) {
 	viper.AddConfigPath("../../config")
 
 	// Load env variables.
-	viper.SetEnvPrefix("pagoda")
+	viper.SetEnvPrefix("pagode")
 	viper.AutomaticEnv()
 	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 
