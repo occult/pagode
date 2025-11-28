@@ -13,7 +13,7 @@ import (
 func About(ctx echo.Context) error {
 	r := ui.NewRequest(ctx)
 	r.Title = "About"
-	r.Metatags.Description = "Learn a little about what's included in Pagoda."
+	r.Metatags.Description = "Learn a little about what's included in Pagode."
 
 	// The tabs are static so we can render and cache them.
 	tabs := cache.SetIfNotExists("pages.about.Tabs", func() Node {

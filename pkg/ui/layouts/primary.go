@@ -59,7 +59,7 @@ func headerNavBar(r *ui.Request) Node {
 					A(
 						Href(r.Path(routenames.Home)),
 						Class("navbar-item"),
-						Text("Pagoda"),
+						Text("Pagode"),
 					),
 				),
 				Div(
