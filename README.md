@@ -23,7 +23,7 @@ Pagode is accessible, powerful, and provides tools required for large, robust ap
 
 ## Learning Pagode
 
-Pagode has comprehensive [documentation](https://pagode.dev/) and examples to help you get started quickly with the framework.
+Pagode has comprehensive [documentation](https://pagode.dev/) and examples to help you get started quickly with the framework
 
 ## Credits
 
