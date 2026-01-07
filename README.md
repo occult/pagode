@@ -25,6 +25,62 @@ Pagode is accessible, powerful, and provides tools required for large, robust ap
 
 Pagode has comprehensive [documentation](https://pagode.dev/) and examples to help you get started quickly with the framework
 
+## Getting Started
+
+### Dependencies
+
+Ensure that [Go](https://go.dev/) is installed on your system.
+
+### Getting the Code
+
+Start by checking out the repository. Since this repository is a _template_ and not a Go _library_, you **do not** use `go get`.
+
+```bash
+git clone git@github.com:occult/pagode.git
+cd pagode
+```
+
+### Create an Admin Account
+
+To access the admin panel, you need an admin user account. To create your first admin user, use the command-line:
+
+```bash
+make admin email=your@email.com
+```
+
+This will generate an admin account using that email address and print the randomly-generated password.
+
+### Start the Application
+
+Before starting, install the frontend dependencies:
+
+```bash
+npm install
+```
+
+Then, start the Vite frontend development server:
+
+```bash
+npx vite
+```
+
+From within the root of the codebase, run:
+
+```bash
+make run
+```
+
+By default, you can access the application at `localhost:8000`. Your data will be stored in the `dbs` directory.
+
+### Live Reloading
+
+For automatic rebuilding when code changes, install [air](https://github.com/air-verse/air) and use:
+
+```bash
+make air-install
+make watch
+```
+
 ## Credits
 
 Thank you to all the following amazing projects for making this possible.
