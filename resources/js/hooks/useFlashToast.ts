@@ -19,6 +19,8 @@ export function useFlashToasts(flash?: FlashMessages) {
             toast.warning(message);
             break;
           case "danger":
+            toast.error(message);
+            break;
           case "error":
             toast.error(message);
             break;
