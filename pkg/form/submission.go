@@ -73,6 +73,13 @@ func (f *Submission) GetFieldErrors(fieldName string) []string {
 	return f.errors[fieldName]
 }
 
+func (f *Submission) GetErrors() map[string][]string {
+	if f.errors == nil {
+		return make(map[string][]string)
+	}
+	return f.errors
+}
+
 // setErrorMessages sets errors messages on the submission for all fields that failed validation.
 func (f *Submission) setErrorMessages(err error) {
 	// Only this is supported right now

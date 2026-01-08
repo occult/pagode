@@ -3,6 +3,7 @@ package form
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/occult/pagode/pkg/context"
+	"github.com/romsar/gonertia/v2"
 )
 
 // Form represents a form that can be submitted and validated.
@@ -30,6 +31,9 @@ type Form interface {
 
 	// GetFieldErrors returns the validation errors for a given struct field.
 	GetFieldErrors(fieldName string) []string
+
+	// GetErrors returns all validation errors keyed by field name.
+	GetErrors() map[string][]string
 }
 
 // Get gets a form from the context or initializes a new copy if one is not set.
@@ -50,4 +54,23 @@ func Clear(ctx echo.Context) {
 // See Form.Submit().
 func Submit(ctx echo.Context, form Form) error {
 	return form.Submit(ctx, form)
+}
+
+// ShareErrors shares form validation errors as Inertia props.
+// It merges the errors with existing Inertia props to preserve
+// previously set shared data like auth, flash, etc.
+func ShareErrors(ctx echo.Context, form Form) {
+	errors := form.GetErrors()
+	if len(errors) == 0 {
+		return
+	}
+
+	existingProps := gonertia.PropsFromContext(ctx.Request().Context())
+	if existingProps == nil {
+		existingProps = make(map[string]any)
+	}
+	existingProps["errors"] = errors
+
+	newCtx := gonertia.SetProps(ctx.Request().Context(), existingProps)
+	ctx.SetRequest(ctx.Request().WithContext(newCtx))
 }
