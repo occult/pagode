@@ -68,7 +68,9 @@ func Get(ctx echo.Context, typ Type) []string {
 			save(ctx, sess)
 
 			for _, m := range flash {
-				msgs = append(msgs, m.(string))
+				if str, ok := m.(string); ok {
+					msgs = append(msgs, str)
+				}
 			}
 		}
 	}

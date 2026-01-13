@@ -74,17 +74,23 @@ func NewRequest(ctx echo.Context) *Request {
 	p.IsHome = p.CurrentPath == "/"
 
 	if csrf := ctx.Get(context.CSRFKey); csrf != nil {
-		p.CSRF = csrf.(string)
+		if csrfStr, ok := csrf.(string); ok {
+			p.CSRF = csrfStr
+		}
 	}
 
 	if u := ctx.Get(context.AuthenticatedUserKey); u != nil {
-		p.IsAuth = true
-		p.AuthUser = u.(*ent.User)
-		p.IsAdmin = p.AuthUser.Admin
+		if user, ok := u.(*ent.User); ok {
+			p.IsAuth = true
+			p.AuthUser = user
+			p.IsAdmin = p.AuthUser.Admin
+		}
 	}
 
 	if cfg := ctx.Get(context.ConfigKey); cfg != nil {
-		p.Config = cfg.(*config.Config)
+		if config, ok := cfg.(*config.Config); ok {
+			p.Config = config
+		}
 	}
 
 	return p

@@ -89,7 +89,12 @@ func (c *AuthClient) GetAuthenticatedUserID(ctx echo.Context) (int, error) {
 	}
 
 	if sess.Values[authSessionKeyAuthenticated] == true {
-		return sess.Values[authSessionKeyUserID].(int), nil
+		userID, ok := sess.Values[authSessionKeyUserID].(int)
+		if !ok {
+			// Session data is corrupted or has wrong type - treat as not authenticated
+			return 0, NotAuthenticatedError{}
+		}
+		return userID, nil
 	}
 
 	return 0, NotAuthenticatedError{}
