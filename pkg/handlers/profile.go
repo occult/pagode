@@ -158,10 +158,8 @@ func (h *Profile) UpdatePassword(ctx echo.Context) error {
 		return nil
 	}
 
-	uri := ctx.Echo().Reverse(routenames.ProfileUpdatePassword)
-
 	msg.Success(ctx, "Your password has been updated successfully.")
-	h.Inertia.Redirect(ctx.Response().Writer, ctx.Request(), uri)
+	h.Inertia.Redirect(ctx.Response().Writer, ctx.Request(), ctx.Echo().Reverse(routenames.ProfilePassword))
 	return nil
 }
 
