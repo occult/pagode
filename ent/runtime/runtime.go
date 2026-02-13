@@ -5,6 +5,9 @@ package runtime
 import (
 	"time"
 
+	"github.com/occult/pagode/ent/chatban"
+	"github.com/occult/pagode/ent/chatmessage"
+	"github.com/occult/pagode/ent/chatroom"
 	"github.com/occult/pagode/ent/passwordtoken"
 	"github.com/occult/pagode/ent/paymentcustomer"
 	"github.com/occult/pagode/ent/paymentintent"
@@ -18,6 +21,90 @@ import (
 // (default values, validators, hooks and policies) and stitches it
 // to their package variables.
 func init() {
+	chatbanFields := schema.ChatBan{}.Fields()
+	_ = chatbanFields
+	// chatbanDescIPHash is the schema descriptor for ip_hash field.
+	chatbanDescIPHash := chatbanFields[0].Descriptor()
+	// chatban.IPHashValidator is a validator for the "ip_hash" field. It is called by the builders before save.
+	chatban.IPHashValidator = chatbanDescIPHash.Validators[0].(func(string) error)
+	// chatbanDescReason is the schema descriptor for reason field.
+	chatbanDescReason := chatbanFields[1].Descriptor()
+	// chatban.ReasonValidator is a validator for the "reason" field. It is called by the builders before save.
+	chatban.ReasonValidator = chatbanDescReason.Validators[0].(func(string) error)
+	// chatbanDescCreatedAt is the schema descriptor for created_at field.
+	chatbanDescCreatedAt := chatbanFields[2].Descriptor()
+	// chatban.DefaultCreatedAt holds the default value on creation for the created_at field.
+	chatban.DefaultCreatedAt = chatbanDescCreatedAt.Default.(func() time.Time)
+	chatmessageFields := schema.ChatMessage{}.Fields()
+	_ = chatmessageFields
+	// chatmessageDescBody is the schema descriptor for body field.
+	chatmessageDescBody := chatmessageFields[0].Descriptor()
+	// chatmessage.BodyValidator is a validator for the "body" field. It is called by the builders before save.
+	chatmessage.BodyValidator = func() func(string) error {
+		validators := chatmessageDescBody.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(body string) error {
+			for _, fn := range fns {
+				if err := fn(body); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
+	// chatmessageDescSenderName is the schema descriptor for sender_name field.
+	chatmessageDescSenderName := chatmessageFields[1].Descriptor()
+	// chatmessage.SenderNameValidator is a validator for the "sender_name" field. It is called by the builders before save.
+	chatmessage.SenderNameValidator = func() func(string) error {
+		validators := chatmessageDescSenderName.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(sender_name string) error {
+			for _, fn := range fns {
+				if err := fn(sender_name); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
+	// chatmessageDescCreatedAt is the schema descriptor for created_at field.
+	chatmessageDescCreatedAt := chatmessageFields[2].Descriptor()
+	// chatmessage.DefaultCreatedAt holds the default value on creation for the created_at field.
+	chatmessage.DefaultCreatedAt = chatmessageDescCreatedAt.Default.(func() time.Time)
+	chatroomFields := schema.ChatRoom{}.Fields()
+	_ = chatroomFields
+	// chatroomDescName is the schema descriptor for name field.
+	chatroomDescName := chatroomFields[0].Descriptor()
+	// chatroom.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	chatroom.NameValidator = func() func(string) error {
+		validators := chatroomDescName.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(name string) error {
+			for _, fn := range fns {
+				if err := fn(name); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
+	// chatroomDescIsPublic is the schema descriptor for is_public field.
+	chatroomDescIsPublic := chatroomFields[1].Descriptor()
+	// chatroom.DefaultIsPublic holds the default value on creation for the is_public field.
+	chatroom.DefaultIsPublic = chatroomDescIsPublic.Default.(bool)
+	// chatroomDescCreatedAt is the schema descriptor for created_at field.
+	chatroomDescCreatedAt := chatroomFields[3].Descriptor()
+	// chatroom.DefaultCreatedAt holds the default value on creation for the created_at field.
+	chatroom.DefaultCreatedAt = chatroomDescCreatedAt.Default.(func() time.Time)
 	passwordtokenHooks := schema.PasswordToken{}.Hooks()
 	passwordtoken.Hooks[0] = passwordtokenHooks[0]
 	passwordtokenFields := schema.PasswordToken{}.Fields()

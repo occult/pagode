@@ -11,6 +11,9 @@ import (
 	"github.com/labstack/echo/v4"
 
 	"github.com/occult/pagode/ent"
+	"github.com/occult/pagode/ent/chatban"
+	"github.com/occult/pagode/ent/chatmessage"
+	"github.com/occult/pagode/ent/chatroom"
 	"github.com/occult/pagode/ent/passwordtoken"
 	"github.com/occult/pagode/ent/paymentcustomer"
 	"github.com/occult/pagode/ent/paymentintent"
@@ -36,6 +39,12 @@ func NewHandler(client *ent.Client, cfg HandlerConfig) *Handler {
 
 func (h *Handler) Create(ctx echo.Context, entityType string) error {
 	switch entityType {
+	case "ChatBan":
+		return h.ChatBanCreate(ctx)
+	case "ChatMessage":
+		return h.ChatMessageCreate(ctx)
+	case "ChatRoom":
+		return h.ChatRoomCreate(ctx)
 	case "PasswordToken":
 		return h.PasswordTokenCreate(ctx)
 	case "PaymentCustomer":
@@ -55,6 +64,12 @@ func (h *Handler) Create(ctx echo.Context, entityType string) error {
 
 func (h *Handler) Get(ctx echo.Context, entityType string, id int) (url.Values, error) {
 	switch entityType {
+	case "ChatBan":
+		return h.ChatBanGet(ctx, id)
+	case "ChatMessage":
+		return h.ChatMessageGet(ctx, id)
+	case "ChatRoom":
+		return h.ChatRoomGet(ctx, id)
 	case "PasswordToken":
 		return h.PasswordTokenGet(ctx, id)
 	case "PaymentCustomer":
@@ -74,6 +89,12 @@ func (h *Handler) Get(ctx echo.Context, entityType string, id int) (url.Values, 
 
 func (h *Handler) Delete(ctx echo.Context, entityType string, id int) error {
 	switch entityType {
+	case "ChatBan":
+		return h.ChatBanDelete(ctx, id)
+	case "ChatMessage":
+		return h.ChatMessageDelete(ctx, id)
+	case "ChatRoom":
+		return h.ChatRoomDelete(ctx, id)
 	case "PasswordToken":
 		return h.PasswordTokenDelete(ctx, id)
 	case "PaymentCustomer":
@@ -93,6 +114,12 @@ func (h *Handler) Delete(ctx echo.Context, entityType string, id int) error {
 
 func (h *Handler) Update(ctx echo.Context, entityType string, id int) error {
 	switch entityType {
+	case "ChatBan":
+		return h.ChatBanUpdate(ctx, id)
+	case "ChatMessage":
+		return h.ChatMessageUpdate(ctx, id)
+	case "ChatRoom":
+		return h.ChatRoomUpdate(ctx, id)
 	case "PasswordToken":
 		return h.PasswordTokenUpdate(ctx, id)
 	case "PaymentCustomer":
@@ -112,6 +139,12 @@ func (h *Handler) Update(ctx echo.Context, entityType string, id int) error {
 
 func (h *Handler) List(ctx echo.Context, entityType string) (*EntityList, error) {
 	switch entityType {
+	case "ChatBan":
+		return h.ChatBanList(ctx)
+	case "ChatMessage":
+		return h.ChatMessageList(ctx)
+	case "ChatRoom":
+		return h.ChatRoomList(ctx)
 	case "PasswordToken":
 		return h.PasswordTokenList(ctx)
 	case "PaymentCustomer":
@@ -127,6 +160,291 @@ func (h *Handler) List(ctx echo.Context, entityType string) (*EntityList, error)
 	default:
 		return nil, fmt.Errorf("unsupported entity type: %s", entityType)
 	}
+}
+
+func (h *Handler) ChatBanCreate(ctx echo.Context) error {
+	var payload ChatBan
+	if err := h.bind(ctx, &payload); err != nil {
+		return err
+	}
+
+	op := h.client.ChatBan.Create()
+	if payload.IpHash != nil {
+		op.SetIPHash(*payload.IpHash)
+	}
+	if payload.Reason != nil {
+		op.SetReason(*payload.Reason)
+	}
+	if payload.CreatedAt != nil {
+		op.SetCreatedAt(*payload.CreatedAt)
+	}
+	_, err := op.Save(ctx.Request().Context())
+	return err
+}
+
+func (h *Handler) ChatBanUpdate(ctx echo.Context, id int) error {
+	entity, err := h.client.ChatBan.Get(ctx.Request().Context(), id)
+	if err != nil {
+		return err
+	}
+
+	var payload ChatBan
+	if err = h.bind(ctx, &payload); err != nil {
+		return err
+	}
+
+	op := entity.Update()
+	if payload.IpHash == nil {
+		op.ClearIPHash()
+	} else {
+		op.SetIPHash(*payload.IpHash)
+	}
+	if payload.Reason == nil {
+		op.ClearReason()
+	} else {
+		op.SetReason(*payload.Reason)
+	}
+	_, err = op.Save(ctx.Request().Context())
+	return err
+}
+
+func (h *Handler) ChatBanDelete(ctx echo.Context, id int) error {
+	return h.client.ChatBan.DeleteOneID(id).
+		Exec(ctx.Request().Context())
+}
+
+func (h *Handler) ChatBanList(ctx echo.Context) (*EntityList, error) {
+	page, offset := h.getPageAndOffset(ctx)
+	res, err := h.client.ChatBan.
+		Query().
+		Limit(h.Config.ItemsPerPage + 1).
+		Offset(offset).
+		Order(chatban.ByID(sql.OrderDesc())).
+		All(ctx.Request().Context())
+
+	if err != nil {
+		return nil, err
+	}
+
+	list := &EntityList{
+		Columns: []string{
+			"Ip hash",
+			"Reason",
+			"Created at",
+		},
+		Entities:    make([]EntityValues, 0, len(res)),
+		Page:        page,
+		HasNextPage: len(res) > h.Config.ItemsPerPage,
+	}
+
+	for i := 0; i <= len(res)-1; i++ {
+		list.Entities = append(list.Entities, EntityValues{
+			ID: res[i].ID,
+			Values: []string{
+				res[i].IPHash,
+				res[i].Reason,
+				res[i].CreatedAt.Format(h.Config.TimeFormat),
+			},
+		})
+	}
+
+	return list, err
+}
+
+func (h *Handler) ChatBanGet(ctx echo.Context, id int) (url.Values, error) {
+	entity, err := h.client.ChatBan.Get(ctx.Request().Context(), id)
+	if err != nil {
+		return nil, err
+	}
+
+	v := url.Values{}
+	v.Set("ip_hash", entity.IPHash)
+	v.Set("reason", entity.Reason)
+	return v, err
+}
+
+func (h *Handler) ChatMessageCreate(ctx echo.Context) error {
+	var payload ChatMessage
+	if err := h.bind(ctx, &payload); err != nil {
+		return err
+	}
+
+	op := h.client.ChatMessage.Create()
+	op.SetBody(payload.Body)
+	op.SetSenderName(payload.SenderName)
+	if payload.CreatedAt != nil {
+		op.SetCreatedAt(*payload.CreatedAt)
+	}
+	_, err := op.Save(ctx.Request().Context())
+	return err
+}
+
+func (h *Handler) ChatMessageUpdate(ctx echo.Context, id int) error {
+	entity, err := h.client.ChatMessage.Get(ctx.Request().Context(), id)
+	if err != nil {
+		return err
+	}
+
+	var payload ChatMessage
+	if err = h.bind(ctx, &payload); err != nil {
+		return err
+	}
+
+	op := entity.Update()
+	op.SetBody(payload.Body)
+	op.SetSenderName(payload.SenderName)
+	_, err = op.Save(ctx.Request().Context())
+	return err
+}
+
+func (h *Handler) ChatMessageDelete(ctx echo.Context, id int) error {
+	return h.client.ChatMessage.DeleteOneID(id).
+		Exec(ctx.Request().Context())
+}
+
+func (h *Handler) ChatMessageList(ctx echo.Context) (*EntityList, error) {
+	page, offset := h.getPageAndOffset(ctx)
+	res, err := h.client.ChatMessage.
+		Query().
+		Limit(h.Config.ItemsPerPage + 1).
+		Offset(offset).
+		Order(chatmessage.ByID(sql.OrderDesc())).
+		All(ctx.Request().Context())
+
+	if err != nil {
+		return nil, err
+	}
+
+	list := &EntityList{
+		Columns: []string{
+			"Body",
+			"Sender name",
+			"Created at",
+		},
+		Entities:    make([]EntityValues, 0, len(res)),
+		Page:        page,
+		HasNextPage: len(res) > h.Config.ItemsPerPage,
+	}
+
+	for i := 0; i <= len(res)-1; i++ {
+		list.Entities = append(list.Entities, EntityValues{
+			ID: res[i].ID,
+			Values: []string{
+				res[i].Body,
+				res[i].SenderName,
+				res[i].CreatedAt.Format(h.Config.TimeFormat),
+			},
+		})
+	}
+
+	return list, err
+}
+
+func (h *Handler) ChatMessageGet(ctx echo.Context, id int) (url.Values, error) {
+	entity, err := h.client.ChatMessage.Get(ctx.Request().Context(), id)
+	if err != nil {
+		return nil, err
+	}
+
+	v := url.Values{}
+	v.Set("body", entity.Body)
+	v.Set("sender_name", entity.SenderName)
+	return v, err
+}
+
+func (h *Handler) ChatRoomCreate(ctx echo.Context) error {
+	var payload ChatRoom
+	if err := h.bind(ctx, &payload); err != nil {
+		return err
+	}
+
+	op := h.client.ChatRoom.Create()
+	op.SetName(payload.Name)
+	op.SetIsPublic(payload.IsPublic)
+	if payload.PasswordHash != nil {
+		op.SetPasswordHash(*payload.PasswordHash)
+	}
+	if payload.CreatedAt != nil {
+		op.SetCreatedAt(*payload.CreatedAt)
+	}
+	_, err := op.Save(ctx.Request().Context())
+	return err
+}
+
+func (h *Handler) ChatRoomUpdate(ctx echo.Context, id int) error {
+	entity, err := h.client.ChatRoom.Get(ctx.Request().Context(), id)
+	if err != nil {
+		return err
+	}
+
+	var payload ChatRoom
+	if err = h.bind(ctx, &payload); err != nil {
+		return err
+	}
+
+	op := entity.Update()
+	op.SetName(payload.Name)
+	op.SetIsPublic(payload.IsPublic)
+	if payload.PasswordHash != nil {
+		op.SetPasswordHash(*payload.PasswordHash)
+	}
+	_, err = op.Save(ctx.Request().Context())
+	return err
+}
+
+func (h *Handler) ChatRoomDelete(ctx echo.Context, id int) error {
+	return h.client.ChatRoom.DeleteOneID(id).
+		Exec(ctx.Request().Context())
+}
+
+func (h *Handler) ChatRoomList(ctx echo.Context) (*EntityList, error) {
+	page, offset := h.getPageAndOffset(ctx)
+	res, err := h.client.ChatRoom.
+		Query().
+		Limit(h.Config.ItemsPerPage + 1).
+		Offset(offset).
+		Order(chatroom.ByID(sql.OrderDesc())).
+		All(ctx.Request().Context())
+
+	if err != nil {
+		return nil, err
+	}
+
+	list := &EntityList{
+		Columns: []string{
+			"Name",
+			"Is public",
+			"Created at",
+		},
+		Entities:    make([]EntityValues, 0, len(res)),
+		Page:        page,
+		HasNextPage: len(res) > h.Config.ItemsPerPage,
+	}
+
+	for i := 0; i <= len(res)-1; i++ {
+		list.Entities = append(list.Entities, EntityValues{
+			ID: res[i].ID,
+			Values: []string{
+				res[i].Name,
+				fmt.Sprint(res[i].IsPublic),
+				res[i].CreatedAt.Format(h.Config.TimeFormat),
+			},
+		})
+	}
+
+	return list, err
+}
+
+func (h *Handler) ChatRoomGet(ctx echo.Context, id int) (url.Values, error) {
+	entity, err := h.client.ChatRoom.Get(ctx.Request().Context(), id)
+	if err != nil {
+		return nil, err
+	}
+
+	v := url.Values{}
+	v.Set("name", entity.Name)
+	v.Set("is_public", fmt.Sprint(entity.IsPublic))
+	return v, err
 }
 
 func (h *Handler) PasswordTokenCreate(ctx echo.Context) error {

@@ -46,6 +46,13 @@ const (
 	Premium               = "premium"
 	Billing               = "billing"
 	BillingCancel         = "billing.cancel"
+	ChatRooms             = "chat.rooms"
+	ChatRoomCreate        = "chat.rooms.create"
+	ChatRoom              = "chat.room"
+	ChatWebSocket         = "chat.websocket"
+	ChatBanUser           = "chat.ban"
+	ChatUnbanUser         = "chat.unban"
+	ChatDeleteRoom        = "chat.room.delete"
 )
 
 func AdminEntityList(entityTypeName string) string {

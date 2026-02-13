@@ -61,3 +61,14 @@ payment:
     publishableKey: "pk_test_your_stripe_publishable_key_here"
     webhookSecret: "whsec_your_webhook_secret_here"
     currency: "usd"
+
+chat:
+  enabled: true
+  defaultRoom: "general"
+  maxMessageLength: 2000
+  maxRoomsPerUser: 5
+  historySize: 50
+  maxConnectionsPerRoom: 100
+  maxConnectionsPerIP: 5
+  rateLimitMessages: 10
+  rateLimitWindowSeconds: 10

@@ -9,6 +9,25 @@ import (
 	"github.com/occult/pagode/ent/subscription"
 )
 
+type ChatBan struct {
+	IpHash    *string    `form:"ip_hash"`
+	Reason    *string    `form:"reason"`
+	CreatedAt *time.Time `form:"created_at"`
+}
+
+type ChatMessage struct {
+	Body       string     `form:"body"`
+	SenderName string     `form:"sender_name"`
+	CreatedAt  *time.Time `form:"created_at"`
+}
+
+type ChatRoom struct {
+	Name         string     `form:"name"`
+	IsPublic     bool       `form:"is_public"`
+	PasswordHash *string    `form:"password_hash"`
+	CreatedAt    *time.Time `form:"created_at"`
+}
+
 type PasswordToken struct {
 	Token     *string    `form:"token"`
 	UserID    int        `form:"user_id"`
@@ -101,6 +120,9 @@ type HandlerConfig struct {
 
 func GetEntityTypeNames() []string {
 	return []string{
+		"ChatBan",
+		"ChatMessage",
+		"ChatRoom",
 		"PasswordToken",
 		"PaymentCustomer",
 		"PaymentIntent",

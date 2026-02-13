@@ -43,9 +43,17 @@ type UserEdges struct {
 	Owner []*PasswordToken `json:"owner,omitempty"`
 	// PaymentCustomer holds the value of the payment_customer edge.
 	PaymentCustomer *PaymentCustomer `json:"payment_customer,omitempty"`
+	// OwnedChatRooms holds the value of the owned_chat_rooms edge.
+	OwnedChatRooms []*ChatRoom `json:"owned_chat_rooms,omitempty"`
+	// ChatMessages holds the value of the chat_messages edge.
+	ChatMessages []*ChatMessage `json:"chat_messages,omitempty"`
+	// ChatBans holds the value of the chat_bans edge.
+	ChatBans []*ChatBan `json:"chat_bans,omitempty"`
+	// ChatBansIssued holds the value of the chat_bans_issued edge.
+	ChatBansIssued []*ChatBan `json:"chat_bans_issued,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
-	loadedTypes [2]bool
+	loadedTypes [6]bool
 }
 
 // OwnerOrErr returns the Owner value or an error if the edge
@@ -66,6 +74,42 @@ func (e UserEdges) PaymentCustomerOrErr() (*PaymentCustomer, error) {
 		return nil, &NotFoundError{label: paymentcustomer.Label}
 	}
 	return nil, &NotLoadedError{edge: "payment_customer"}
+}
+
+// OwnedChatRoomsOrErr returns the OwnedChatRooms value or an error if the edge
+// was not loaded in eager-loading.
+func (e UserEdges) OwnedChatRoomsOrErr() ([]*ChatRoom, error) {
+	if e.loadedTypes[2] {
+		return e.OwnedChatRooms, nil
+	}
+	return nil, &NotLoadedError{edge: "owned_chat_rooms"}
+}
+
+// ChatMessagesOrErr returns the ChatMessages value or an error if the edge
+// was not loaded in eager-loading.
+func (e UserEdges) ChatMessagesOrErr() ([]*ChatMessage, error) {
+	if e.loadedTypes[3] {
+		return e.ChatMessages, nil
+	}
+	return nil, &NotLoadedError{edge: "chat_messages"}
+}
+
+// ChatBansOrErr returns the ChatBans value or an error if the edge
+// was not loaded in eager-loading.
+func (e UserEdges) ChatBansOrErr() ([]*ChatBan, error) {
+	if e.loadedTypes[4] {
+		return e.ChatBans, nil
+	}
+	return nil, &NotLoadedError{edge: "chat_bans"}
+}
+
+// ChatBansIssuedOrErr returns the ChatBansIssued value or an error if the edge
+// was not loaded in eager-loading.
+func (e UserEdges) ChatBansIssuedOrErr() ([]*ChatBan, error) {
+	if e.loadedTypes[5] {
+		return e.ChatBansIssued, nil
+	}
+	return nil, &NotLoadedError{edge: "chat_bans_issued"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -168,6 +212,26 @@ func (_m *User) QueryOwner() *PasswordTokenQuery {
 // QueryPaymentCustomer queries the "payment_customer" edge of the User entity.
 func (_m *User) QueryPaymentCustomer() *PaymentCustomerQuery {
 	return NewUserClient(_m.config).QueryPaymentCustomer(_m)
+}
+
+// QueryOwnedChatRooms queries the "owned_chat_rooms" edge of the User entity.
+func (_m *User) QueryOwnedChatRooms() *ChatRoomQuery {
+	return NewUserClient(_m.config).QueryOwnedChatRooms(_m)
+}
+
+// QueryChatMessages queries the "chat_messages" edge of the User entity.
+func (_m *User) QueryChatMessages() *ChatMessageQuery {
+	return NewUserClient(_m.config).QueryChatMessages(_m)
+}
+
+// QueryChatBans queries the "chat_bans" edge of the User entity.
+func (_m *User) QueryChatBans() *ChatBanQuery {
+	return NewUserClient(_m.config).QueryChatBans(_m)
+}
+
+// QueryChatBansIssued queries the "chat_bans_issued" edge of the User entity.
+func (_m *User) QueryChatBansIssued() *ChatBanQuery {
+	return NewUserClient(_m.config).QueryChatBansIssued(_m)
 }
 
 // Update returns a builder for updating this User.

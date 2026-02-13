@@ -8,6 +8,94 @@ import (
 )
 
 var (
+	// ChatBansColumns holds the columns for the "chat_bans" table.
+	ChatBansColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "ip_hash", Type: field.TypeString, Nullable: true, Size: 64},
+		{Name: "reason", Type: field.TypeString, Nullable: true, Size: 500},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "chat_room_bans", Type: field.TypeInt},
+		{Name: "user_chat_bans", Type: field.TypeInt, Nullable: true},
+		{Name: "user_chat_bans_issued", Type: field.TypeInt},
+	}
+	// ChatBansTable holds the schema information for the "chat_bans" table.
+	ChatBansTable = &schema.Table{
+		Name:       "chat_bans",
+		Columns:    ChatBansColumns,
+		PrimaryKey: []*schema.Column{ChatBansColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "chat_bans_chat_rooms_bans",
+				Columns:    []*schema.Column{ChatBansColumns[4]},
+				RefColumns: []*schema.Column{ChatRoomsColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+			{
+				Symbol:     "chat_bans_users_chat_bans",
+				Columns:    []*schema.Column{ChatBansColumns[5]},
+				RefColumns: []*schema.Column{UsersColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+			{
+				Symbol:     "chat_bans_users_chat_bans_issued",
+				Columns:    []*schema.Column{ChatBansColumns[6]},
+				RefColumns: []*schema.Column{UsersColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+		},
+	}
+	// ChatMessagesColumns holds the columns for the "chat_messages" table.
+	ChatMessagesColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "body", Type: field.TypeString, Size: 2000},
+		{Name: "sender_name", Type: field.TypeString, Size: 30},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "chat_room_messages", Type: field.TypeInt},
+		{Name: "user_chat_messages", Type: field.TypeInt, Nullable: true},
+	}
+	// ChatMessagesTable holds the schema information for the "chat_messages" table.
+	ChatMessagesTable = &schema.Table{
+		Name:       "chat_messages",
+		Columns:    ChatMessagesColumns,
+		PrimaryKey: []*schema.Column{ChatMessagesColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "chat_messages_chat_rooms_messages",
+				Columns:    []*schema.Column{ChatMessagesColumns[4]},
+				RefColumns: []*schema.Column{ChatRoomsColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+			{
+				Symbol:     "chat_messages_users_chat_messages",
+				Columns:    []*schema.Column{ChatMessagesColumns[5]},
+				RefColumns: []*schema.Column{UsersColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+		},
+	}
+	// ChatRoomsColumns holds the columns for the "chat_rooms" table.
+	ChatRoomsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "name", Type: field.TypeString, Unique: true, Size: 50},
+		{Name: "is_public", Type: field.TypeBool, Default: true},
+		{Name: "password_hash", Type: field.TypeString, Nullable: true},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "user_owned_chat_rooms", Type: field.TypeInt, Nullable: true},
+	}
+	// ChatRoomsTable holds the schema information for the "chat_rooms" table.
+	ChatRoomsTable = &schema.Table{
+		Name:       "chat_rooms",
+		Columns:    ChatRoomsColumns,
+		PrimaryKey: []*schema.Column{ChatRoomsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "chat_rooms_users_owned_chat_rooms",
+				Columns:    []*schema.Column{ChatRoomsColumns[5]},
+				RefColumns: []*schema.Column{UsersColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+		},
+	}
 	// PasswordTokensColumns holds the columns for the "password_tokens" table.
 	PasswordTokensColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
@@ -168,6 +256,9 @@ var (
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
+		ChatBansTable,
+		ChatMessagesTable,
+		ChatRoomsTable,
 		PasswordTokensTable,
 		PaymentCustomersTable,
 		PaymentIntentsTable,
@@ -178,6 +269,12 @@ var (
 )
 
 func init() {
+	ChatBansTable.ForeignKeys[0].RefTable = ChatRoomsTable
+	ChatBansTable.ForeignKeys[1].RefTable = UsersTable
+	ChatBansTable.ForeignKeys[2].RefTable = UsersTable
+	ChatMessagesTable.ForeignKeys[0].RefTable = ChatRoomsTable
+	ChatMessagesTable.ForeignKeys[1].RefTable = UsersTable
+	ChatRoomsTable.ForeignKeys[0].RefTable = UsersTable
 	PasswordTokensTable.ForeignKeys[0].RefTable = UsersTable
 	PaymentIntentsTable.ForeignKeys[0].RefTable = PaymentCustomersTable
 	PaymentMethodsTable.ForeignKeys[0].RefTable = PaymentCustomersTable

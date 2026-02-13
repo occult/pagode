@@ -53,6 +53,10 @@ func (User) Edges() []ent.Edge {
 		edge.From("payment_customer", PaymentCustomer.Type).
 			Ref("user").
 			Unique(),
+		edge.To("owned_chat_rooms", ChatRoom.Type),
+		edge.To("chat_messages", ChatMessage.Type),
+		edge.To("chat_bans", ChatBan.Type),
+		edge.To("chat_bans_issued", ChatBan.Type),
 	}
 }
 

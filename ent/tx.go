@@ -12,6 +12,12 @@ import (
 // Tx is a transactional client that is created by calling Client.Tx().
 type Tx struct {
 	config
+	// ChatBan is the client for interacting with the ChatBan builders.
+	ChatBan *ChatBanClient
+	// ChatMessage is the client for interacting with the ChatMessage builders.
+	ChatMessage *ChatMessageClient
+	// ChatRoom is the client for interacting with the ChatRoom builders.
+	ChatRoom *ChatRoomClient
 	// PasswordToken is the client for interacting with the PasswordToken builders.
 	PasswordToken *PasswordTokenClient
 	// PaymentCustomer is the client for interacting with the PaymentCustomer builders.
@@ -155,6 +161,9 @@ func (tx *Tx) Client() *Client {
 }
 
 func (tx *Tx) init() {
+	tx.ChatBan = NewChatBanClient(tx.config)
+	tx.ChatMessage = NewChatMessageClient(tx.config)
+	tx.ChatRoom = NewChatRoomClient(tx.config)
 	tx.PasswordToken = NewPasswordTokenClient(tx.config)
 	tx.PaymentCustomer = NewPaymentCustomerClient(tx.config)
 	tx.PaymentIntent = NewPaymentIntentClient(tx.config)
@@ -170,7 +179,7 @@ func (tx *Tx) init() {
 // of them in order to commit or rollback the transaction.
 //
 // If a closed transaction is embedded in one of the generated entities, and the entity
-// applies a query, for example: PasswordToken.QueryXXX(), the query will be executed
+// applies a query, for example: ChatBan.QueryXXX(), the query will be executed
 // through the driver which created this transaction.
 //
 // Note that txDriver is not goroutine safe.

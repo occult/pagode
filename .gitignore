@@ -12,3 +12,4 @@ build/
 .aider.chat.history.md
 .aider.input.history
 .aider.tags.cache.v4/
+static/chat-uploads/

@@ -12,6 +12,9 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
+	"github.com/occult/pagode/ent/chatban"
+	"github.com/occult/pagode/ent/chatmessage"
+	"github.com/occult/pagode/ent/chatroom"
 	"github.com/occult/pagode/ent/passwordtoken"
 	"github.com/occult/pagode/ent/paymentcustomer"
 	"github.com/occult/pagode/ent/paymentintent"
@@ -78,6 +81,9 @@ var (
 func checkColumn(t, c string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
+			chatban.Table:         chatban.ValidColumn,
+			chatmessage.Table:     chatmessage.ValidColumn,
+			chatroom.Table:        chatroom.ValidColumn,
 			passwordtoken.Table:   passwordtoken.ValidColumn,
 			paymentcustomer.Table: paymentcustomer.ValidColumn,
 			paymentintent.Table:   paymentintent.ValidColumn,

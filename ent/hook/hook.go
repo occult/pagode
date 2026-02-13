@@ -9,6 +9,42 @@ import (
 	"github.com/occult/pagode/ent"
 )
 
+// The ChatBanFunc type is an adapter to allow the use of ordinary
+// function as ChatBan mutator.
+type ChatBanFunc func(context.Context, *ent.ChatBanMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f ChatBanFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.ChatBanMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.ChatBanMutation", m)
+}
+
+// The ChatMessageFunc type is an adapter to allow the use of ordinary
+// function as ChatMessage mutator.
+type ChatMessageFunc func(context.Context, *ent.ChatMessageMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f ChatMessageFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.ChatMessageMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.ChatMessageMutation", m)
+}
+
+// The ChatRoomFunc type is an adapter to allow the use of ordinary
+// function as ChatRoom mutator.
+type ChatRoomFunc func(context.Context, *ent.ChatRoomMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f ChatRoomFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.ChatRoomMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.ChatRoomMutation", m)
+}
+
 // The PasswordTokenFunc type is an adapter to allow the use of ordinary
 // function as PasswordToken mutator.
 type PasswordTokenFunc func(context.Context, *ent.PasswordTokenMutation) (ent.Value, error)

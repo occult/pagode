@@ -58,6 +58,7 @@ type (
 		Tasks    TasksConfig
 		Mail     MailConfig
 		Payment  PaymentConfig
+		Chat     ChatConfig
 	}
 
 	// HTTPConfig stores HTTP configuration.
@@ -139,6 +140,19 @@ type (
 		PublishableKey string
 		WebhookSecret  string
 		Currency       string
+	}
+
+	// ChatConfig stores the chat configuration.
+	ChatConfig struct {
+		Enabled                bool
+		DefaultRoom            string
+		MaxMessageLength       int
+		MaxRoomsPerUser        int
+		HistorySize            int
+		MaxConnectionsPerRoom  int
+		MaxConnectionsPerIP    int
+		RateLimitMessages      int
+		RateLimitWindowSeconds int
 	}
 )
 

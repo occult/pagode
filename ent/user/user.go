@@ -31,6 +31,14 @@ const (
 	EdgeOwner = "owner"
 	// EdgePaymentCustomer holds the string denoting the payment_customer edge name in mutations.
 	EdgePaymentCustomer = "payment_customer"
+	// EdgeOwnedChatRooms holds the string denoting the owned_chat_rooms edge name in mutations.
+	EdgeOwnedChatRooms = "owned_chat_rooms"
+	// EdgeChatMessages holds the string denoting the chat_messages edge name in mutations.
+	EdgeChatMessages = "chat_messages"
+	// EdgeChatBans holds the string denoting the chat_bans edge name in mutations.
+	EdgeChatBans = "chat_bans"
+	// EdgeChatBansIssued holds the string denoting the chat_bans_issued edge name in mutations.
+	EdgeChatBansIssued = "chat_bans_issued"
 	// Table holds the table name of the user in the database.
 	Table = "users"
 	// OwnerTable is the table that holds the owner relation/edge.
@@ -47,6 +55,34 @@ const (
 	PaymentCustomerInverseTable = "payment_customers"
 	// PaymentCustomerColumn is the table column denoting the payment_customer relation/edge.
 	PaymentCustomerColumn = "payment_customer_user"
+	// OwnedChatRoomsTable is the table that holds the owned_chat_rooms relation/edge.
+	OwnedChatRoomsTable = "chat_rooms"
+	// OwnedChatRoomsInverseTable is the table name for the ChatRoom entity.
+	// It exists in this package in order to avoid circular dependency with the "chatroom" package.
+	OwnedChatRoomsInverseTable = "chat_rooms"
+	// OwnedChatRoomsColumn is the table column denoting the owned_chat_rooms relation/edge.
+	OwnedChatRoomsColumn = "user_owned_chat_rooms"
+	// ChatMessagesTable is the table that holds the chat_messages relation/edge.
+	ChatMessagesTable = "chat_messages"
+	// ChatMessagesInverseTable is the table name for the ChatMessage entity.
+	// It exists in this package in order to avoid circular dependency with the "chatmessage" package.
+	ChatMessagesInverseTable = "chat_messages"
+	// ChatMessagesColumn is the table column denoting the chat_messages relation/edge.
+	ChatMessagesColumn = "user_chat_messages"
+	// ChatBansTable is the table that holds the chat_bans relation/edge.
+	ChatBansTable = "chat_bans"
+	// ChatBansInverseTable is the table name for the ChatBan entity.
+	// It exists in this package in order to avoid circular dependency with the "chatban" package.
+	ChatBansInverseTable = "chat_bans"
+	// ChatBansColumn is the table column denoting the chat_bans relation/edge.
+	ChatBansColumn = "user_chat_bans"
+	// ChatBansIssuedTable is the table that holds the chat_bans_issued relation/edge.
+	ChatBansIssuedTable = "chat_bans"
+	// ChatBansIssuedInverseTable is the table name for the ChatBan entity.
+	// It exists in this package in order to avoid circular dependency with the "chatban" package.
+	ChatBansIssuedInverseTable = "chat_bans"
+	// ChatBansIssuedColumn is the table column denoting the chat_bans_issued relation/edge.
+	ChatBansIssuedColumn = "user_chat_bans_issued"
 )
 
 // Columns holds all SQL columns for user fields.
@@ -160,6 +196,62 @@ func ByPaymentCustomerField(field string, opts ...sql.OrderTermOption) OrderOpti
 		sqlgraph.OrderByNeighborTerms(s, newPaymentCustomerStep(), sql.OrderByField(field, opts...))
 	}
 }
+
+// ByOwnedChatRoomsCount orders the results by owned_chat_rooms count.
+func ByOwnedChatRoomsCount(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newOwnedChatRoomsStep(), opts...)
+	}
+}
+
+// ByOwnedChatRooms orders the results by owned_chat_rooms terms.
+func ByOwnedChatRooms(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newOwnedChatRoomsStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
+
+// ByChatMessagesCount orders the results by chat_messages count.
+func ByChatMessagesCount(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newChatMessagesStep(), opts...)
+	}
+}
+
+// ByChatMessages orders the results by chat_messages terms.
+func ByChatMessages(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newChatMessagesStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
+
+// ByChatBansCount orders the results by chat_bans count.
+func ByChatBansCount(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newChatBansStep(), opts...)
+	}
+}
+
+// ByChatBans orders the results by chat_bans terms.
+func ByChatBans(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newChatBansStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
+
+// ByChatBansIssuedCount orders the results by chat_bans_issued count.
+func ByChatBansIssuedCount(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newChatBansIssuedStep(), opts...)
+	}
+}
+
+// ByChatBansIssued orders the results by chat_bans_issued terms.
+func ByChatBansIssued(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newChatBansIssuedStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
 func newOwnerStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
@@ -172,5 +264,33 @@ func newPaymentCustomerStep() *sqlgraph.Step {
 		sqlgraph.From(Table, FieldID),
 		sqlgraph.To(PaymentCustomerInverseTable, FieldID),
 		sqlgraph.Edge(sqlgraph.O2O, true, PaymentCustomerTable, PaymentCustomerColumn),
+	)
+}
+func newOwnedChatRoomsStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(OwnedChatRoomsInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, OwnedChatRoomsTable, OwnedChatRoomsColumn),
+	)
+}
+func newChatMessagesStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(ChatMessagesInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, ChatMessagesTable, ChatMessagesColumn),
+	)
+}
+func newChatBansStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(ChatBansInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, ChatBansTable, ChatBansColumn),
+	)
+}
+func newChatBansIssuedStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(ChatBansIssuedInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, false, ChatBansIssuedTable, ChatBansIssuedColumn),
 	)
 }

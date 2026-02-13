@@ -22,6 +22,7 @@ import (
 	"github.com/mikestefanello/backlite"
 	"github.com/occult/pagode/config"
 	"github.com/occult/pagode/ent"
+	"github.com/occult/pagode/pkg/chat"
 	"github.com/occult/pagode/pkg/log"
 	inertia "github.com/romsar/gonertia/v2"
 	"github.com/spf13/afero"
@@ -69,8 +70,14 @@ type Container struct {
 	// Payment stores the payment client.
 	Payment *PaymentClient
 
+	// Chat stores the chat room manager.
+	Chat *chat.RoomManager
+
 	// Inertia for React
 	Inertia *inertia.Inertia
+
+	// WebSocketGroup is a route group for WebSocket connections (no CSRF, gzip, timeout).
+	WebSocketGroup *echo.Group
 }
 
 // NewContainer creates and initializes a new Container.
@@ -87,6 +94,7 @@ func NewContainer() *Container {
 	c.initMail()
 	c.initTasks()
 	c.initPayment()
+	c.initChat()
 	c.initInertia()
 	return c
 }
@@ -104,6 +112,11 @@ func (c *Container) Shutdown() error {
 	taskCtx, taskCancel := context.WithTimeout(context.Background(), c.Config.Tasks.ShutdownTimeout)
 	defer taskCancel()
 	c.Tasks.Stop(taskCtx)
+
+	// Shutdown the chat manager.
+	if c.Chat != nil {
+		c.Chat.Shutdown()
+	}
 
 	// Shutdown the ORM.
 	if err := c.ORM.Close(); err != nil {
@@ -247,6 +260,18 @@ func (c *Container) initTasks() {
 
 	if err = c.Tasks.Install(); err != nil {
 		panic(fmt.Sprintf("failed to install task schema: %v", err))
+	}
+}
+
+// initChat initializes the chat room manager.
+func (c *Container) initChat() {
+	if !c.Config.Chat.Enabled {
+		return
+	}
+
+	c.Chat = chat.NewRoomManager(c.ORM, &c.Config.Chat)
+	if err := c.Chat.Init(context.Background()); err != nil {
+		panic(fmt.Sprintf("failed to initialize chat: %v", err))
 	}
 }
 

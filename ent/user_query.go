@@ -12,6 +12,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
+	"github.com/occult/pagode/ent/chatban"
+	"github.com/occult/pagode/ent/chatmessage"
+	"github.com/occult/pagode/ent/chatroom"
 	"github.com/occult/pagode/ent/passwordtoken"
 	"github.com/occult/pagode/ent/paymentcustomer"
 	"github.com/occult/pagode/ent/predicate"
@@ -27,6 +30,10 @@ type UserQuery struct {
 	predicates          []predicate.User
 	withOwner           *PasswordTokenQuery
 	withPaymentCustomer *PaymentCustomerQuery
+	withOwnedChatRooms  *ChatRoomQuery
+	withChatMessages    *ChatMessageQuery
+	withChatBans        *ChatBanQuery
+	withChatBansIssued  *ChatBanQuery
 	withFKs             bool
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
@@ -101,6 +108,94 @@ func (_q *UserQuery) QueryPaymentCustomer() *PaymentCustomerQuery {
 			sqlgraph.From(user.Table, user.FieldID, selector),
 			sqlgraph.To(paymentcustomer.Table, paymentcustomer.FieldID),
 			sqlgraph.Edge(sqlgraph.O2O, true, user.PaymentCustomerTable, user.PaymentCustomerColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
+// QueryOwnedChatRooms chains the current query on the "owned_chat_rooms" edge.
+func (_q *UserQuery) QueryOwnedChatRooms() *ChatRoomQuery {
+	query := (&ChatRoomClient{config: _q.config}).Query()
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := _q.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := _q.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(user.Table, user.FieldID, selector),
+			sqlgraph.To(chatroom.Table, chatroom.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, user.OwnedChatRoomsTable, user.OwnedChatRoomsColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
+// QueryChatMessages chains the current query on the "chat_messages" edge.
+func (_q *UserQuery) QueryChatMessages() *ChatMessageQuery {
+	query := (&ChatMessageClient{config: _q.config}).Query()
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := _q.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := _q.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(user.Table, user.FieldID, selector),
+			sqlgraph.To(chatmessage.Table, chatmessage.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, user.ChatMessagesTable, user.ChatMessagesColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
+// QueryChatBans chains the current query on the "chat_bans" edge.
+func (_q *UserQuery) QueryChatBans() *ChatBanQuery {
+	query := (&ChatBanClient{config: _q.config}).Query()
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := _q.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := _q.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(user.Table, user.FieldID, selector),
+			sqlgraph.To(chatban.Table, chatban.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, user.ChatBansTable, user.ChatBansColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
+// QueryChatBansIssued chains the current query on the "chat_bans_issued" edge.
+func (_q *UserQuery) QueryChatBansIssued() *ChatBanQuery {
+	query := (&ChatBanClient{config: _q.config}).Query()
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := _q.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := _q.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(user.Table, user.FieldID, selector),
+			sqlgraph.To(chatban.Table, chatban.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, user.ChatBansIssuedTable, user.ChatBansIssuedColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
@@ -302,6 +397,10 @@ func (_q *UserQuery) Clone() *UserQuery {
 		predicates:          append([]predicate.User{}, _q.predicates...),
 		withOwner:           _q.withOwner.Clone(),
 		withPaymentCustomer: _q.withPaymentCustomer.Clone(),
+		withOwnedChatRooms:  _q.withOwnedChatRooms.Clone(),
+		withChatMessages:    _q.withChatMessages.Clone(),
+		withChatBans:        _q.withChatBans.Clone(),
+		withChatBansIssued:  _q.withChatBansIssued.Clone(),
 		// clone intermediate query.
 		sql:  _q.sql.Clone(),
 		path: _q.path,
@@ -327,6 +426,50 @@ func (_q *UserQuery) WithPaymentCustomer(opts ...func(*PaymentCustomerQuery)) *U
 		opt(query)
 	}
 	_q.withPaymentCustomer = query
+	return _q
+}
+
+// WithOwnedChatRooms tells the query-builder to eager-load the nodes that are connected to
+// the "owned_chat_rooms" edge. The optional arguments are used to configure the query builder of the edge.
+func (_q *UserQuery) WithOwnedChatRooms(opts ...func(*ChatRoomQuery)) *UserQuery {
+	query := (&ChatRoomClient{config: _q.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	_q.withOwnedChatRooms = query
+	return _q
+}
+
+// WithChatMessages tells the query-builder to eager-load the nodes that are connected to
+// the "chat_messages" edge. The optional arguments are used to configure the query builder of the edge.
+func (_q *UserQuery) WithChatMessages(opts ...func(*ChatMessageQuery)) *UserQuery {
+	query := (&ChatMessageClient{config: _q.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	_q.withChatMessages = query
+	return _q
+}
+
+// WithChatBans tells the query-builder to eager-load the nodes that are connected to
+// the "chat_bans" edge. The optional arguments are used to configure the query builder of the edge.
+func (_q *UserQuery) WithChatBans(opts ...func(*ChatBanQuery)) *UserQuery {
+	query := (&ChatBanClient{config: _q.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	_q.withChatBans = query
+	return _q
+}
+
+// WithChatBansIssued tells the query-builder to eager-load the nodes that are connected to
+// the "chat_bans_issued" edge. The optional arguments are used to configure the query builder of the edge.
+func (_q *UserQuery) WithChatBansIssued(opts ...func(*ChatBanQuery)) *UserQuery {
+	query := (&ChatBanClient{config: _q.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	_q.withChatBansIssued = query
 	return _q
 }
 
@@ -409,9 +552,13 @@ func (_q *UserQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*User, e
 		nodes       = []*User{}
 		withFKs     = _q.withFKs
 		_spec       = _q.querySpec()
-		loadedTypes = [2]bool{
+		loadedTypes = [6]bool{
 			_q.withOwner != nil,
 			_q.withPaymentCustomer != nil,
+			_q.withOwnedChatRooms != nil,
+			_q.withChatMessages != nil,
+			_q.withChatBans != nil,
+			_q.withChatBansIssued != nil,
 		}
 	)
 	if _q.withPaymentCustomer != nil {
@@ -448,6 +595,34 @@ func (_q *UserQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*User, e
 	if query := _q.withPaymentCustomer; query != nil {
 		if err := _q.loadPaymentCustomer(ctx, query, nodes, nil,
 			func(n *User, e *PaymentCustomer) { n.Edges.PaymentCustomer = e }); err != nil {
+			return nil, err
+		}
+	}
+	if query := _q.withOwnedChatRooms; query != nil {
+		if err := _q.loadOwnedChatRooms(ctx, query, nodes,
+			func(n *User) { n.Edges.OwnedChatRooms = []*ChatRoom{} },
+			func(n *User, e *ChatRoom) { n.Edges.OwnedChatRooms = append(n.Edges.OwnedChatRooms, e) }); err != nil {
+			return nil, err
+		}
+	}
+	if query := _q.withChatMessages; query != nil {
+		if err := _q.loadChatMessages(ctx, query, nodes,
+			func(n *User) { n.Edges.ChatMessages = []*ChatMessage{} },
+			func(n *User, e *ChatMessage) { n.Edges.ChatMessages = append(n.Edges.ChatMessages, e) }); err != nil {
+			return nil, err
+		}
+	}
+	if query := _q.withChatBans; query != nil {
+		if err := _q.loadChatBans(ctx, query, nodes,
+			func(n *User) { n.Edges.ChatBans = []*ChatBan{} },
+			func(n *User, e *ChatBan) { n.Edges.ChatBans = append(n.Edges.ChatBans, e) }); err != nil {
+			return nil, err
+		}
+	}
+	if query := _q.withChatBansIssued; query != nil {
+		if err := _q.loadChatBansIssued(ctx, query, nodes,
+			func(n *User) { n.Edges.ChatBansIssued = []*ChatBan{} },
+			func(n *User, e *ChatBan) { n.Edges.ChatBansIssued = append(n.Edges.ChatBansIssued, e) }); err != nil {
 			return nil, err
 		}
 	}
@@ -513,6 +688,130 @@ func (_q *UserQuery) loadPaymentCustomer(ctx context.Context, query *PaymentCust
 		for i := range nodes {
 			assign(nodes[i], n)
 		}
+	}
+	return nil
+}
+func (_q *UserQuery) loadOwnedChatRooms(ctx context.Context, query *ChatRoomQuery, nodes []*User, init func(*User), assign func(*User, *ChatRoom)) error {
+	fks := make([]driver.Value, 0, len(nodes))
+	nodeids := make(map[int]*User)
+	for i := range nodes {
+		fks = append(fks, nodes[i].ID)
+		nodeids[nodes[i].ID] = nodes[i]
+		if init != nil {
+			init(nodes[i])
+		}
+	}
+	query.withFKs = true
+	query.Where(predicate.ChatRoom(func(s *sql.Selector) {
+		s.Where(sql.InValues(s.C(user.OwnedChatRoomsColumn), fks...))
+	}))
+	neighbors, err := query.All(ctx)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		fk := n.user_owned_chat_rooms
+		if fk == nil {
+			return fmt.Errorf(`foreign-key "user_owned_chat_rooms" is nil for node %v`, n.ID)
+		}
+		node, ok := nodeids[*fk]
+		if !ok {
+			return fmt.Errorf(`unexpected referenced foreign-key "user_owned_chat_rooms" returned %v for node %v`, *fk, n.ID)
+		}
+		assign(node, n)
+	}
+	return nil
+}
+func (_q *UserQuery) loadChatMessages(ctx context.Context, query *ChatMessageQuery, nodes []*User, init func(*User), assign func(*User, *ChatMessage)) error {
+	fks := make([]driver.Value, 0, len(nodes))
+	nodeids := make(map[int]*User)
+	for i := range nodes {
+		fks = append(fks, nodes[i].ID)
+		nodeids[nodes[i].ID] = nodes[i]
+		if init != nil {
+			init(nodes[i])
+		}
+	}
+	query.withFKs = true
+	query.Where(predicate.ChatMessage(func(s *sql.Selector) {
+		s.Where(sql.InValues(s.C(user.ChatMessagesColumn), fks...))
+	}))
+	neighbors, err := query.All(ctx)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		fk := n.user_chat_messages
+		if fk == nil {
+			return fmt.Errorf(`foreign-key "user_chat_messages" is nil for node %v`, n.ID)
+		}
+		node, ok := nodeids[*fk]
+		if !ok {
+			return fmt.Errorf(`unexpected referenced foreign-key "user_chat_messages" returned %v for node %v`, *fk, n.ID)
+		}
+		assign(node, n)
+	}
+	return nil
+}
+func (_q *UserQuery) loadChatBans(ctx context.Context, query *ChatBanQuery, nodes []*User, init func(*User), assign func(*User, *ChatBan)) error {
+	fks := make([]driver.Value, 0, len(nodes))
+	nodeids := make(map[int]*User)
+	for i := range nodes {
+		fks = append(fks, nodes[i].ID)
+		nodeids[nodes[i].ID] = nodes[i]
+		if init != nil {
+			init(nodes[i])
+		}
+	}
+	query.withFKs = true
+	query.Where(predicate.ChatBan(func(s *sql.Selector) {
+		s.Where(sql.InValues(s.C(user.ChatBansColumn), fks...))
+	}))
+	neighbors, err := query.All(ctx)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		fk := n.user_chat_bans
+		if fk == nil {
+			return fmt.Errorf(`foreign-key "user_chat_bans" is nil for node %v`, n.ID)
+		}
+		node, ok := nodeids[*fk]
+		if !ok {
+			return fmt.Errorf(`unexpected referenced foreign-key "user_chat_bans" returned %v for node %v`, *fk, n.ID)
+		}
+		assign(node, n)
+	}
+	return nil
+}
+func (_q *UserQuery) loadChatBansIssued(ctx context.Context, query *ChatBanQuery, nodes []*User, init func(*User), assign func(*User, *ChatBan)) error {
+	fks := make([]driver.Value, 0, len(nodes))
+	nodeids := make(map[int]*User)
+	for i := range nodes {
+		fks = append(fks, nodes[i].ID)
+		nodeids[nodes[i].ID] = nodes[i]
+		if init != nil {
+			init(nodes[i])
+		}
+	}
+	query.withFKs = true
+	query.Where(predicate.ChatBan(func(s *sql.Selector) {
+		s.Where(sql.InValues(s.C(user.ChatBansIssuedColumn), fks...))
+	}))
+	neighbors, err := query.All(ctx)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		fk := n.user_chat_bans_issued
+		if fk == nil {
+			return fmt.Errorf(`foreign-key "user_chat_bans_issued" is nil for node %v`, n.ID)
+		}
+		node, ok := nodeids[*fk]
+		if !ok {
+			return fmt.Errorf(`unexpected referenced foreign-key "user_chat_bans_issued" returned %v for node %v`, *fk, n.ID)
+		}
+		assign(node, n)
 	}
 	return nil
 }
