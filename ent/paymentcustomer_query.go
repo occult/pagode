@@ -37,44 +37,44 @@ type PaymentCustomerQuery struct {
 }
 
 // Where adds a new predicate for the PaymentCustomerQuery builder.
-func (pcq *PaymentCustomerQuery) Where(ps ...predicate.PaymentCustomer) *PaymentCustomerQuery {
-	pcq.predicates = append(pcq.predicates, ps...)
-	return pcq
+func (_q *PaymentCustomerQuery) Where(ps ...predicate.PaymentCustomer) *PaymentCustomerQuery {
+	_q.predicates = append(_q.predicates, ps...)
+	return _q
 }
 
 // Limit the number of records to be returned by this query.
-func (pcq *PaymentCustomerQuery) Limit(limit int) *PaymentCustomerQuery {
-	pcq.ctx.Limit = &limit
-	return pcq
+func (_q *PaymentCustomerQuery) Limit(limit int) *PaymentCustomerQuery {
+	_q.ctx.Limit = &limit
+	return _q
 }
 
 // Offset to start from.
-func (pcq *PaymentCustomerQuery) Offset(offset int) *PaymentCustomerQuery {
-	pcq.ctx.Offset = &offset
-	return pcq
+func (_q *PaymentCustomerQuery) Offset(offset int) *PaymentCustomerQuery {
+	_q.ctx.Offset = &offset
+	return _q
 }
 
 // Unique configures the query builder to filter duplicate records on query.
 // By default, unique is set to true, and can be disabled using this method.
-func (pcq *PaymentCustomerQuery) Unique(unique bool) *PaymentCustomerQuery {
-	pcq.ctx.Unique = &unique
-	return pcq
+func (_q *PaymentCustomerQuery) Unique(unique bool) *PaymentCustomerQuery {
+	_q.ctx.Unique = &unique
+	return _q
 }
 
 // Order specifies how the records should be ordered.
-func (pcq *PaymentCustomerQuery) Order(o ...paymentcustomer.OrderOption) *PaymentCustomerQuery {
-	pcq.order = append(pcq.order, o...)
-	return pcq
+func (_q *PaymentCustomerQuery) Order(o ...paymentcustomer.OrderOption) *PaymentCustomerQuery {
+	_q.order = append(_q.order, o...)
+	return _q
 }
 
 // QueryUser chains the current query on the "user" edge.
-func (pcq *PaymentCustomerQuery) QueryUser() *UserQuery {
-	query := (&UserClient{config: pcq.config}).Query()
+func (_q *PaymentCustomerQuery) QueryUser() *UserQuery {
+	query := (&UserClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := pcq.prepareQuery(ctx); err != nil {
+		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
-		selector := pcq.sqlQuery(ctx)
+		selector := _q.sqlQuery(ctx)
 		if err := selector.Err(); err != nil {
 			return nil, err
 		}
@@ -83,20 +83,20 @@ func (pcq *PaymentCustomerQuery) QueryUser() *UserQuery {
 			sqlgraph.To(user.Table, user.FieldID),
 			sqlgraph.Edge(sqlgraph.O2O, false, paymentcustomer.UserTable, paymentcustomer.UserColumn),
 		)
-		fromU = sqlgraph.SetNeighbors(pcq.driver.Dialect(), step)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
 }
 
 // QueryPaymentIntents chains the current query on the "payment_intents" edge.
-func (pcq *PaymentCustomerQuery) QueryPaymentIntents() *PaymentIntentQuery {
-	query := (&PaymentIntentClient{config: pcq.config}).Query()
+func (_q *PaymentCustomerQuery) QueryPaymentIntents() *PaymentIntentQuery {
+	query := (&PaymentIntentClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := pcq.prepareQuery(ctx); err != nil {
+		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
-		selector := pcq.sqlQuery(ctx)
+		selector := _q.sqlQuery(ctx)
 		if err := selector.Err(); err != nil {
 			return nil, err
 		}
@@ -105,20 +105,20 @@ func (pcq *PaymentCustomerQuery) QueryPaymentIntents() *PaymentIntentQuery {
 			sqlgraph.To(paymentintent.Table, paymentintent.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, paymentcustomer.PaymentIntentsTable, paymentcustomer.PaymentIntentsColumn),
 		)
-		fromU = sqlgraph.SetNeighbors(pcq.driver.Dialect(), step)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
 }
 
 // QuerySubscriptions chains the current query on the "subscriptions" edge.
-func (pcq *PaymentCustomerQuery) QuerySubscriptions() *SubscriptionQuery {
-	query := (&SubscriptionClient{config: pcq.config}).Query()
+func (_q *PaymentCustomerQuery) QuerySubscriptions() *SubscriptionQuery {
+	query := (&SubscriptionClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := pcq.prepareQuery(ctx); err != nil {
+		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
-		selector := pcq.sqlQuery(ctx)
+		selector := _q.sqlQuery(ctx)
 		if err := selector.Err(); err != nil {
 			return nil, err
 		}
@@ -127,20 +127,20 @@ func (pcq *PaymentCustomerQuery) QuerySubscriptions() *SubscriptionQuery {
 			sqlgraph.To(subscription.Table, subscription.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, paymentcustomer.SubscriptionsTable, paymentcustomer.SubscriptionsColumn),
 		)
-		fromU = sqlgraph.SetNeighbors(pcq.driver.Dialect(), step)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
 }
 
 // QueryPaymentMethods chains the current query on the "payment_methods" edge.
-func (pcq *PaymentCustomerQuery) QueryPaymentMethods() *PaymentMethodQuery {
-	query := (&PaymentMethodClient{config: pcq.config}).Query()
+func (_q *PaymentCustomerQuery) QueryPaymentMethods() *PaymentMethodQuery {
+	query := (&PaymentMethodClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := pcq.prepareQuery(ctx); err != nil {
+		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
-		selector := pcq.sqlQuery(ctx)
+		selector := _q.sqlQuery(ctx)
 		if err := selector.Err(); err != nil {
 			return nil, err
 		}
@@ -149,7 +149,7 @@ func (pcq *PaymentCustomerQuery) QueryPaymentMethods() *PaymentMethodQuery {
 			sqlgraph.To(paymentmethod.Table, paymentmethod.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, paymentcustomer.PaymentMethodsTable, paymentcustomer.PaymentMethodsColumn),
 		)
-		fromU = sqlgraph.SetNeighbors(pcq.driver.Dialect(), step)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
@@ -157,8 +157,8 @@ func (pcq *PaymentCustomerQuery) QueryPaymentMethods() *PaymentMethodQuery {
 
 // First returns the first PaymentCustomer entity from the query.
 // Returns a *NotFoundError when no PaymentCustomer was found.
-func (pcq *PaymentCustomerQuery) First(ctx context.Context) (*PaymentCustomer, error) {
-	nodes, err := pcq.Limit(1).All(setContextOp(ctx, pcq.ctx, ent.OpQueryFirst))
+func (_q *PaymentCustomerQuery) First(ctx context.Context) (*PaymentCustomer, error) {
+	nodes, err := _q.Limit(1).All(setContextOp(ctx, _q.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -169,8 +169,8 @@ func (pcq *PaymentCustomerQuery) First(ctx context.Context) (*PaymentCustomer, e
 }
 
 // FirstX is like First, but panics if an error occurs.
-func (pcq *PaymentCustomerQuery) FirstX(ctx context.Context) *PaymentCustomer {
-	node, err := pcq.First(ctx)
+func (_q *PaymentCustomerQuery) FirstX(ctx context.Context) *PaymentCustomer {
+	node, err := _q.First(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -179,9 +179,9 @@ func (pcq *PaymentCustomerQuery) FirstX(ctx context.Context) *PaymentCustomer {
 
 // FirstID returns the first PaymentCustomer ID from the query.
 // Returns a *NotFoundError when no PaymentCustomer ID was found.
-func (pcq *PaymentCustomerQuery) FirstID(ctx context.Context) (id int, err error) {
+func (_q *PaymentCustomerQuery) FirstID(ctx context.Context) (id int, err error) {
 	var ids []int
-	if ids, err = pcq.Limit(1).IDs(setContextOp(ctx, pcq.ctx, ent.OpQueryFirstID)); err != nil {
+	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -192,8 +192,8 @@ func (pcq *PaymentCustomerQuery) FirstID(ctx context.Context) (id int, err error
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (pcq *PaymentCustomerQuery) FirstIDX(ctx context.Context) int {
-	id, err := pcq.FirstID(ctx)
+func (_q *PaymentCustomerQuery) FirstIDX(ctx context.Context) int {
+	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -203,8 +203,8 @@ func (pcq *PaymentCustomerQuery) FirstIDX(ctx context.Context) int {
 // Only returns a single PaymentCustomer entity found by the query, ensuring it only returns one.
 // Returns a *NotSingularError when more than one PaymentCustomer entity is found.
 // Returns a *NotFoundError when no PaymentCustomer entities are found.
-func (pcq *PaymentCustomerQuery) Only(ctx context.Context) (*PaymentCustomer, error) {
-	nodes, err := pcq.Limit(2).All(setContextOp(ctx, pcq.ctx, ent.OpQueryOnly))
+func (_q *PaymentCustomerQuery) Only(ctx context.Context) (*PaymentCustomer, error) {
+	nodes, err := _q.Limit(2).All(setContextOp(ctx, _q.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -219,8 +219,8 @@ func (pcq *PaymentCustomerQuery) Only(ctx context.Context) (*PaymentCustomer, er
 }
 
 // OnlyX is like Only, but panics if an error occurs.
-func (pcq *PaymentCustomerQuery) OnlyX(ctx context.Context) *PaymentCustomer {
-	node, err := pcq.Only(ctx)
+func (_q *PaymentCustomerQuery) OnlyX(ctx context.Context) *PaymentCustomer {
+	node, err := _q.Only(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -230,9 +230,9 @@ func (pcq *PaymentCustomerQuery) OnlyX(ctx context.Context) *PaymentCustomer {
 // OnlyID is like Only, but returns the only PaymentCustomer ID in the query.
 // Returns a *NotSingularError when more than one PaymentCustomer ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (pcq *PaymentCustomerQuery) OnlyID(ctx context.Context) (id int, err error) {
+func (_q *PaymentCustomerQuery) OnlyID(ctx context.Context) (id int, err error) {
 	var ids []int
-	if ids, err = pcq.Limit(2).IDs(setContextOp(ctx, pcq.ctx, ent.OpQueryOnlyID)); err != nil {
+	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -247,8 +247,8 @@ func (pcq *PaymentCustomerQuery) OnlyID(ctx context.Context) (id int, err error)
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (pcq *PaymentCustomerQuery) OnlyIDX(ctx context.Context) int {
-	id, err := pcq.OnlyID(ctx)
+func (_q *PaymentCustomerQuery) OnlyIDX(ctx context.Context) int {
+	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -256,18 +256,18 @@ func (pcq *PaymentCustomerQuery) OnlyIDX(ctx context.Context) int {
 }
 
 // All executes the query and returns a list of PaymentCustomers.
-func (pcq *PaymentCustomerQuery) All(ctx context.Context) ([]*PaymentCustomer, error) {
-	ctx = setContextOp(ctx, pcq.ctx, ent.OpQueryAll)
-	if err := pcq.prepareQuery(ctx); err != nil {
+func (_q *PaymentCustomerQuery) All(ctx context.Context) ([]*PaymentCustomer, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryAll)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
 	qr := querierAll[[]*PaymentCustomer, *PaymentCustomerQuery]()
-	return withInterceptors[[]*PaymentCustomer](ctx, pcq, qr, pcq.inters)
+	return withInterceptors[[]*PaymentCustomer](ctx, _q, qr, _q.inters)
 }
 
 // AllX is like All, but panics if an error occurs.
-func (pcq *PaymentCustomerQuery) AllX(ctx context.Context) []*PaymentCustomer {
-	nodes, err := pcq.All(ctx)
+func (_q *PaymentCustomerQuery) AllX(ctx context.Context) []*PaymentCustomer {
+	nodes, err := _q.All(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -275,20 +275,20 @@ func (pcq *PaymentCustomerQuery) AllX(ctx context.Context) []*PaymentCustomer {
 }
 
 // IDs executes the query and returns a list of PaymentCustomer IDs.
-func (pcq *PaymentCustomerQuery) IDs(ctx context.Context) (ids []int, err error) {
-	if pcq.ctx.Unique == nil && pcq.path != nil {
-		pcq.Unique(true)
+func (_q *PaymentCustomerQuery) IDs(ctx context.Context) (ids []int, err error) {
+	if _q.ctx.Unique == nil && _q.path != nil {
+		_q.Unique(true)
 	}
-	ctx = setContextOp(ctx, pcq.ctx, ent.OpQueryIDs)
-	if err = pcq.Select(paymentcustomer.FieldID).Scan(ctx, &ids); err != nil {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryIDs)
+	if err = _q.Select(paymentcustomer.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
 	return ids, nil
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (pcq *PaymentCustomerQuery) IDsX(ctx context.Context) []int {
-	ids, err := pcq.IDs(ctx)
+func (_q *PaymentCustomerQuery) IDsX(ctx context.Context) []int {
+	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -296,17 +296,17 @@ func (pcq *PaymentCustomerQuery) IDsX(ctx context.Context) []int {
 }
 
 // Count returns the count of the given query.
-func (pcq *PaymentCustomerQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, pcq.ctx, ent.OpQueryCount)
-	if err := pcq.prepareQuery(ctx); err != nil {
+func (_q *PaymentCustomerQuery) Count(ctx context.Context) (int, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryCount)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
-	return withInterceptors[int](ctx, pcq, querierCount[*PaymentCustomerQuery](), pcq.inters)
+	return withInterceptors[int](ctx, _q, querierCount[*PaymentCustomerQuery](), _q.inters)
 }
 
 // CountX is like Count, but panics if an error occurs.
-func (pcq *PaymentCustomerQuery) CountX(ctx context.Context) int {
-	count, err := pcq.Count(ctx)
+func (_q *PaymentCustomerQuery) CountX(ctx context.Context) int {
+	count, err := _q.Count(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -314,9 +314,9 @@ func (pcq *PaymentCustomerQuery) CountX(ctx context.Context) int {
 }
 
 // Exist returns true if the query has elements in the graph.
-func (pcq *PaymentCustomerQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, pcq.ctx, ent.OpQueryExist)
-	switch _, err := pcq.FirstID(ctx); {
+func (_q *PaymentCustomerQuery) Exist(ctx context.Context) (bool, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryExist)
+	switch _, err := _q.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
 	case err != nil:
@@ -327,8 +327,8 @@ func (pcq *PaymentCustomerQuery) Exist(ctx context.Context) (bool, error) {
 }
 
 // ExistX is like Exist, but panics if an error occurs.
-func (pcq *PaymentCustomerQuery) ExistX(ctx context.Context) bool {
-	exist, err := pcq.Exist(ctx)
+func (_q *PaymentCustomerQuery) ExistX(ctx context.Context) bool {
+	exist, err := _q.Exist(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -337,68 +337,68 @@ func (pcq *PaymentCustomerQuery) ExistX(ctx context.Context) bool {
 
 // Clone returns a duplicate of the PaymentCustomerQuery builder, including all associated steps. It can be
 // used to prepare common query builders and use them differently after the clone is made.
-func (pcq *PaymentCustomerQuery) Clone() *PaymentCustomerQuery {
-	if pcq == nil {
+func (_q *PaymentCustomerQuery) Clone() *PaymentCustomerQuery {
+	if _q == nil {
 		return nil
 	}
 	return &PaymentCustomerQuery{
-		config:             pcq.config,
-		ctx:                pcq.ctx.Clone(),
-		order:              append([]paymentcustomer.OrderOption{}, pcq.order...),
-		inters:             append([]Interceptor{}, pcq.inters...),
-		predicates:         append([]predicate.PaymentCustomer{}, pcq.predicates...),
-		withUser:           pcq.withUser.Clone(),
-		withPaymentIntents: pcq.withPaymentIntents.Clone(),
-		withSubscriptions:  pcq.withSubscriptions.Clone(),
-		withPaymentMethods: pcq.withPaymentMethods.Clone(),
+		config:             _q.config,
+		ctx:                _q.ctx.Clone(),
+		order:              append([]paymentcustomer.OrderOption{}, _q.order...),
+		inters:             append([]Interceptor{}, _q.inters...),
+		predicates:         append([]predicate.PaymentCustomer{}, _q.predicates...),
+		withUser:           _q.withUser.Clone(),
+		withPaymentIntents: _q.withPaymentIntents.Clone(),
+		withSubscriptions:  _q.withSubscriptions.Clone(),
+		withPaymentMethods: _q.withPaymentMethods.Clone(),
 		// clone intermediate query.
-		sql:  pcq.sql.Clone(),
-		path: pcq.path,
+		sql:  _q.sql.Clone(),
+		path: _q.path,
 	}
 }
 
 // WithUser tells the query-builder to eager-load the nodes that are connected to
 // the "user" edge. The optional arguments are used to configure the query builder of the edge.
-func (pcq *PaymentCustomerQuery) WithUser(opts ...func(*UserQuery)) *PaymentCustomerQuery {
-	query := (&UserClient{config: pcq.config}).Query()
+func (_q *PaymentCustomerQuery) WithUser(opts ...func(*UserQuery)) *PaymentCustomerQuery {
+	query := (&UserClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	pcq.withUser = query
-	return pcq
+	_q.withUser = query
+	return _q
 }
 
 // WithPaymentIntents tells the query-builder to eager-load the nodes that are connected to
 // the "payment_intents" edge. The optional arguments are used to configure the query builder of the edge.
-func (pcq *PaymentCustomerQuery) WithPaymentIntents(opts ...func(*PaymentIntentQuery)) *PaymentCustomerQuery {
-	query := (&PaymentIntentClient{config: pcq.config}).Query()
+func (_q *PaymentCustomerQuery) WithPaymentIntents(opts ...func(*PaymentIntentQuery)) *PaymentCustomerQuery {
+	query := (&PaymentIntentClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	pcq.withPaymentIntents = query
-	return pcq
+	_q.withPaymentIntents = query
+	return _q
 }
 
 // WithSubscriptions tells the query-builder to eager-load the nodes that are connected to
 // the "subscriptions" edge. The optional arguments are used to configure the query builder of the edge.
-func (pcq *PaymentCustomerQuery) WithSubscriptions(opts ...func(*SubscriptionQuery)) *PaymentCustomerQuery {
-	query := (&SubscriptionClient{config: pcq.config}).Query()
+func (_q *PaymentCustomerQuery) WithSubscriptions(opts ...func(*SubscriptionQuery)) *PaymentCustomerQuery {
+	query := (&SubscriptionClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	pcq.withSubscriptions = query
-	return pcq
+	_q.withSubscriptions = query
+	return _q
 }
 
 // WithPaymentMethods tells the query-builder to eager-load the nodes that are connected to
 // the "payment_methods" edge. The optional arguments are used to configure the query builder of the edge.
-func (pcq *PaymentCustomerQuery) WithPaymentMethods(opts ...func(*PaymentMethodQuery)) *PaymentCustomerQuery {
-	query := (&PaymentMethodClient{config: pcq.config}).Query()
+func (_q *PaymentCustomerQuery) WithPaymentMethods(opts ...func(*PaymentMethodQuery)) *PaymentCustomerQuery {
+	query := (&PaymentMethodClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	pcq.withPaymentMethods = query
-	return pcq
+	_q.withPaymentMethods = query
+	return _q
 }
 
 // GroupBy is used to group vertices by one or more fields/columns.
@@ -415,10 +415,10 @@ func (pcq *PaymentCustomerQuery) WithPaymentMethods(opts ...func(*PaymentMethodQ
 //		GroupBy(paymentcustomer.FieldProviderCustomerID).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
-func (pcq *PaymentCustomerQuery) GroupBy(field string, fields ...string) *PaymentCustomerGroupBy {
-	pcq.ctx.Fields = append([]string{field}, fields...)
-	grbuild := &PaymentCustomerGroupBy{build: pcq}
-	grbuild.flds = &pcq.ctx.Fields
+func (_q *PaymentCustomerQuery) GroupBy(field string, fields ...string) *PaymentCustomerGroupBy {
+	_q.ctx.Fields = append([]string{field}, fields...)
+	grbuild := &PaymentCustomerGroupBy{build: _q}
+	grbuild.flds = &_q.ctx.Fields
 	grbuild.label = paymentcustomer.Label
 	grbuild.scan = grbuild.Scan
 	return grbuild
@@ -436,61 +436,61 @@ func (pcq *PaymentCustomerQuery) GroupBy(field string, fields ...string) *Paymen
 //	client.PaymentCustomer.Query().
 //		Select(paymentcustomer.FieldProviderCustomerID).
 //		Scan(ctx, &v)
-func (pcq *PaymentCustomerQuery) Select(fields ...string) *PaymentCustomerSelect {
-	pcq.ctx.Fields = append(pcq.ctx.Fields, fields...)
-	sbuild := &PaymentCustomerSelect{PaymentCustomerQuery: pcq}
+func (_q *PaymentCustomerQuery) Select(fields ...string) *PaymentCustomerSelect {
+	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
+	sbuild := &PaymentCustomerSelect{PaymentCustomerQuery: _q}
 	sbuild.label = paymentcustomer.Label
-	sbuild.flds, sbuild.scan = &pcq.ctx.Fields, sbuild.Scan
+	sbuild.flds, sbuild.scan = &_q.ctx.Fields, sbuild.Scan
 	return sbuild
 }
 
 // Aggregate returns a PaymentCustomerSelect configured with the given aggregations.
-func (pcq *PaymentCustomerQuery) Aggregate(fns ...AggregateFunc) *PaymentCustomerSelect {
-	return pcq.Select().Aggregate(fns...)
+func (_q *PaymentCustomerQuery) Aggregate(fns ...AggregateFunc) *PaymentCustomerSelect {
+	return _q.Select().Aggregate(fns...)
 }
 
-func (pcq *PaymentCustomerQuery) prepareQuery(ctx context.Context) error {
-	for _, inter := range pcq.inters {
+func (_q *PaymentCustomerQuery) prepareQuery(ctx context.Context) error {
+	for _, inter := range _q.inters {
 		if inter == nil {
 			return fmt.Errorf("ent: uninitialized interceptor (forgotten import ent/runtime?)")
 		}
 		if trv, ok := inter.(Traverser); ok {
-			if err := trv.Traverse(ctx, pcq); err != nil {
+			if err := trv.Traverse(ctx, _q); err != nil {
 				return err
 			}
 		}
 	}
-	for _, f := range pcq.ctx.Fields {
+	for _, f := range _q.ctx.Fields {
 		if !paymentcustomer.ValidColumn(f) {
 			return &ValidationError{Name: f, err: fmt.Errorf("ent: invalid field %q for query", f)}
 		}
 	}
-	if pcq.path != nil {
-		prev, err := pcq.path(ctx)
+	if _q.path != nil {
+		prev, err := _q.path(ctx)
 		if err != nil {
 			return err
 		}
-		pcq.sql = prev
+		_q.sql = prev
 	}
 	return nil
 }
 
-func (pcq *PaymentCustomerQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*PaymentCustomer, error) {
+func (_q *PaymentCustomerQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*PaymentCustomer, error) {
 	var (
 		nodes       = []*PaymentCustomer{}
-		_spec       = pcq.querySpec()
+		_spec       = _q.querySpec()
 		loadedTypes = [4]bool{
-			pcq.withUser != nil,
-			pcq.withPaymentIntents != nil,
-			pcq.withSubscriptions != nil,
-			pcq.withPaymentMethods != nil,
+			_q.withUser != nil,
+			_q.withPaymentIntents != nil,
+			_q.withSubscriptions != nil,
+			_q.withPaymentMethods != nil,
 		}
 	)
 	_spec.ScanValues = func(columns []string) ([]any, error) {
 		return (*PaymentCustomer).scanValues(nil, columns)
 	}
 	_spec.Assign = func(columns []string, values []any) error {
-		node := &PaymentCustomer{config: pcq.config}
+		node := &PaymentCustomer{config: _q.config}
 		nodes = append(nodes, node)
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
@@ -498,34 +498,34 @@ func (pcq *PaymentCustomerQuery) sqlAll(ctx context.Context, hooks ...queryHook)
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
-	if err := sqlgraph.QueryNodes(ctx, pcq.driver, _spec); err != nil {
+	if err := sqlgraph.QueryNodes(ctx, _q.driver, _spec); err != nil {
 		return nil, err
 	}
 	if len(nodes) == 0 {
 		return nodes, nil
 	}
-	if query := pcq.withUser; query != nil {
-		if err := pcq.loadUser(ctx, query, nodes, nil,
+	if query := _q.withUser; query != nil {
+		if err := _q.loadUser(ctx, query, nodes, nil,
 			func(n *PaymentCustomer, e *User) { n.Edges.User = e }); err != nil {
 			return nil, err
 		}
 	}
-	if query := pcq.withPaymentIntents; query != nil {
-		if err := pcq.loadPaymentIntents(ctx, query, nodes,
+	if query := _q.withPaymentIntents; query != nil {
+		if err := _q.loadPaymentIntents(ctx, query, nodes,
 			func(n *PaymentCustomer) { n.Edges.PaymentIntents = []*PaymentIntent{} },
 			func(n *PaymentCustomer, e *PaymentIntent) { n.Edges.PaymentIntents = append(n.Edges.PaymentIntents, e) }); err != nil {
 			return nil, err
 		}
 	}
-	if query := pcq.withSubscriptions; query != nil {
-		if err := pcq.loadSubscriptions(ctx, query, nodes,
+	if query := _q.withSubscriptions; query != nil {
+		if err := _q.loadSubscriptions(ctx, query, nodes,
 			func(n *PaymentCustomer) { n.Edges.Subscriptions = []*Subscription{} },
 			func(n *PaymentCustomer, e *Subscription) { n.Edges.Subscriptions = append(n.Edges.Subscriptions, e) }); err != nil {
 			return nil, err
 		}
 	}
-	if query := pcq.withPaymentMethods; query != nil {
-		if err := pcq.loadPaymentMethods(ctx, query, nodes,
+	if query := _q.withPaymentMethods; query != nil {
+		if err := _q.loadPaymentMethods(ctx, query, nodes,
 			func(n *PaymentCustomer) { n.Edges.PaymentMethods = []*PaymentMethod{} },
 			func(n *PaymentCustomer, e *PaymentMethod) { n.Edges.PaymentMethods = append(n.Edges.PaymentMethods, e) }); err != nil {
 			return nil, err
@@ -534,7 +534,7 @@ func (pcq *PaymentCustomerQuery) sqlAll(ctx context.Context, hooks ...queryHook)
 	return nodes, nil
 }
 
-func (pcq *PaymentCustomerQuery) loadUser(ctx context.Context, query *UserQuery, nodes []*PaymentCustomer, init func(*PaymentCustomer), assign func(*PaymentCustomer, *User)) error {
+func (_q *PaymentCustomerQuery) loadUser(ctx context.Context, query *UserQuery, nodes []*PaymentCustomer, init func(*PaymentCustomer), assign func(*PaymentCustomer, *User)) error {
 	fks := make([]driver.Value, 0, len(nodes))
 	nodeids := make(map[int]*PaymentCustomer)
 	for i := range nodes {
@@ -562,7 +562,7 @@ func (pcq *PaymentCustomerQuery) loadUser(ctx context.Context, query *UserQuery,
 	}
 	return nil
 }
-func (pcq *PaymentCustomerQuery) loadPaymentIntents(ctx context.Context, query *PaymentIntentQuery, nodes []*PaymentCustomer, init func(*PaymentCustomer), assign func(*PaymentCustomer, *PaymentIntent)) error {
+func (_q *PaymentCustomerQuery) loadPaymentIntents(ctx context.Context, query *PaymentIntentQuery, nodes []*PaymentCustomer, init func(*PaymentCustomer), assign func(*PaymentCustomer, *PaymentIntent)) error {
 	fks := make([]driver.Value, 0, len(nodes))
 	nodeids := make(map[int]*PaymentCustomer)
 	for i := range nodes {
@@ -593,7 +593,7 @@ func (pcq *PaymentCustomerQuery) loadPaymentIntents(ctx context.Context, query *
 	}
 	return nil
 }
-func (pcq *PaymentCustomerQuery) loadSubscriptions(ctx context.Context, query *SubscriptionQuery, nodes []*PaymentCustomer, init func(*PaymentCustomer), assign func(*PaymentCustomer, *Subscription)) error {
+func (_q *PaymentCustomerQuery) loadSubscriptions(ctx context.Context, query *SubscriptionQuery, nodes []*PaymentCustomer, init func(*PaymentCustomer), assign func(*PaymentCustomer, *Subscription)) error {
 	fks := make([]driver.Value, 0, len(nodes))
 	nodeids := make(map[int]*PaymentCustomer)
 	for i := range nodes {
@@ -624,7 +624,7 @@ func (pcq *PaymentCustomerQuery) loadSubscriptions(ctx context.Context, query *S
 	}
 	return nil
 }
-func (pcq *PaymentCustomerQuery) loadPaymentMethods(ctx context.Context, query *PaymentMethodQuery, nodes []*PaymentCustomer, init func(*PaymentCustomer), assign func(*PaymentCustomer, *PaymentMethod)) error {
+func (_q *PaymentCustomerQuery) loadPaymentMethods(ctx context.Context, query *PaymentMethodQuery, nodes []*PaymentCustomer, init func(*PaymentCustomer), assign func(*PaymentCustomer, *PaymentMethod)) error {
 	fks := make([]driver.Value, 0, len(nodes))
 	nodeids := make(map[int]*PaymentCustomer)
 	for i := range nodes {
@@ -656,24 +656,24 @@ func (pcq *PaymentCustomerQuery) loadPaymentMethods(ctx context.Context, query *
 	return nil
 }
 
-func (pcq *PaymentCustomerQuery) sqlCount(ctx context.Context) (int, error) {
-	_spec := pcq.querySpec()
-	_spec.Node.Columns = pcq.ctx.Fields
-	if len(pcq.ctx.Fields) > 0 {
-		_spec.Unique = pcq.ctx.Unique != nil && *pcq.ctx.Unique
+func (_q *PaymentCustomerQuery) sqlCount(ctx context.Context) (int, error) {
+	_spec := _q.querySpec()
+	_spec.Node.Columns = _q.ctx.Fields
+	if len(_q.ctx.Fields) > 0 {
+		_spec.Unique = _q.ctx.Unique != nil && *_q.ctx.Unique
 	}
-	return sqlgraph.CountNodes(ctx, pcq.driver, _spec)
+	return sqlgraph.CountNodes(ctx, _q.driver, _spec)
 }
 
-func (pcq *PaymentCustomerQuery) querySpec() *sqlgraph.QuerySpec {
+func (_q *PaymentCustomerQuery) querySpec() *sqlgraph.QuerySpec {
 	_spec := sqlgraph.NewQuerySpec(paymentcustomer.Table, paymentcustomer.Columns, sqlgraph.NewFieldSpec(paymentcustomer.FieldID, field.TypeInt))
-	_spec.From = pcq.sql
-	if unique := pcq.ctx.Unique; unique != nil {
+	_spec.From = _q.sql
+	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique
-	} else if pcq.path != nil {
+	} else if _q.path != nil {
 		_spec.Unique = true
 	}
-	if fields := pcq.ctx.Fields; len(fields) > 0 {
+	if fields := _q.ctx.Fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, paymentcustomer.FieldID)
 		for i := range fields {
@@ -682,20 +682,20 @@ func (pcq *PaymentCustomerQuery) querySpec() *sqlgraph.QuerySpec {
 			}
 		}
 	}
-	if ps := pcq.predicates; len(ps) > 0 {
+	if ps := _q.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if limit := pcq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		_spec.Limit = *limit
 	}
-	if offset := pcq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		_spec.Offset = *offset
 	}
-	if ps := pcq.order; len(ps) > 0 {
+	if ps := _q.order; len(ps) > 0 {
 		_spec.Order = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
@@ -705,33 +705,33 @@ func (pcq *PaymentCustomerQuery) querySpec() *sqlgraph.QuerySpec {
 	return _spec
 }
 
-func (pcq *PaymentCustomerQuery) sqlQuery(ctx context.Context) *sql.Selector {
-	builder := sql.Dialect(pcq.driver.Dialect())
+func (_q *PaymentCustomerQuery) sqlQuery(ctx context.Context) *sql.Selector {
+	builder := sql.Dialect(_q.driver.Dialect())
 	t1 := builder.Table(paymentcustomer.Table)
-	columns := pcq.ctx.Fields
+	columns := _q.ctx.Fields
 	if len(columns) == 0 {
 		columns = paymentcustomer.Columns
 	}
 	selector := builder.Select(t1.Columns(columns...)...).From(t1)
-	if pcq.sql != nil {
-		selector = pcq.sql
+	if _q.sql != nil {
+		selector = _q.sql
 		selector.Select(selector.Columns(columns...)...)
 	}
-	if pcq.ctx.Unique != nil && *pcq.ctx.Unique {
+	if _q.ctx.Unique != nil && *_q.ctx.Unique {
 		selector.Distinct()
 	}
-	for _, p := range pcq.predicates {
+	for _, p := range _q.predicates {
 		p(selector)
 	}
-	for _, p := range pcq.order {
+	for _, p := range _q.order {
 		p(selector)
 	}
-	if offset := pcq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		// limit is mandatory for offset clause. We start
 		// with default value, and override it below if needed.
 		selector.Offset(*offset).Limit(math.MaxInt32)
 	}
-	if limit := pcq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		selector.Limit(*limit)
 	}
 	return selector
@@ -744,41 +744,41 @@ type PaymentCustomerGroupBy struct {
 }
 
 // Aggregate adds the given aggregation functions to the group-by query.
-func (pcgb *PaymentCustomerGroupBy) Aggregate(fns ...AggregateFunc) *PaymentCustomerGroupBy {
-	pcgb.fns = append(pcgb.fns, fns...)
-	return pcgb
+func (_g *PaymentCustomerGroupBy) Aggregate(fns ...AggregateFunc) *PaymentCustomerGroupBy {
+	_g.fns = append(_g.fns, fns...)
+	return _g
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (pcgb *PaymentCustomerGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, pcgb.build.ctx, ent.OpQueryGroupBy)
-	if err := pcgb.build.prepareQuery(ctx); err != nil {
+func (_g *PaymentCustomerGroupBy) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _g.build.ctx, ent.OpQueryGroupBy)
+	if err := _g.build.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*PaymentCustomerQuery, *PaymentCustomerGroupBy](ctx, pcgb.build, pcgb, pcgb.build.inters, v)
+	return scanWithInterceptors[*PaymentCustomerQuery, *PaymentCustomerGroupBy](ctx, _g.build, _g, _g.build.inters, v)
 }
 
-func (pcgb *PaymentCustomerGroupBy) sqlScan(ctx context.Context, root *PaymentCustomerQuery, v any) error {
+func (_g *PaymentCustomerGroupBy) sqlScan(ctx context.Context, root *PaymentCustomerQuery, v any) error {
 	selector := root.sqlQuery(ctx).Select()
-	aggregation := make([]string, 0, len(pcgb.fns))
-	for _, fn := range pcgb.fns {
+	aggregation := make([]string, 0, len(_g.fns))
+	for _, fn := range _g.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
 	if len(selector.SelectedColumns()) == 0 {
-		columns := make([]string, 0, len(*pcgb.flds)+len(pcgb.fns))
-		for _, f := range *pcgb.flds {
+		columns := make([]string, 0, len(*_g.flds)+len(_g.fns))
+		for _, f := range *_g.flds {
 			columns = append(columns, selector.C(f))
 		}
 		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
-	selector.GroupBy(selector.Columns(*pcgb.flds...)...)
+	selector.GroupBy(selector.Columns(*_g.flds...)...)
 	if err := selector.Err(); err != nil {
 		return err
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := pcgb.build.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _g.build.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()
@@ -792,27 +792,27 @@ type PaymentCustomerSelect struct {
 }
 
 // Aggregate adds the given aggregation functions to the selector query.
-func (pcs *PaymentCustomerSelect) Aggregate(fns ...AggregateFunc) *PaymentCustomerSelect {
-	pcs.fns = append(pcs.fns, fns...)
-	return pcs
+func (_s *PaymentCustomerSelect) Aggregate(fns ...AggregateFunc) *PaymentCustomerSelect {
+	_s.fns = append(_s.fns, fns...)
+	return _s
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (pcs *PaymentCustomerSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, pcs.ctx, ent.OpQuerySelect)
-	if err := pcs.prepareQuery(ctx); err != nil {
+func (_s *PaymentCustomerSelect) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _s.ctx, ent.OpQuerySelect)
+	if err := _s.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*PaymentCustomerQuery, *PaymentCustomerSelect](ctx, pcs.PaymentCustomerQuery, pcs, pcs.inters, v)
+	return scanWithInterceptors[*PaymentCustomerQuery, *PaymentCustomerSelect](ctx, _s.PaymentCustomerQuery, _s, _s.inters, v)
 }
 
-func (pcs *PaymentCustomerSelect) sqlScan(ctx context.Context, root *PaymentCustomerQuery, v any) error {
+func (_s *PaymentCustomerSelect) sqlScan(ctx context.Context, root *PaymentCustomerQuery, v any) error {
 	selector := root.sqlQuery(ctx)
-	aggregation := make([]string, 0, len(pcs.fns))
-	for _, fn := range pcs.fns {
+	aggregation := make([]string, 0, len(_s.fns))
+	for _, fn := range _s.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
-	switch n := len(*pcs.selector.flds); {
+	switch n := len(*_s.selector.flds); {
 	case n == 0 && len(aggregation) > 0:
 		selector.Select(aggregation...)
 	case n != 0 && len(aggregation) > 0:
@@ -820,7 +820,7 @@ func (pcs *PaymentCustomerSelect) sqlScan(ctx context.Context, root *PaymentCust
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := pcs.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _s.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()

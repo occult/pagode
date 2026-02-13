@@ -90,7 +90,7 @@ func (*PaymentIntent) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the PaymentIntent fields.
-func (pi *PaymentIntent) assignValues(columns []string, values []any) error {
+func (_m *PaymentIntent) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -101,54 +101,54 @@ func (pi *PaymentIntent) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			pi.ID = int(value.Int64)
+			_m.ID = int(value.Int64)
 		case paymentintent.FieldProviderPaymentIntentID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field provider_payment_intent_id", values[i])
 			} else if value.Valid {
-				pi.ProviderPaymentIntentID = value.String
+				_m.ProviderPaymentIntentID = value.String
 			}
 		case paymentintent.FieldProvider:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field provider", values[i])
 			} else if value.Valid {
-				pi.Provider = value.String
+				_m.Provider = value.String
 			}
 		case paymentintent.FieldStatus:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field status", values[i])
 			} else if value.Valid {
-				pi.Status = paymentintent.Status(value.String)
+				_m.Status = paymentintent.Status(value.String)
 			}
 		case paymentintent.FieldAmount:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field amount", values[i])
 			} else if value.Valid {
-				pi.Amount = value.Int64
+				_m.Amount = value.Int64
 			}
 		case paymentintent.FieldCurrency:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field currency", values[i])
 			} else if value.Valid {
-				pi.Currency = value.String
+				_m.Currency = value.String
 			}
 		case paymentintent.FieldDescription:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field description", values[i])
 			} else if value.Valid {
-				pi.Description = value.String
+				_m.Description = value.String
 			}
 		case paymentintent.FieldClientSecret:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field client_secret", values[i])
 			} else if value.Valid {
-				pi.ClientSecret = value.String
+				_m.ClientSecret = value.String
 			}
 		case paymentintent.FieldMetadata:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field metadata", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &pi.Metadata); err != nil {
+				if err := json.Unmarshal(*value, &_m.Metadata); err != nil {
 					return fmt.Errorf("unmarshal field metadata: %w", err)
 				}
 			}
@@ -156,23 +156,23 @@ func (pi *PaymentIntent) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				pi.CreatedAt = value.Time
+				_m.CreatedAt = value.Time
 			}
 		case paymentintent.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				pi.UpdatedAt = value.Time
+				_m.UpdatedAt = value.Time
 			}
 		case paymentintent.ForeignKeys[0]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field payment_customer_payment_intents", value)
 			} else if value.Valid {
-				pi.payment_customer_payment_intents = new(int)
-				*pi.payment_customer_payment_intents = int(value.Int64)
+				_m.payment_customer_payment_intents = new(int)
+				*_m.payment_customer_payment_intents = int(value.Int64)
 			}
 		default:
-			pi.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -180,66 +180,66 @@ func (pi *PaymentIntent) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the PaymentIntent.
 // This includes values selected through modifiers, order, etc.
-func (pi *PaymentIntent) Value(name string) (ent.Value, error) {
-	return pi.selectValues.Get(name)
+func (_m *PaymentIntent) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // QueryCustomer queries the "customer" edge of the PaymentIntent entity.
-func (pi *PaymentIntent) QueryCustomer() *PaymentCustomerQuery {
-	return NewPaymentIntentClient(pi.config).QueryCustomer(pi)
+func (_m *PaymentIntent) QueryCustomer() *PaymentCustomerQuery {
+	return NewPaymentIntentClient(_m.config).QueryCustomer(_m)
 }
 
 // Update returns a builder for updating this PaymentIntent.
 // Note that you need to call PaymentIntent.Unwrap() before calling this method if this PaymentIntent
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (pi *PaymentIntent) Update() *PaymentIntentUpdateOne {
-	return NewPaymentIntentClient(pi.config).UpdateOne(pi)
+func (_m *PaymentIntent) Update() *PaymentIntentUpdateOne {
+	return NewPaymentIntentClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the PaymentIntent entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (pi *PaymentIntent) Unwrap() *PaymentIntent {
-	_tx, ok := pi.config.driver.(*txDriver)
+func (_m *PaymentIntent) Unwrap() *PaymentIntent {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: PaymentIntent is not a transactional entity")
 	}
-	pi.config.driver = _tx.drv
-	return pi
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (pi *PaymentIntent) String() string {
+func (_m *PaymentIntent) String() string {
 	var builder strings.Builder
 	builder.WriteString("PaymentIntent(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", pi.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("provider_payment_intent_id=")
-	builder.WriteString(pi.ProviderPaymentIntentID)
+	builder.WriteString(_m.ProviderPaymentIntentID)
 	builder.WriteString(", ")
 	builder.WriteString("provider=")
-	builder.WriteString(pi.Provider)
+	builder.WriteString(_m.Provider)
 	builder.WriteString(", ")
 	builder.WriteString("status=")
-	builder.WriteString(fmt.Sprintf("%v", pi.Status))
+	builder.WriteString(fmt.Sprintf("%v", _m.Status))
 	builder.WriteString(", ")
 	builder.WriteString("amount=")
-	builder.WriteString(fmt.Sprintf("%v", pi.Amount))
+	builder.WriteString(fmt.Sprintf("%v", _m.Amount))
 	builder.WriteString(", ")
 	builder.WriteString("currency=")
-	builder.WriteString(pi.Currency)
+	builder.WriteString(_m.Currency)
 	builder.WriteString(", ")
 	builder.WriteString("description=")
-	builder.WriteString(pi.Description)
+	builder.WriteString(_m.Description)
 	builder.WriteString(", ")
 	builder.WriteString("client_secret=<sensitive>")
 	builder.WriteString(", ")
 	builder.WriteString("metadata=")
-	builder.WriteString(fmt.Sprintf("%v", pi.Metadata))
+	builder.WriteString(fmt.Sprintf("%v", _m.Metadata))
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(pi.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.CreatedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(pi.UpdatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
 }

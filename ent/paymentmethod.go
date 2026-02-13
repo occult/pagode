@@ -94,7 +94,7 @@ func (*PaymentMethod) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the PaymentMethod fields.
-func (pm *PaymentMethod) assignValues(columns []string, values []any) error {
+func (_m *PaymentMethod) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -105,60 +105,60 @@ func (pm *PaymentMethod) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			pm.ID = int(value.Int64)
+			_m.ID = int(value.Int64)
 		case paymentmethod.FieldProviderPaymentMethodID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field provider_payment_method_id", values[i])
 			} else if value.Valid {
-				pm.ProviderPaymentMethodID = value.String
+				_m.ProviderPaymentMethodID = value.String
 			}
 		case paymentmethod.FieldProvider:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field provider", values[i])
 			} else if value.Valid {
-				pm.Provider = value.String
+				_m.Provider = value.String
 			}
 		case paymentmethod.FieldType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field type", values[i])
 			} else if value.Valid {
-				pm.Type = paymentmethod.Type(value.String)
+				_m.Type = paymentmethod.Type(value.String)
 			}
 		case paymentmethod.FieldLastFour:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field last_four", values[i])
 			} else if value.Valid {
-				pm.LastFour = value.String
+				_m.LastFour = value.String
 			}
 		case paymentmethod.FieldBrand:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field brand", values[i])
 			} else if value.Valid {
-				pm.Brand = value.String
+				_m.Brand = value.String
 			}
 		case paymentmethod.FieldExpMonth:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field exp_month", values[i])
 			} else if value.Valid {
-				pm.ExpMonth = int(value.Int64)
+				_m.ExpMonth = int(value.Int64)
 			}
 		case paymentmethod.FieldExpYear:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field exp_year", values[i])
 			} else if value.Valid {
-				pm.ExpYear = int(value.Int64)
+				_m.ExpYear = int(value.Int64)
 			}
 		case paymentmethod.FieldIsDefault:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field is_default", values[i])
 			} else if value.Valid {
-				pm.IsDefault = value.Bool
+				_m.IsDefault = value.Bool
 			}
 		case paymentmethod.FieldMetadata:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field metadata", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &pm.Metadata); err != nil {
+				if err := json.Unmarshal(*value, &_m.Metadata); err != nil {
 					return fmt.Errorf("unmarshal field metadata: %w", err)
 				}
 			}
@@ -166,23 +166,23 @@ func (pm *PaymentMethod) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				pm.CreatedAt = value.Time
+				_m.CreatedAt = value.Time
 			}
 		case paymentmethod.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				pm.UpdatedAt = value.Time
+				_m.UpdatedAt = value.Time
 			}
 		case paymentmethod.ForeignKeys[0]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field payment_customer_payment_methods", value)
 			} else if value.Valid {
-				pm.payment_customer_payment_methods = new(int)
-				*pm.payment_customer_payment_methods = int(value.Int64)
+				_m.payment_customer_payment_methods = new(int)
+				*_m.payment_customer_payment_methods = int(value.Int64)
 			}
 		default:
-			pm.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -190,70 +190,70 @@ func (pm *PaymentMethod) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the PaymentMethod.
 // This includes values selected through modifiers, order, etc.
-func (pm *PaymentMethod) Value(name string) (ent.Value, error) {
-	return pm.selectValues.Get(name)
+func (_m *PaymentMethod) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // QueryCustomer queries the "customer" edge of the PaymentMethod entity.
-func (pm *PaymentMethod) QueryCustomer() *PaymentCustomerQuery {
-	return NewPaymentMethodClient(pm.config).QueryCustomer(pm)
+func (_m *PaymentMethod) QueryCustomer() *PaymentCustomerQuery {
+	return NewPaymentMethodClient(_m.config).QueryCustomer(_m)
 }
 
 // Update returns a builder for updating this PaymentMethod.
 // Note that you need to call PaymentMethod.Unwrap() before calling this method if this PaymentMethod
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (pm *PaymentMethod) Update() *PaymentMethodUpdateOne {
-	return NewPaymentMethodClient(pm.config).UpdateOne(pm)
+func (_m *PaymentMethod) Update() *PaymentMethodUpdateOne {
+	return NewPaymentMethodClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the PaymentMethod entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (pm *PaymentMethod) Unwrap() *PaymentMethod {
-	_tx, ok := pm.config.driver.(*txDriver)
+func (_m *PaymentMethod) Unwrap() *PaymentMethod {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: PaymentMethod is not a transactional entity")
 	}
-	pm.config.driver = _tx.drv
-	return pm
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (pm *PaymentMethod) String() string {
+func (_m *PaymentMethod) String() string {
 	var builder strings.Builder
 	builder.WriteString("PaymentMethod(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", pm.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("provider_payment_method_id=")
-	builder.WriteString(pm.ProviderPaymentMethodID)
+	builder.WriteString(_m.ProviderPaymentMethodID)
 	builder.WriteString(", ")
 	builder.WriteString("provider=")
-	builder.WriteString(pm.Provider)
+	builder.WriteString(_m.Provider)
 	builder.WriteString(", ")
 	builder.WriteString("type=")
-	builder.WriteString(fmt.Sprintf("%v", pm.Type))
+	builder.WriteString(fmt.Sprintf("%v", _m.Type))
 	builder.WriteString(", ")
 	builder.WriteString("last_four=")
-	builder.WriteString(pm.LastFour)
+	builder.WriteString(_m.LastFour)
 	builder.WriteString(", ")
 	builder.WriteString("brand=")
-	builder.WriteString(pm.Brand)
+	builder.WriteString(_m.Brand)
 	builder.WriteString(", ")
 	builder.WriteString("exp_month=")
-	builder.WriteString(fmt.Sprintf("%v", pm.ExpMonth))
+	builder.WriteString(fmt.Sprintf("%v", _m.ExpMonth))
 	builder.WriteString(", ")
 	builder.WriteString("exp_year=")
-	builder.WriteString(fmt.Sprintf("%v", pm.ExpYear))
+	builder.WriteString(fmt.Sprintf("%v", _m.ExpYear))
 	builder.WriteString(", ")
 	builder.WriteString("is_default=")
-	builder.WriteString(fmt.Sprintf("%v", pm.IsDefault))
+	builder.WriteString(fmt.Sprintf("%v", _m.IsDefault))
 	builder.WriteString(", ")
 	builder.WriteString("metadata=")
-	builder.WriteString(fmt.Sprintf("%v", pm.Metadata))
+	builder.WriteString(fmt.Sprintf("%v", _m.Metadata))
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(pm.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.CreatedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(pm.UpdatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
 }

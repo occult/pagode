@@ -302,8 +302,8 @@ func (c *PasswordTokenClient) Update() *PasswordTokenUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *PasswordTokenClient) UpdateOne(pt *PasswordToken) *PasswordTokenUpdateOne {
-	mutation := newPasswordTokenMutation(c.config, OpUpdateOne, withPasswordToken(pt))
+func (c *PasswordTokenClient) UpdateOne(_m *PasswordToken) *PasswordTokenUpdateOne {
+	mutation := newPasswordTokenMutation(c.config, OpUpdateOne, withPasswordToken(_m))
 	return &PasswordTokenUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -320,8 +320,8 @@ func (c *PasswordTokenClient) Delete() *PasswordTokenDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *PasswordTokenClient) DeleteOne(pt *PasswordToken) *PasswordTokenDeleteOne {
-	return c.DeleteOneID(pt.ID)
+func (c *PasswordTokenClient) DeleteOne(_m *PasswordToken) *PasswordTokenDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -356,16 +356,16 @@ func (c *PasswordTokenClient) GetX(ctx context.Context, id int) *PasswordToken {
 }
 
 // QueryUser queries the user edge of a PasswordToken.
-func (c *PasswordTokenClient) QueryUser(pt *PasswordToken) *UserQuery {
+func (c *PasswordTokenClient) QueryUser(_m *PasswordToken) *UserQuery {
 	query := (&UserClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := pt.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(passwordtoken.Table, passwordtoken.FieldID, id),
 			sqlgraph.To(user.Table, user.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, false, passwordtoken.UserTable, passwordtoken.UserColumn),
 		)
-		fromV = sqlgraph.Neighbors(pt.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
@@ -452,8 +452,8 @@ func (c *PaymentCustomerClient) Update() *PaymentCustomerUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *PaymentCustomerClient) UpdateOne(pc *PaymentCustomer) *PaymentCustomerUpdateOne {
-	mutation := newPaymentCustomerMutation(c.config, OpUpdateOne, withPaymentCustomer(pc))
+func (c *PaymentCustomerClient) UpdateOne(_m *PaymentCustomer) *PaymentCustomerUpdateOne {
+	mutation := newPaymentCustomerMutation(c.config, OpUpdateOne, withPaymentCustomer(_m))
 	return &PaymentCustomerUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -470,8 +470,8 @@ func (c *PaymentCustomerClient) Delete() *PaymentCustomerDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *PaymentCustomerClient) DeleteOne(pc *PaymentCustomer) *PaymentCustomerDeleteOne {
-	return c.DeleteOneID(pc.ID)
+func (c *PaymentCustomerClient) DeleteOne(_m *PaymentCustomer) *PaymentCustomerDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -506,64 +506,64 @@ func (c *PaymentCustomerClient) GetX(ctx context.Context, id int) *PaymentCustom
 }
 
 // QueryUser queries the user edge of a PaymentCustomer.
-func (c *PaymentCustomerClient) QueryUser(pc *PaymentCustomer) *UserQuery {
+func (c *PaymentCustomerClient) QueryUser(_m *PaymentCustomer) *UserQuery {
 	query := (&UserClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := pc.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(paymentcustomer.Table, paymentcustomer.FieldID, id),
 			sqlgraph.To(user.Table, user.FieldID),
 			sqlgraph.Edge(sqlgraph.O2O, false, paymentcustomer.UserTable, paymentcustomer.UserColumn),
 		)
-		fromV = sqlgraph.Neighbors(pc.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryPaymentIntents queries the payment_intents edge of a PaymentCustomer.
-func (c *PaymentCustomerClient) QueryPaymentIntents(pc *PaymentCustomer) *PaymentIntentQuery {
+func (c *PaymentCustomerClient) QueryPaymentIntents(_m *PaymentCustomer) *PaymentIntentQuery {
 	query := (&PaymentIntentClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := pc.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(paymentcustomer.Table, paymentcustomer.FieldID, id),
 			sqlgraph.To(paymentintent.Table, paymentintent.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, paymentcustomer.PaymentIntentsTable, paymentcustomer.PaymentIntentsColumn),
 		)
-		fromV = sqlgraph.Neighbors(pc.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QuerySubscriptions queries the subscriptions edge of a PaymentCustomer.
-func (c *PaymentCustomerClient) QuerySubscriptions(pc *PaymentCustomer) *SubscriptionQuery {
+func (c *PaymentCustomerClient) QuerySubscriptions(_m *PaymentCustomer) *SubscriptionQuery {
 	query := (&SubscriptionClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := pc.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(paymentcustomer.Table, paymentcustomer.FieldID, id),
 			sqlgraph.To(subscription.Table, subscription.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, paymentcustomer.SubscriptionsTable, paymentcustomer.SubscriptionsColumn),
 		)
-		fromV = sqlgraph.Neighbors(pc.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryPaymentMethods queries the payment_methods edge of a PaymentCustomer.
-func (c *PaymentCustomerClient) QueryPaymentMethods(pc *PaymentCustomer) *PaymentMethodQuery {
+func (c *PaymentCustomerClient) QueryPaymentMethods(_m *PaymentCustomer) *PaymentMethodQuery {
 	query := (&PaymentMethodClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := pc.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(paymentcustomer.Table, paymentcustomer.FieldID, id),
 			sqlgraph.To(paymentmethod.Table, paymentmethod.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, paymentcustomer.PaymentMethodsTable, paymentcustomer.PaymentMethodsColumn),
 		)
-		fromV = sqlgraph.Neighbors(pc.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
@@ -649,8 +649,8 @@ func (c *PaymentIntentClient) Update() *PaymentIntentUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *PaymentIntentClient) UpdateOne(pi *PaymentIntent) *PaymentIntentUpdateOne {
-	mutation := newPaymentIntentMutation(c.config, OpUpdateOne, withPaymentIntent(pi))
+func (c *PaymentIntentClient) UpdateOne(_m *PaymentIntent) *PaymentIntentUpdateOne {
+	mutation := newPaymentIntentMutation(c.config, OpUpdateOne, withPaymentIntent(_m))
 	return &PaymentIntentUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -667,8 +667,8 @@ func (c *PaymentIntentClient) Delete() *PaymentIntentDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *PaymentIntentClient) DeleteOne(pi *PaymentIntent) *PaymentIntentDeleteOne {
-	return c.DeleteOneID(pi.ID)
+func (c *PaymentIntentClient) DeleteOne(_m *PaymentIntent) *PaymentIntentDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -703,16 +703,16 @@ func (c *PaymentIntentClient) GetX(ctx context.Context, id int) *PaymentIntent {
 }
 
 // QueryCustomer queries the customer edge of a PaymentIntent.
-func (c *PaymentIntentClient) QueryCustomer(pi *PaymentIntent) *PaymentCustomerQuery {
+func (c *PaymentIntentClient) QueryCustomer(_m *PaymentIntent) *PaymentCustomerQuery {
 	query := (&PaymentCustomerClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := pi.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(paymentintent.Table, paymentintent.FieldID, id),
 			sqlgraph.To(paymentcustomer.Table, paymentcustomer.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, paymentintent.CustomerTable, paymentintent.CustomerColumn),
 		)
-		fromV = sqlgraph.Neighbors(pi.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
@@ -798,8 +798,8 @@ func (c *PaymentMethodClient) Update() *PaymentMethodUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *PaymentMethodClient) UpdateOne(pm *PaymentMethod) *PaymentMethodUpdateOne {
-	mutation := newPaymentMethodMutation(c.config, OpUpdateOne, withPaymentMethod(pm))
+func (c *PaymentMethodClient) UpdateOne(_m *PaymentMethod) *PaymentMethodUpdateOne {
+	mutation := newPaymentMethodMutation(c.config, OpUpdateOne, withPaymentMethod(_m))
 	return &PaymentMethodUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -816,8 +816,8 @@ func (c *PaymentMethodClient) Delete() *PaymentMethodDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *PaymentMethodClient) DeleteOne(pm *PaymentMethod) *PaymentMethodDeleteOne {
-	return c.DeleteOneID(pm.ID)
+func (c *PaymentMethodClient) DeleteOne(_m *PaymentMethod) *PaymentMethodDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -852,16 +852,16 @@ func (c *PaymentMethodClient) GetX(ctx context.Context, id int) *PaymentMethod {
 }
 
 // QueryCustomer queries the customer edge of a PaymentMethod.
-func (c *PaymentMethodClient) QueryCustomer(pm *PaymentMethod) *PaymentCustomerQuery {
+func (c *PaymentMethodClient) QueryCustomer(_m *PaymentMethod) *PaymentCustomerQuery {
 	query := (&PaymentCustomerClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := pm.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(paymentmethod.Table, paymentmethod.FieldID, id),
 			sqlgraph.To(paymentcustomer.Table, paymentcustomer.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, paymentmethod.CustomerTable, paymentmethod.CustomerColumn),
 		)
-		fromV = sqlgraph.Neighbors(pm.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
@@ -947,8 +947,8 @@ func (c *SubscriptionClient) Update() *SubscriptionUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *SubscriptionClient) UpdateOne(s *Subscription) *SubscriptionUpdateOne {
-	mutation := newSubscriptionMutation(c.config, OpUpdateOne, withSubscription(s))
+func (c *SubscriptionClient) UpdateOne(_m *Subscription) *SubscriptionUpdateOne {
+	mutation := newSubscriptionMutation(c.config, OpUpdateOne, withSubscription(_m))
 	return &SubscriptionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -965,8 +965,8 @@ func (c *SubscriptionClient) Delete() *SubscriptionDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *SubscriptionClient) DeleteOne(s *Subscription) *SubscriptionDeleteOne {
-	return c.DeleteOneID(s.ID)
+func (c *SubscriptionClient) DeleteOne(_m *Subscription) *SubscriptionDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -1001,16 +1001,16 @@ func (c *SubscriptionClient) GetX(ctx context.Context, id int) *Subscription {
 }
 
 // QueryCustomer queries the customer edge of a Subscription.
-func (c *SubscriptionClient) QueryCustomer(s *Subscription) *PaymentCustomerQuery {
+func (c *SubscriptionClient) QueryCustomer(_m *Subscription) *PaymentCustomerQuery {
 	query := (&PaymentCustomerClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := s.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(subscription.Table, subscription.FieldID, id),
 			sqlgraph.To(paymentcustomer.Table, paymentcustomer.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, subscription.CustomerTable, subscription.CustomerColumn),
 		)
-		fromV = sqlgraph.Neighbors(s.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
@@ -1096,8 +1096,8 @@ func (c *UserClient) Update() *UserUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *UserClient) UpdateOne(u *User) *UserUpdateOne {
-	mutation := newUserMutation(c.config, OpUpdateOne, withUser(u))
+func (c *UserClient) UpdateOne(_m *User) *UserUpdateOne {
+	mutation := newUserMutation(c.config, OpUpdateOne, withUser(_m))
 	return &UserUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -1114,8 +1114,8 @@ func (c *UserClient) Delete() *UserDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *UserClient) DeleteOne(u *User) *UserDeleteOne {
-	return c.DeleteOneID(u.ID)
+func (c *UserClient) DeleteOne(_m *User) *UserDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -1150,32 +1150,32 @@ func (c *UserClient) GetX(ctx context.Context, id int) *User {
 }
 
 // QueryOwner queries the owner edge of a User.
-func (c *UserClient) QueryOwner(u *User) *PasswordTokenQuery {
+func (c *UserClient) QueryOwner(_m *User) *PasswordTokenQuery {
 	query := (&PasswordTokenClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := u.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(user.Table, user.FieldID, id),
 			sqlgraph.To(passwordtoken.Table, passwordtoken.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, true, user.OwnerTable, user.OwnerColumn),
 		)
-		fromV = sqlgraph.Neighbors(u.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryPaymentCustomer queries the payment_customer edge of a User.
-func (c *UserClient) QueryPaymentCustomer(u *User) *PaymentCustomerQuery {
+func (c *UserClient) QueryPaymentCustomer(_m *User) *PaymentCustomerQuery {
 	query := (&PaymentCustomerClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := u.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(user.Table, user.FieldID, id),
 			sqlgraph.To(paymentcustomer.Table, paymentcustomer.FieldID),
 			sqlgraph.Edge(sqlgraph.O2O, true, user.PaymentCustomerTable, user.PaymentCustomerColumn),
 		)
-		fromV = sqlgraph.Neighbors(u.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query

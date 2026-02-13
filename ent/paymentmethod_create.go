@@ -22,168 +22,168 @@ type PaymentMethodCreate struct {
 }
 
 // SetProviderPaymentMethodID sets the "provider_payment_method_id" field.
-func (pmc *PaymentMethodCreate) SetProviderPaymentMethodID(s string) *PaymentMethodCreate {
-	pmc.mutation.SetProviderPaymentMethodID(s)
-	return pmc
+func (_c *PaymentMethodCreate) SetProviderPaymentMethodID(v string) *PaymentMethodCreate {
+	_c.mutation.SetProviderPaymentMethodID(v)
+	return _c
 }
 
 // SetProvider sets the "provider" field.
-func (pmc *PaymentMethodCreate) SetProvider(s string) *PaymentMethodCreate {
-	pmc.mutation.SetProvider(s)
-	return pmc
+func (_c *PaymentMethodCreate) SetProvider(v string) *PaymentMethodCreate {
+	_c.mutation.SetProvider(v)
+	return _c
 }
 
 // SetNillableProvider sets the "provider" field if the given value is not nil.
-func (pmc *PaymentMethodCreate) SetNillableProvider(s *string) *PaymentMethodCreate {
-	if s != nil {
-		pmc.SetProvider(*s)
+func (_c *PaymentMethodCreate) SetNillableProvider(v *string) *PaymentMethodCreate {
+	if v != nil {
+		_c.SetProvider(*v)
 	}
-	return pmc
+	return _c
 }
 
 // SetType sets the "type" field.
-func (pmc *PaymentMethodCreate) SetType(pa paymentmethod.Type) *PaymentMethodCreate {
-	pmc.mutation.SetType(pa)
-	return pmc
+func (_c *PaymentMethodCreate) SetType(v paymentmethod.Type) *PaymentMethodCreate {
+	_c.mutation.SetType(v)
+	return _c
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (pmc *PaymentMethodCreate) SetNillableType(pa *paymentmethod.Type) *PaymentMethodCreate {
-	if pa != nil {
-		pmc.SetType(*pa)
+func (_c *PaymentMethodCreate) SetNillableType(v *paymentmethod.Type) *PaymentMethodCreate {
+	if v != nil {
+		_c.SetType(*v)
 	}
-	return pmc
+	return _c
 }
 
 // SetLastFour sets the "last_four" field.
-func (pmc *PaymentMethodCreate) SetLastFour(s string) *PaymentMethodCreate {
-	pmc.mutation.SetLastFour(s)
-	return pmc
+func (_c *PaymentMethodCreate) SetLastFour(v string) *PaymentMethodCreate {
+	_c.mutation.SetLastFour(v)
+	return _c
 }
 
 // SetNillableLastFour sets the "last_four" field if the given value is not nil.
-func (pmc *PaymentMethodCreate) SetNillableLastFour(s *string) *PaymentMethodCreate {
-	if s != nil {
-		pmc.SetLastFour(*s)
+func (_c *PaymentMethodCreate) SetNillableLastFour(v *string) *PaymentMethodCreate {
+	if v != nil {
+		_c.SetLastFour(*v)
 	}
-	return pmc
+	return _c
 }
 
 // SetBrand sets the "brand" field.
-func (pmc *PaymentMethodCreate) SetBrand(s string) *PaymentMethodCreate {
-	pmc.mutation.SetBrand(s)
-	return pmc
+func (_c *PaymentMethodCreate) SetBrand(v string) *PaymentMethodCreate {
+	_c.mutation.SetBrand(v)
+	return _c
 }
 
 // SetNillableBrand sets the "brand" field if the given value is not nil.
-func (pmc *PaymentMethodCreate) SetNillableBrand(s *string) *PaymentMethodCreate {
-	if s != nil {
-		pmc.SetBrand(*s)
+func (_c *PaymentMethodCreate) SetNillableBrand(v *string) *PaymentMethodCreate {
+	if v != nil {
+		_c.SetBrand(*v)
 	}
-	return pmc
+	return _c
 }
 
 // SetExpMonth sets the "exp_month" field.
-func (pmc *PaymentMethodCreate) SetExpMonth(i int) *PaymentMethodCreate {
-	pmc.mutation.SetExpMonth(i)
-	return pmc
+func (_c *PaymentMethodCreate) SetExpMonth(v int) *PaymentMethodCreate {
+	_c.mutation.SetExpMonth(v)
+	return _c
 }
 
 // SetNillableExpMonth sets the "exp_month" field if the given value is not nil.
-func (pmc *PaymentMethodCreate) SetNillableExpMonth(i *int) *PaymentMethodCreate {
-	if i != nil {
-		pmc.SetExpMonth(*i)
+func (_c *PaymentMethodCreate) SetNillableExpMonth(v *int) *PaymentMethodCreate {
+	if v != nil {
+		_c.SetExpMonth(*v)
 	}
-	return pmc
+	return _c
 }
 
 // SetExpYear sets the "exp_year" field.
-func (pmc *PaymentMethodCreate) SetExpYear(i int) *PaymentMethodCreate {
-	pmc.mutation.SetExpYear(i)
-	return pmc
+func (_c *PaymentMethodCreate) SetExpYear(v int) *PaymentMethodCreate {
+	_c.mutation.SetExpYear(v)
+	return _c
 }
 
 // SetNillableExpYear sets the "exp_year" field if the given value is not nil.
-func (pmc *PaymentMethodCreate) SetNillableExpYear(i *int) *PaymentMethodCreate {
-	if i != nil {
-		pmc.SetExpYear(*i)
+func (_c *PaymentMethodCreate) SetNillableExpYear(v *int) *PaymentMethodCreate {
+	if v != nil {
+		_c.SetExpYear(*v)
 	}
-	return pmc
+	return _c
 }
 
 // SetIsDefault sets the "is_default" field.
-func (pmc *PaymentMethodCreate) SetIsDefault(b bool) *PaymentMethodCreate {
-	pmc.mutation.SetIsDefault(b)
-	return pmc
+func (_c *PaymentMethodCreate) SetIsDefault(v bool) *PaymentMethodCreate {
+	_c.mutation.SetIsDefault(v)
+	return _c
 }
 
 // SetNillableIsDefault sets the "is_default" field if the given value is not nil.
-func (pmc *PaymentMethodCreate) SetNillableIsDefault(b *bool) *PaymentMethodCreate {
-	if b != nil {
-		pmc.SetIsDefault(*b)
+func (_c *PaymentMethodCreate) SetNillableIsDefault(v *bool) *PaymentMethodCreate {
+	if v != nil {
+		_c.SetIsDefault(*v)
 	}
-	return pmc
+	return _c
 }
 
 // SetMetadata sets the "metadata" field.
-func (pmc *PaymentMethodCreate) SetMetadata(m map[string]interface{}) *PaymentMethodCreate {
-	pmc.mutation.SetMetadata(m)
-	return pmc
+func (_c *PaymentMethodCreate) SetMetadata(v map[string]interface{}) *PaymentMethodCreate {
+	_c.mutation.SetMetadata(v)
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (pmc *PaymentMethodCreate) SetCreatedAt(t time.Time) *PaymentMethodCreate {
-	pmc.mutation.SetCreatedAt(t)
-	return pmc
+func (_c *PaymentMethodCreate) SetCreatedAt(v time.Time) *PaymentMethodCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (pmc *PaymentMethodCreate) SetNillableCreatedAt(t *time.Time) *PaymentMethodCreate {
-	if t != nil {
-		pmc.SetCreatedAt(*t)
+func (_c *PaymentMethodCreate) SetNillableCreatedAt(v *time.Time) *PaymentMethodCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return pmc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (pmc *PaymentMethodCreate) SetUpdatedAt(t time.Time) *PaymentMethodCreate {
-	pmc.mutation.SetUpdatedAt(t)
-	return pmc
+func (_c *PaymentMethodCreate) SetUpdatedAt(v time.Time) *PaymentMethodCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (pmc *PaymentMethodCreate) SetNillableUpdatedAt(t *time.Time) *PaymentMethodCreate {
-	if t != nil {
-		pmc.SetUpdatedAt(*t)
+func (_c *PaymentMethodCreate) SetNillableUpdatedAt(v *time.Time) *PaymentMethodCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return pmc
+	return _c
 }
 
 // SetCustomerID sets the "customer" edge to the PaymentCustomer entity by ID.
-func (pmc *PaymentMethodCreate) SetCustomerID(id int) *PaymentMethodCreate {
-	pmc.mutation.SetCustomerID(id)
-	return pmc
+func (_c *PaymentMethodCreate) SetCustomerID(id int) *PaymentMethodCreate {
+	_c.mutation.SetCustomerID(id)
+	return _c
 }
 
 // SetCustomer sets the "customer" edge to the PaymentCustomer entity.
-func (pmc *PaymentMethodCreate) SetCustomer(p *PaymentCustomer) *PaymentMethodCreate {
-	return pmc.SetCustomerID(p.ID)
+func (_c *PaymentMethodCreate) SetCustomer(v *PaymentCustomer) *PaymentMethodCreate {
+	return _c.SetCustomerID(v.ID)
 }
 
 // Mutation returns the PaymentMethodMutation object of the builder.
-func (pmc *PaymentMethodCreate) Mutation() *PaymentMethodMutation {
-	return pmc.mutation
+func (_c *PaymentMethodCreate) Mutation() *PaymentMethodMutation {
+	return _c.mutation
 }
 
 // Save creates the PaymentMethod in the database.
-func (pmc *PaymentMethodCreate) Save(ctx context.Context) (*PaymentMethod, error) {
-	pmc.defaults()
-	return withHooks(ctx, pmc.sqlSave, pmc.mutation, pmc.hooks)
+func (_c *PaymentMethodCreate) Save(ctx context.Context) (*PaymentMethod, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (pmc *PaymentMethodCreate) SaveX(ctx context.Context) *PaymentMethod {
-	v, err := pmc.Save(ctx)
+func (_c *PaymentMethodCreate) SaveX(ctx context.Context) *PaymentMethod {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -191,94 +191,94 @@ func (pmc *PaymentMethodCreate) SaveX(ctx context.Context) *PaymentMethod {
 }
 
 // Exec executes the query.
-func (pmc *PaymentMethodCreate) Exec(ctx context.Context) error {
-	_, err := pmc.Save(ctx)
+func (_c *PaymentMethodCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (pmc *PaymentMethodCreate) ExecX(ctx context.Context) {
-	if err := pmc.Exec(ctx); err != nil {
+func (_c *PaymentMethodCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (pmc *PaymentMethodCreate) defaults() {
-	if _, ok := pmc.mutation.Provider(); !ok {
+func (_c *PaymentMethodCreate) defaults() {
+	if _, ok := _c.mutation.Provider(); !ok {
 		v := paymentmethod.DefaultProvider
-		pmc.mutation.SetProvider(v)
+		_c.mutation.SetProvider(v)
 	}
-	if _, ok := pmc.mutation.GetType(); !ok {
+	if _, ok := _c.mutation.GetType(); !ok {
 		v := paymentmethod.DefaultType
-		pmc.mutation.SetType(v)
+		_c.mutation.SetType(v)
 	}
-	if _, ok := pmc.mutation.IsDefault(); !ok {
+	if _, ok := _c.mutation.IsDefault(); !ok {
 		v := paymentmethod.DefaultIsDefault
-		pmc.mutation.SetIsDefault(v)
+		_c.mutation.SetIsDefault(v)
 	}
-	if _, ok := pmc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := paymentmethod.DefaultCreatedAt()
-		pmc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := pmc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := paymentmethod.DefaultUpdatedAt()
-		pmc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (pmc *PaymentMethodCreate) check() error {
-	if _, ok := pmc.mutation.ProviderPaymentMethodID(); !ok {
+func (_c *PaymentMethodCreate) check() error {
+	if _, ok := _c.mutation.ProviderPaymentMethodID(); !ok {
 		return &ValidationError{Name: "provider_payment_method_id", err: errors.New(`ent: missing required field "PaymentMethod.provider_payment_method_id"`)}
 	}
-	if v, ok := pmc.mutation.ProviderPaymentMethodID(); ok {
+	if v, ok := _c.mutation.ProviderPaymentMethodID(); ok {
 		if err := paymentmethod.ProviderPaymentMethodIDValidator(v); err != nil {
 			return &ValidationError{Name: "provider_payment_method_id", err: fmt.Errorf(`ent: validator failed for field "PaymentMethod.provider_payment_method_id": %w`, err)}
 		}
 	}
-	if _, ok := pmc.mutation.Provider(); !ok {
+	if _, ok := _c.mutation.Provider(); !ok {
 		return &ValidationError{Name: "provider", err: errors.New(`ent: missing required field "PaymentMethod.provider"`)}
 	}
-	if v, ok := pmc.mutation.Provider(); ok {
+	if v, ok := _c.mutation.Provider(); ok {
 		if err := paymentmethod.ProviderValidator(v); err != nil {
 			return &ValidationError{Name: "provider", err: fmt.Errorf(`ent: validator failed for field "PaymentMethod.provider": %w`, err)}
 		}
 	}
-	if _, ok := pmc.mutation.GetType(); !ok {
+	if _, ok := _c.mutation.GetType(); !ok {
 		return &ValidationError{Name: "type", err: errors.New(`ent: missing required field "PaymentMethod.type"`)}
 	}
-	if v, ok := pmc.mutation.GetType(); ok {
+	if v, ok := _c.mutation.GetType(); ok {
 		if err := paymentmethod.TypeValidator(v); err != nil {
 			return &ValidationError{Name: "type", err: fmt.Errorf(`ent: validator failed for field "PaymentMethod.type": %w`, err)}
 		}
 	}
-	if v, ok := pmc.mutation.ExpMonth(); ok {
+	if v, ok := _c.mutation.ExpMonth(); ok {
 		if err := paymentmethod.ExpMonthValidator(v); err != nil {
 			return &ValidationError{Name: "exp_month", err: fmt.Errorf(`ent: validator failed for field "PaymentMethod.exp_month": %w`, err)}
 		}
 	}
-	if _, ok := pmc.mutation.IsDefault(); !ok {
+	if _, ok := _c.mutation.IsDefault(); !ok {
 		return &ValidationError{Name: "is_default", err: errors.New(`ent: missing required field "PaymentMethod.is_default"`)}
 	}
-	if _, ok := pmc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		return &ValidationError{Name: "created_at", err: errors.New(`ent: missing required field "PaymentMethod.created_at"`)}
 	}
-	if _, ok := pmc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		return &ValidationError{Name: "updated_at", err: errors.New(`ent: missing required field "PaymentMethod.updated_at"`)}
 	}
-	if len(pmc.mutation.CustomerIDs()) == 0 {
+	if len(_c.mutation.CustomerIDs()) == 0 {
 		return &ValidationError{Name: "customer", err: errors.New(`ent: missing required edge "PaymentMethod.customer"`)}
 	}
 	return nil
 }
 
-func (pmc *PaymentMethodCreate) sqlSave(ctx context.Context) (*PaymentMethod, error) {
-	if err := pmc.check(); err != nil {
+func (_c *PaymentMethodCreate) sqlSave(ctx context.Context) (*PaymentMethod, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := pmc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, pmc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -286,61 +286,61 @@ func (pmc *PaymentMethodCreate) sqlSave(ctx context.Context) (*PaymentMethod, er
 	}
 	id := _spec.ID.Value.(int64)
 	_node.ID = int(id)
-	pmc.mutation.id = &_node.ID
-	pmc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (pmc *PaymentMethodCreate) createSpec() (*PaymentMethod, *sqlgraph.CreateSpec) {
+func (_c *PaymentMethodCreate) createSpec() (*PaymentMethod, *sqlgraph.CreateSpec) {
 	var (
-		_node = &PaymentMethod{config: pmc.config}
+		_node = &PaymentMethod{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(paymentmethod.Table, sqlgraph.NewFieldSpec(paymentmethod.FieldID, field.TypeInt))
 	)
-	if value, ok := pmc.mutation.ProviderPaymentMethodID(); ok {
+	if value, ok := _c.mutation.ProviderPaymentMethodID(); ok {
 		_spec.SetField(paymentmethod.FieldProviderPaymentMethodID, field.TypeString, value)
 		_node.ProviderPaymentMethodID = value
 	}
-	if value, ok := pmc.mutation.Provider(); ok {
+	if value, ok := _c.mutation.Provider(); ok {
 		_spec.SetField(paymentmethod.FieldProvider, field.TypeString, value)
 		_node.Provider = value
 	}
-	if value, ok := pmc.mutation.GetType(); ok {
+	if value, ok := _c.mutation.GetType(); ok {
 		_spec.SetField(paymentmethod.FieldType, field.TypeEnum, value)
 		_node.Type = value
 	}
-	if value, ok := pmc.mutation.LastFour(); ok {
+	if value, ok := _c.mutation.LastFour(); ok {
 		_spec.SetField(paymentmethod.FieldLastFour, field.TypeString, value)
 		_node.LastFour = value
 	}
-	if value, ok := pmc.mutation.Brand(); ok {
+	if value, ok := _c.mutation.Brand(); ok {
 		_spec.SetField(paymentmethod.FieldBrand, field.TypeString, value)
 		_node.Brand = value
 	}
-	if value, ok := pmc.mutation.ExpMonth(); ok {
+	if value, ok := _c.mutation.ExpMonth(); ok {
 		_spec.SetField(paymentmethod.FieldExpMonth, field.TypeInt, value)
 		_node.ExpMonth = value
 	}
-	if value, ok := pmc.mutation.ExpYear(); ok {
+	if value, ok := _c.mutation.ExpYear(); ok {
 		_spec.SetField(paymentmethod.FieldExpYear, field.TypeInt, value)
 		_node.ExpYear = value
 	}
-	if value, ok := pmc.mutation.IsDefault(); ok {
+	if value, ok := _c.mutation.IsDefault(); ok {
 		_spec.SetField(paymentmethod.FieldIsDefault, field.TypeBool, value)
 		_node.IsDefault = value
 	}
-	if value, ok := pmc.mutation.Metadata(); ok {
+	if value, ok := _c.mutation.Metadata(); ok {
 		_spec.SetField(paymentmethod.FieldMetadata, field.TypeJSON, value)
 		_node.Metadata = value
 	}
-	if value, ok := pmc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(paymentmethod.FieldCreatedAt, field.TypeTime, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := pmc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(paymentmethod.FieldUpdatedAt, field.TypeTime, value)
 		_node.UpdatedAt = value
 	}
-	if nodes := pmc.mutation.CustomerIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.CustomerIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -368,16 +368,16 @@ type PaymentMethodCreateBulk struct {
 }
 
 // Save creates the PaymentMethod entities in the database.
-func (pmcb *PaymentMethodCreateBulk) Save(ctx context.Context) ([]*PaymentMethod, error) {
-	if pmcb.err != nil {
-		return nil, pmcb.err
+func (_c *PaymentMethodCreateBulk) Save(ctx context.Context) ([]*PaymentMethod, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(pmcb.builders))
-	nodes := make([]*PaymentMethod, len(pmcb.builders))
-	mutators := make([]Mutator, len(pmcb.builders))
-	for i := range pmcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*PaymentMethod, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := pmcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*PaymentMethodMutation)
@@ -391,11 +391,11 @@ func (pmcb *PaymentMethodCreateBulk) Save(ctx context.Context) ([]*PaymentMethod
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, pmcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, pmcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -419,7 +419,7 @@ func (pmcb *PaymentMethodCreateBulk) Save(ctx context.Context) ([]*PaymentMethod
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, pmcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -427,8 +427,8 @@ func (pmcb *PaymentMethodCreateBulk) Save(ctx context.Context) ([]*PaymentMethod
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (pmcb *PaymentMethodCreateBulk) SaveX(ctx context.Context) []*PaymentMethod {
-	v, err := pmcb.Save(ctx)
+func (_c *PaymentMethodCreateBulk) SaveX(ctx context.Context) []*PaymentMethod {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -436,14 +436,14 @@ func (pmcb *PaymentMethodCreateBulk) SaveX(ctx context.Context) []*PaymentMethod
 }
 
 // Exec executes the query.
-func (pmcb *PaymentMethodCreateBulk) Exec(ctx context.Context) error {
-	_, err := pmcb.Save(ctx)
+func (_c *PaymentMethodCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (pmcb *PaymentMethodCreateBulk) ExecX(ctx context.Context) {
-	if err := pmcb.Exec(ctx); err != nil {
+func (_c *PaymentMethodCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

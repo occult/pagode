@@ -24,177 +24,177 @@ type PaymentIntentUpdate struct {
 }
 
 // Where appends a list predicates to the PaymentIntentUpdate builder.
-func (piu *PaymentIntentUpdate) Where(ps ...predicate.PaymentIntent) *PaymentIntentUpdate {
-	piu.mutation.Where(ps...)
-	return piu
+func (_u *PaymentIntentUpdate) Where(ps ...predicate.PaymentIntent) *PaymentIntentUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetProviderPaymentIntentID sets the "provider_payment_intent_id" field.
-func (piu *PaymentIntentUpdate) SetProviderPaymentIntentID(s string) *PaymentIntentUpdate {
-	piu.mutation.SetProviderPaymentIntentID(s)
-	return piu
+func (_u *PaymentIntentUpdate) SetProviderPaymentIntentID(v string) *PaymentIntentUpdate {
+	_u.mutation.SetProviderPaymentIntentID(v)
+	return _u
 }
 
 // SetNillableProviderPaymentIntentID sets the "provider_payment_intent_id" field if the given value is not nil.
-func (piu *PaymentIntentUpdate) SetNillableProviderPaymentIntentID(s *string) *PaymentIntentUpdate {
-	if s != nil {
-		piu.SetProviderPaymentIntentID(*s)
+func (_u *PaymentIntentUpdate) SetNillableProviderPaymentIntentID(v *string) *PaymentIntentUpdate {
+	if v != nil {
+		_u.SetProviderPaymentIntentID(*v)
 	}
-	return piu
+	return _u
 }
 
 // SetProvider sets the "provider" field.
-func (piu *PaymentIntentUpdate) SetProvider(s string) *PaymentIntentUpdate {
-	piu.mutation.SetProvider(s)
-	return piu
+func (_u *PaymentIntentUpdate) SetProvider(v string) *PaymentIntentUpdate {
+	_u.mutation.SetProvider(v)
+	return _u
 }
 
 // SetNillableProvider sets the "provider" field if the given value is not nil.
-func (piu *PaymentIntentUpdate) SetNillableProvider(s *string) *PaymentIntentUpdate {
-	if s != nil {
-		piu.SetProvider(*s)
+func (_u *PaymentIntentUpdate) SetNillableProvider(v *string) *PaymentIntentUpdate {
+	if v != nil {
+		_u.SetProvider(*v)
 	}
-	return piu
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (piu *PaymentIntentUpdate) SetStatus(pa paymentintent.Status) *PaymentIntentUpdate {
-	piu.mutation.SetStatus(pa)
-	return piu
+func (_u *PaymentIntentUpdate) SetStatus(v paymentintent.Status) *PaymentIntentUpdate {
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (piu *PaymentIntentUpdate) SetNillableStatus(pa *paymentintent.Status) *PaymentIntentUpdate {
-	if pa != nil {
-		piu.SetStatus(*pa)
+func (_u *PaymentIntentUpdate) SetNillableStatus(v *paymentintent.Status) *PaymentIntentUpdate {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return piu
+	return _u
 }
 
 // SetAmount sets the "amount" field.
-func (piu *PaymentIntentUpdate) SetAmount(i int64) *PaymentIntentUpdate {
-	piu.mutation.ResetAmount()
-	piu.mutation.SetAmount(i)
-	return piu
+func (_u *PaymentIntentUpdate) SetAmount(v int64) *PaymentIntentUpdate {
+	_u.mutation.ResetAmount()
+	_u.mutation.SetAmount(v)
+	return _u
 }
 
 // SetNillableAmount sets the "amount" field if the given value is not nil.
-func (piu *PaymentIntentUpdate) SetNillableAmount(i *int64) *PaymentIntentUpdate {
-	if i != nil {
-		piu.SetAmount(*i)
+func (_u *PaymentIntentUpdate) SetNillableAmount(v *int64) *PaymentIntentUpdate {
+	if v != nil {
+		_u.SetAmount(*v)
 	}
-	return piu
+	return _u
 }
 
-// AddAmount adds i to the "amount" field.
-func (piu *PaymentIntentUpdate) AddAmount(i int64) *PaymentIntentUpdate {
-	piu.mutation.AddAmount(i)
-	return piu
+// AddAmount adds value to the "amount" field.
+func (_u *PaymentIntentUpdate) AddAmount(v int64) *PaymentIntentUpdate {
+	_u.mutation.AddAmount(v)
+	return _u
 }
 
 // SetCurrency sets the "currency" field.
-func (piu *PaymentIntentUpdate) SetCurrency(s string) *PaymentIntentUpdate {
-	piu.mutation.SetCurrency(s)
-	return piu
+func (_u *PaymentIntentUpdate) SetCurrency(v string) *PaymentIntentUpdate {
+	_u.mutation.SetCurrency(v)
+	return _u
 }
 
 // SetNillableCurrency sets the "currency" field if the given value is not nil.
-func (piu *PaymentIntentUpdate) SetNillableCurrency(s *string) *PaymentIntentUpdate {
-	if s != nil {
-		piu.SetCurrency(*s)
+func (_u *PaymentIntentUpdate) SetNillableCurrency(v *string) *PaymentIntentUpdate {
+	if v != nil {
+		_u.SetCurrency(*v)
 	}
-	return piu
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (piu *PaymentIntentUpdate) SetDescription(s string) *PaymentIntentUpdate {
-	piu.mutation.SetDescription(s)
-	return piu
+func (_u *PaymentIntentUpdate) SetDescription(v string) *PaymentIntentUpdate {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (piu *PaymentIntentUpdate) SetNillableDescription(s *string) *PaymentIntentUpdate {
-	if s != nil {
-		piu.SetDescription(*s)
+func (_u *PaymentIntentUpdate) SetNillableDescription(v *string) *PaymentIntentUpdate {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return piu
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (piu *PaymentIntentUpdate) ClearDescription() *PaymentIntentUpdate {
-	piu.mutation.ClearDescription()
-	return piu
+func (_u *PaymentIntentUpdate) ClearDescription() *PaymentIntentUpdate {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetClientSecret sets the "client_secret" field.
-func (piu *PaymentIntentUpdate) SetClientSecret(s string) *PaymentIntentUpdate {
-	piu.mutation.SetClientSecret(s)
-	return piu
+func (_u *PaymentIntentUpdate) SetClientSecret(v string) *PaymentIntentUpdate {
+	_u.mutation.SetClientSecret(v)
+	return _u
 }
 
 // SetNillableClientSecret sets the "client_secret" field if the given value is not nil.
-func (piu *PaymentIntentUpdate) SetNillableClientSecret(s *string) *PaymentIntentUpdate {
-	if s != nil {
-		piu.SetClientSecret(*s)
+func (_u *PaymentIntentUpdate) SetNillableClientSecret(v *string) *PaymentIntentUpdate {
+	if v != nil {
+		_u.SetClientSecret(*v)
 	}
-	return piu
+	return _u
 }
 
 // ClearClientSecret clears the value of the "client_secret" field.
-func (piu *PaymentIntentUpdate) ClearClientSecret() *PaymentIntentUpdate {
-	piu.mutation.ClearClientSecret()
-	return piu
+func (_u *PaymentIntentUpdate) ClearClientSecret() *PaymentIntentUpdate {
+	_u.mutation.ClearClientSecret()
+	return _u
 }
 
 // SetMetadata sets the "metadata" field.
-func (piu *PaymentIntentUpdate) SetMetadata(m map[string]interface{}) *PaymentIntentUpdate {
-	piu.mutation.SetMetadata(m)
-	return piu
+func (_u *PaymentIntentUpdate) SetMetadata(v map[string]interface{}) *PaymentIntentUpdate {
+	_u.mutation.SetMetadata(v)
+	return _u
 }
 
 // ClearMetadata clears the value of the "metadata" field.
-func (piu *PaymentIntentUpdate) ClearMetadata() *PaymentIntentUpdate {
-	piu.mutation.ClearMetadata()
-	return piu
+func (_u *PaymentIntentUpdate) ClearMetadata() *PaymentIntentUpdate {
+	_u.mutation.ClearMetadata()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (piu *PaymentIntentUpdate) SetUpdatedAt(t time.Time) *PaymentIntentUpdate {
-	piu.mutation.SetUpdatedAt(t)
-	return piu
+func (_u *PaymentIntentUpdate) SetUpdatedAt(v time.Time) *PaymentIntentUpdate {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
 // SetCustomerID sets the "customer" edge to the PaymentCustomer entity by ID.
-func (piu *PaymentIntentUpdate) SetCustomerID(id int) *PaymentIntentUpdate {
-	piu.mutation.SetCustomerID(id)
-	return piu
+func (_u *PaymentIntentUpdate) SetCustomerID(id int) *PaymentIntentUpdate {
+	_u.mutation.SetCustomerID(id)
+	return _u
 }
 
 // SetCustomer sets the "customer" edge to the PaymentCustomer entity.
-func (piu *PaymentIntentUpdate) SetCustomer(p *PaymentCustomer) *PaymentIntentUpdate {
-	return piu.SetCustomerID(p.ID)
+func (_u *PaymentIntentUpdate) SetCustomer(v *PaymentCustomer) *PaymentIntentUpdate {
+	return _u.SetCustomerID(v.ID)
 }
 
 // Mutation returns the PaymentIntentMutation object of the builder.
-func (piu *PaymentIntentUpdate) Mutation() *PaymentIntentMutation {
-	return piu.mutation
+func (_u *PaymentIntentUpdate) Mutation() *PaymentIntentMutation {
+	return _u.mutation
 }
 
 // ClearCustomer clears the "customer" edge to the PaymentCustomer entity.
-func (piu *PaymentIntentUpdate) ClearCustomer() *PaymentIntentUpdate {
-	piu.mutation.ClearCustomer()
-	return piu
+func (_u *PaymentIntentUpdate) ClearCustomer() *PaymentIntentUpdate {
+	_u.mutation.ClearCustomer()
+	return _u
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (piu *PaymentIntentUpdate) Save(ctx context.Context) (int, error) {
-	piu.defaults()
-	return withHooks(ctx, piu.sqlSave, piu.mutation, piu.hooks)
+func (_u *PaymentIntentUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (piu *PaymentIntentUpdate) SaveX(ctx context.Context) int {
-	affected, err := piu.Save(ctx)
+func (_u *PaymentIntentUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -202,111 +202,111 @@ func (piu *PaymentIntentUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (piu *PaymentIntentUpdate) Exec(ctx context.Context) error {
-	_, err := piu.Save(ctx)
+func (_u *PaymentIntentUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (piu *PaymentIntentUpdate) ExecX(ctx context.Context) {
-	if err := piu.Exec(ctx); err != nil {
+func (_u *PaymentIntentUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (piu *PaymentIntentUpdate) defaults() {
-	if _, ok := piu.mutation.UpdatedAt(); !ok {
+func (_u *PaymentIntentUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
 		v := paymentintent.UpdateDefaultUpdatedAt()
-		piu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (piu *PaymentIntentUpdate) check() error {
-	if v, ok := piu.mutation.ProviderPaymentIntentID(); ok {
+func (_u *PaymentIntentUpdate) check() error {
+	if v, ok := _u.mutation.ProviderPaymentIntentID(); ok {
 		if err := paymentintent.ProviderPaymentIntentIDValidator(v); err != nil {
 			return &ValidationError{Name: "provider_payment_intent_id", err: fmt.Errorf(`ent: validator failed for field "PaymentIntent.provider_payment_intent_id": %w`, err)}
 		}
 	}
-	if v, ok := piu.mutation.Provider(); ok {
+	if v, ok := _u.mutation.Provider(); ok {
 		if err := paymentintent.ProviderValidator(v); err != nil {
 			return &ValidationError{Name: "provider", err: fmt.Errorf(`ent: validator failed for field "PaymentIntent.provider": %w`, err)}
 		}
 	}
-	if v, ok := piu.mutation.Status(); ok {
+	if v, ok := _u.mutation.Status(); ok {
 		if err := paymentintent.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "PaymentIntent.status": %w`, err)}
 		}
 	}
-	if v, ok := piu.mutation.Amount(); ok {
+	if v, ok := _u.mutation.Amount(); ok {
 		if err := paymentintent.AmountValidator(v); err != nil {
 			return &ValidationError{Name: "amount", err: fmt.Errorf(`ent: validator failed for field "PaymentIntent.amount": %w`, err)}
 		}
 	}
-	if v, ok := piu.mutation.Currency(); ok {
+	if v, ok := _u.mutation.Currency(); ok {
 		if err := paymentintent.CurrencyValidator(v); err != nil {
 			return &ValidationError{Name: "currency", err: fmt.Errorf(`ent: validator failed for field "PaymentIntent.currency": %w`, err)}
 		}
 	}
-	if piu.mutation.CustomerCleared() && len(piu.mutation.CustomerIDs()) > 0 {
+	if _u.mutation.CustomerCleared() && len(_u.mutation.CustomerIDs()) > 0 {
 		return errors.New(`ent: clearing a required unique edge "PaymentIntent.customer"`)
 	}
 	return nil
 }
 
-func (piu *PaymentIntentUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := piu.check(); err != nil {
-		return n, err
+func (_u *PaymentIntentUpdate) sqlSave(ctx context.Context) (_node int, err error) {
+	if err := _u.check(); err != nil {
+		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(paymentintent.Table, paymentintent.Columns, sqlgraph.NewFieldSpec(paymentintent.FieldID, field.TypeInt))
-	if ps := piu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := piu.mutation.ProviderPaymentIntentID(); ok {
+	if value, ok := _u.mutation.ProviderPaymentIntentID(); ok {
 		_spec.SetField(paymentintent.FieldProviderPaymentIntentID, field.TypeString, value)
 	}
-	if value, ok := piu.mutation.Provider(); ok {
+	if value, ok := _u.mutation.Provider(); ok {
 		_spec.SetField(paymentintent.FieldProvider, field.TypeString, value)
 	}
-	if value, ok := piu.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(paymentintent.FieldStatus, field.TypeEnum, value)
 	}
-	if value, ok := piu.mutation.Amount(); ok {
+	if value, ok := _u.mutation.Amount(); ok {
 		_spec.SetField(paymentintent.FieldAmount, field.TypeInt64, value)
 	}
-	if value, ok := piu.mutation.AddedAmount(); ok {
+	if value, ok := _u.mutation.AddedAmount(); ok {
 		_spec.AddField(paymentintent.FieldAmount, field.TypeInt64, value)
 	}
-	if value, ok := piu.mutation.Currency(); ok {
+	if value, ok := _u.mutation.Currency(); ok {
 		_spec.SetField(paymentintent.FieldCurrency, field.TypeString, value)
 	}
-	if value, ok := piu.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(paymentintent.FieldDescription, field.TypeString, value)
 	}
-	if piu.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(paymentintent.FieldDescription, field.TypeString)
 	}
-	if value, ok := piu.mutation.ClientSecret(); ok {
+	if value, ok := _u.mutation.ClientSecret(); ok {
 		_spec.SetField(paymentintent.FieldClientSecret, field.TypeString, value)
 	}
-	if piu.mutation.ClientSecretCleared() {
+	if _u.mutation.ClientSecretCleared() {
 		_spec.ClearField(paymentintent.FieldClientSecret, field.TypeString)
 	}
-	if value, ok := piu.mutation.Metadata(); ok {
+	if value, ok := _u.mutation.Metadata(); ok {
 		_spec.SetField(paymentintent.FieldMetadata, field.TypeJSON, value)
 	}
-	if piu.mutation.MetadataCleared() {
+	if _u.mutation.MetadataCleared() {
 		_spec.ClearField(paymentintent.FieldMetadata, field.TypeJSON)
 	}
-	if value, ok := piu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(paymentintent.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if piu.mutation.CustomerCleared() {
+	if _u.mutation.CustomerCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -319,7 +319,7 @@ func (piu *PaymentIntentUpdate) sqlSave(ctx context.Context) (n int, err error) 
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := piu.mutation.CustomerIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.CustomerIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -335,7 +335,7 @@ func (piu *PaymentIntentUpdate) sqlSave(ctx context.Context) (n int, err error) 
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, piu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{paymentintent.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -343,8 +343,8 @@ func (piu *PaymentIntentUpdate) sqlSave(ctx context.Context) (n int, err error) 
 		}
 		return 0, err
 	}
-	piu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // PaymentIntentUpdateOne is the builder for updating a single PaymentIntent entity.
@@ -356,184 +356,184 @@ type PaymentIntentUpdateOne struct {
 }
 
 // SetProviderPaymentIntentID sets the "provider_payment_intent_id" field.
-func (piuo *PaymentIntentUpdateOne) SetProviderPaymentIntentID(s string) *PaymentIntentUpdateOne {
-	piuo.mutation.SetProviderPaymentIntentID(s)
-	return piuo
+func (_u *PaymentIntentUpdateOne) SetProviderPaymentIntentID(v string) *PaymentIntentUpdateOne {
+	_u.mutation.SetProviderPaymentIntentID(v)
+	return _u
 }
 
 // SetNillableProviderPaymentIntentID sets the "provider_payment_intent_id" field if the given value is not nil.
-func (piuo *PaymentIntentUpdateOne) SetNillableProviderPaymentIntentID(s *string) *PaymentIntentUpdateOne {
-	if s != nil {
-		piuo.SetProviderPaymentIntentID(*s)
+func (_u *PaymentIntentUpdateOne) SetNillableProviderPaymentIntentID(v *string) *PaymentIntentUpdateOne {
+	if v != nil {
+		_u.SetProviderPaymentIntentID(*v)
 	}
-	return piuo
+	return _u
 }
 
 // SetProvider sets the "provider" field.
-func (piuo *PaymentIntentUpdateOne) SetProvider(s string) *PaymentIntentUpdateOne {
-	piuo.mutation.SetProvider(s)
-	return piuo
+func (_u *PaymentIntentUpdateOne) SetProvider(v string) *PaymentIntentUpdateOne {
+	_u.mutation.SetProvider(v)
+	return _u
 }
 
 // SetNillableProvider sets the "provider" field if the given value is not nil.
-func (piuo *PaymentIntentUpdateOne) SetNillableProvider(s *string) *PaymentIntentUpdateOne {
-	if s != nil {
-		piuo.SetProvider(*s)
+func (_u *PaymentIntentUpdateOne) SetNillableProvider(v *string) *PaymentIntentUpdateOne {
+	if v != nil {
+		_u.SetProvider(*v)
 	}
-	return piuo
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (piuo *PaymentIntentUpdateOne) SetStatus(pa paymentintent.Status) *PaymentIntentUpdateOne {
-	piuo.mutation.SetStatus(pa)
-	return piuo
+func (_u *PaymentIntentUpdateOne) SetStatus(v paymentintent.Status) *PaymentIntentUpdateOne {
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (piuo *PaymentIntentUpdateOne) SetNillableStatus(pa *paymentintent.Status) *PaymentIntentUpdateOne {
-	if pa != nil {
-		piuo.SetStatus(*pa)
+func (_u *PaymentIntentUpdateOne) SetNillableStatus(v *paymentintent.Status) *PaymentIntentUpdateOne {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return piuo
+	return _u
 }
 
 // SetAmount sets the "amount" field.
-func (piuo *PaymentIntentUpdateOne) SetAmount(i int64) *PaymentIntentUpdateOne {
-	piuo.mutation.ResetAmount()
-	piuo.mutation.SetAmount(i)
-	return piuo
+func (_u *PaymentIntentUpdateOne) SetAmount(v int64) *PaymentIntentUpdateOne {
+	_u.mutation.ResetAmount()
+	_u.mutation.SetAmount(v)
+	return _u
 }
 
 // SetNillableAmount sets the "amount" field if the given value is not nil.
-func (piuo *PaymentIntentUpdateOne) SetNillableAmount(i *int64) *PaymentIntentUpdateOne {
-	if i != nil {
-		piuo.SetAmount(*i)
+func (_u *PaymentIntentUpdateOne) SetNillableAmount(v *int64) *PaymentIntentUpdateOne {
+	if v != nil {
+		_u.SetAmount(*v)
 	}
-	return piuo
+	return _u
 }
 
-// AddAmount adds i to the "amount" field.
-func (piuo *PaymentIntentUpdateOne) AddAmount(i int64) *PaymentIntentUpdateOne {
-	piuo.mutation.AddAmount(i)
-	return piuo
+// AddAmount adds value to the "amount" field.
+func (_u *PaymentIntentUpdateOne) AddAmount(v int64) *PaymentIntentUpdateOne {
+	_u.mutation.AddAmount(v)
+	return _u
 }
 
 // SetCurrency sets the "currency" field.
-func (piuo *PaymentIntentUpdateOne) SetCurrency(s string) *PaymentIntentUpdateOne {
-	piuo.mutation.SetCurrency(s)
-	return piuo
+func (_u *PaymentIntentUpdateOne) SetCurrency(v string) *PaymentIntentUpdateOne {
+	_u.mutation.SetCurrency(v)
+	return _u
 }
 
 // SetNillableCurrency sets the "currency" field if the given value is not nil.
-func (piuo *PaymentIntentUpdateOne) SetNillableCurrency(s *string) *PaymentIntentUpdateOne {
-	if s != nil {
-		piuo.SetCurrency(*s)
+func (_u *PaymentIntentUpdateOne) SetNillableCurrency(v *string) *PaymentIntentUpdateOne {
+	if v != nil {
+		_u.SetCurrency(*v)
 	}
-	return piuo
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (piuo *PaymentIntentUpdateOne) SetDescription(s string) *PaymentIntentUpdateOne {
-	piuo.mutation.SetDescription(s)
-	return piuo
+func (_u *PaymentIntentUpdateOne) SetDescription(v string) *PaymentIntentUpdateOne {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (piuo *PaymentIntentUpdateOne) SetNillableDescription(s *string) *PaymentIntentUpdateOne {
-	if s != nil {
-		piuo.SetDescription(*s)
+func (_u *PaymentIntentUpdateOne) SetNillableDescription(v *string) *PaymentIntentUpdateOne {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return piuo
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (piuo *PaymentIntentUpdateOne) ClearDescription() *PaymentIntentUpdateOne {
-	piuo.mutation.ClearDescription()
-	return piuo
+func (_u *PaymentIntentUpdateOne) ClearDescription() *PaymentIntentUpdateOne {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetClientSecret sets the "client_secret" field.
-func (piuo *PaymentIntentUpdateOne) SetClientSecret(s string) *PaymentIntentUpdateOne {
-	piuo.mutation.SetClientSecret(s)
-	return piuo
+func (_u *PaymentIntentUpdateOne) SetClientSecret(v string) *PaymentIntentUpdateOne {
+	_u.mutation.SetClientSecret(v)
+	return _u
 }
 
 // SetNillableClientSecret sets the "client_secret" field if the given value is not nil.
-func (piuo *PaymentIntentUpdateOne) SetNillableClientSecret(s *string) *PaymentIntentUpdateOne {
-	if s != nil {
-		piuo.SetClientSecret(*s)
+func (_u *PaymentIntentUpdateOne) SetNillableClientSecret(v *string) *PaymentIntentUpdateOne {
+	if v != nil {
+		_u.SetClientSecret(*v)
 	}
-	return piuo
+	return _u
 }
 
 // ClearClientSecret clears the value of the "client_secret" field.
-func (piuo *PaymentIntentUpdateOne) ClearClientSecret() *PaymentIntentUpdateOne {
-	piuo.mutation.ClearClientSecret()
-	return piuo
+func (_u *PaymentIntentUpdateOne) ClearClientSecret() *PaymentIntentUpdateOne {
+	_u.mutation.ClearClientSecret()
+	return _u
 }
 
 // SetMetadata sets the "metadata" field.
-func (piuo *PaymentIntentUpdateOne) SetMetadata(m map[string]interface{}) *PaymentIntentUpdateOne {
-	piuo.mutation.SetMetadata(m)
-	return piuo
+func (_u *PaymentIntentUpdateOne) SetMetadata(v map[string]interface{}) *PaymentIntentUpdateOne {
+	_u.mutation.SetMetadata(v)
+	return _u
 }
 
 // ClearMetadata clears the value of the "metadata" field.
-func (piuo *PaymentIntentUpdateOne) ClearMetadata() *PaymentIntentUpdateOne {
-	piuo.mutation.ClearMetadata()
-	return piuo
+func (_u *PaymentIntentUpdateOne) ClearMetadata() *PaymentIntentUpdateOne {
+	_u.mutation.ClearMetadata()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (piuo *PaymentIntentUpdateOne) SetUpdatedAt(t time.Time) *PaymentIntentUpdateOne {
-	piuo.mutation.SetUpdatedAt(t)
-	return piuo
+func (_u *PaymentIntentUpdateOne) SetUpdatedAt(v time.Time) *PaymentIntentUpdateOne {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
 // SetCustomerID sets the "customer" edge to the PaymentCustomer entity by ID.
-func (piuo *PaymentIntentUpdateOne) SetCustomerID(id int) *PaymentIntentUpdateOne {
-	piuo.mutation.SetCustomerID(id)
-	return piuo
+func (_u *PaymentIntentUpdateOne) SetCustomerID(id int) *PaymentIntentUpdateOne {
+	_u.mutation.SetCustomerID(id)
+	return _u
 }
 
 // SetCustomer sets the "customer" edge to the PaymentCustomer entity.
-func (piuo *PaymentIntentUpdateOne) SetCustomer(p *PaymentCustomer) *PaymentIntentUpdateOne {
-	return piuo.SetCustomerID(p.ID)
+func (_u *PaymentIntentUpdateOne) SetCustomer(v *PaymentCustomer) *PaymentIntentUpdateOne {
+	return _u.SetCustomerID(v.ID)
 }
 
 // Mutation returns the PaymentIntentMutation object of the builder.
-func (piuo *PaymentIntentUpdateOne) Mutation() *PaymentIntentMutation {
-	return piuo.mutation
+func (_u *PaymentIntentUpdateOne) Mutation() *PaymentIntentMutation {
+	return _u.mutation
 }
 
 // ClearCustomer clears the "customer" edge to the PaymentCustomer entity.
-func (piuo *PaymentIntentUpdateOne) ClearCustomer() *PaymentIntentUpdateOne {
-	piuo.mutation.ClearCustomer()
-	return piuo
+func (_u *PaymentIntentUpdateOne) ClearCustomer() *PaymentIntentUpdateOne {
+	_u.mutation.ClearCustomer()
+	return _u
 }
 
 // Where appends a list predicates to the PaymentIntentUpdate builder.
-func (piuo *PaymentIntentUpdateOne) Where(ps ...predicate.PaymentIntent) *PaymentIntentUpdateOne {
-	piuo.mutation.Where(ps...)
-	return piuo
+func (_u *PaymentIntentUpdateOne) Where(ps ...predicate.PaymentIntent) *PaymentIntentUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (piuo *PaymentIntentUpdateOne) Select(field string, fields ...string) *PaymentIntentUpdateOne {
-	piuo.fields = append([]string{field}, fields...)
-	return piuo
+func (_u *PaymentIntentUpdateOne) Select(field string, fields ...string) *PaymentIntentUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated PaymentIntent entity.
-func (piuo *PaymentIntentUpdateOne) Save(ctx context.Context) (*PaymentIntent, error) {
-	piuo.defaults()
-	return withHooks(ctx, piuo.sqlSave, piuo.mutation, piuo.hooks)
+func (_u *PaymentIntentUpdateOne) Save(ctx context.Context) (*PaymentIntent, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (piuo *PaymentIntentUpdateOne) SaveX(ctx context.Context) *PaymentIntent {
-	node, err := piuo.Save(ctx)
+func (_u *PaymentIntentUpdateOne) SaveX(ctx context.Context) *PaymentIntent {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -541,70 +541,70 @@ func (piuo *PaymentIntentUpdateOne) SaveX(ctx context.Context) *PaymentIntent {
 }
 
 // Exec executes the query on the entity.
-func (piuo *PaymentIntentUpdateOne) Exec(ctx context.Context) error {
-	_, err := piuo.Save(ctx)
+func (_u *PaymentIntentUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (piuo *PaymentIntentUpdateOne) ExecX(ctx context.Context) {
-	if err := piuo.Exec(ctx); err != nil {
+func (_u *PaymentIntentUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (piuo *PaymentIntentUpdateOne) defaults() {
-	if _, ok := piuo.mutation.UpdatedAt(); !ok {
+func (_u *PaymentIntentUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
 		v := paymentintent.UpdateDefaultUpdatedAt()
-		piuo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (piuo *PaymentIntentUpdateOne) check() error {
-	if v, ok := piuo.mutation.ProviderPaymentIntentID(); ok {
+func (_u *PaymentIntentUpdateOne) check() error {
+	if v, ok := _u.mutation.ProviderPaymentIntentID(); ok {
 		if err := paymentintent.ProviderPaymentIntentIDValidator(v); err != nil {
 			return &ValidationError{Name: "provider_payment_intent_id", err: fmt.Errorf(`ent: validator failed for field "PaymentIntent.provider_payment_intent_id": %w`, err)}
 		}
 	}
-	if v, ok := piuo.mutation.Provider(); ok {
+	if v, ok := _u.mutation.Provider(); ok {
 		if err := paymentintent.ProviderValidator(v); err != nil {
 			return &ValidationError{Name: "provider", err: fmt.Errorf(`ent: validator failed for field "PaymentIntent.provider": %w`, err)}
 		}
 	}
-	if v, ok := piuo.mutation.Status(); ok {
+	if v, ok := _u.mutation.Status(); ok {
 		if err := paymentintent.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "PaymentIntent.status": %w`, err)}
 		}
 	}
-	if v, ok := piuo.mutation.Amount(); ok {
+	if v, ok := _u.mutation.Amount(); ok {
 		if err := paymentintent.AmountValidator(v); err != nil {
 			return &ValidationError{Name: "amount", err: fmt.Errorf(`ent: validator failed for field "PaymentIntent.amount": %w`, err)}
 		}
 	}
-	if v, ok := piuo.mutation.Currency(); ok {
+	if v, ok := _u.mutation.Currency(); ok {
 		if err := paymentintent.CurrencyValidator(v); err != nil {
 			return &ValidationError{Name: "currency", err: fmt.Errorf(`ent: validator failed for field "PaymentIntent.currency": %w`, err)}
 		}
 	}
-	if piuo.mutation.CustomerCleared() && len(piuo.mutation.CustomerIDs()) > 0 {
+	if _u.mutation.CustomerCleared() && len(_u.mutation.CustomerIDs()) > 0 {
 		return errors.New(`ent: clearing a required unique edge "PaymentIntent.customer"`)
 	}
 	return nil
 }
 
-func (piuo *PaymentIntentUpdateOne) sqlSave(ctx context.Context) (_node *PaymentIntent, err error) {
-	if err := piuo.check(); err != nil {
+func (_u *PaymentIntentUpdateOne) sqlSave(ctx context.Context) (_node *PaymentIntent, err error) {
+	if err := _u.check(); err != nil {
 		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(paymentintent.Table, paymentintent.Columns, sqlgraph.NewFieldSpec(paymentintent.FieldID, field.TypeInt))
-	id, ok := piuo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "PaymentIntent.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := piuo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, paymentintent.FieldID)
 		for _, f := range fields {
@@ -616,53 +616,53 @@ func (piuo *PaymentIntentUpdateOne) sqlSave(ctx context.Context) (_node *Payment
 			}
 		}
 	}
-	if ps := piuo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := piuo.mutation.ProviderPaymentIntentID(); ok {
+	if value, ok := _u.mutation.ProviderPaymentIntentID(); ok {
 		_spec.SetField(paymentintent.FieldProviderPaymentIntentID, field.TypeString, value)
 	}
-	if value, ok := piuo.mutation.Provider(); ok {
+	if value, ok := _u.mutation.Provider(); ok {
 		_spec.SetField(paymentintent.FieldProvider, field.TypeString, value)
 	}
-	if value, ok := piuo.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(paymentintent.FieldStatus, field.TypeEnum, value)
 	}
-	if value, ok := piuo.mutation.Amount(); ok {
+	if value, ok := _u.mutation.Amount(); ok {
 		_spec.SetField(paymentintent.FieldAmount, field.TypeInt64, value)
 	}
-	if value, ok := piuo.mutation.AddedAmount(); ok {
+	if value, ok := _u.mutation.AddedAmount(); ok {
 		_spec.AddField(paymentintent.FieldAmount, field.TypeInt64, value)
 	}
-	if value, ok := piuo.mutation.Currency(); ok {
+	if value, ok := _u.mutation.Currency(); ok {
 		_spec.SetField(paymentintent.FieldCurrency, field.TypeString, value)
 	}
-	if value, ok := piuo.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(paymentintent.FieldDescription, field.TypeString, value)
 	}
-	if piuo.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(paymentintent.FieldDescription, field.TypeString)
 	}
-	if value, ok := piuo.mutation.ClientSecret(); ok {
+	if value, ok := _u.mutation.ClientSecret(); ok {
 		_spec.SetField(paymentintent.FieldClientSecret, field.TypeString, value)
 	}
-	if piuo.mutation.ClientSecretCleared() {
+	if _u.mutation.ClientSecretCleared() {
 		_spec.ClearField(paymentintent.FieldClientSecret, field.TypeString)
 	}
-	if value, ok := piuo.mutation.Metadata(); ok {
+	if value, ok := _u.mutation.Metadata(); ok {
 		_spec.SetField(paymentintent.FieldMetadata, field.TypeJSON, value)
 	}
-	if piuo.mutation.MetadataCleared() {
+	if _u.mutation.MetadataCleared() {
 		_spec.ClearField(paymentintent.FieldMetadata, field.TypeJSON)
 	}
-	if value, ok := piuo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(paymentintent.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if piuo.mutation.CustomerCleared() {
+	if _u.mutation.CustomerCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -675,7 +675,7 @@ func (piuo *PaymentIntentUpdateOne) sqlSave(ctx context.Context) (_node *Payment
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := piuo.mutation.CustomerIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.CustomerIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -691,10 +691,10 @@ func (piuo *PaymentIntentUpdateOne) sqlSave(ctx context.Context) (_node *Payment
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	_node = &PaymentIntent{config: piuo.config}
+	_node = &PaymentIntent{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, piuo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{paymentintent.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -702,6 +702,6 @@ func (piuo *PaymentIntentUpdateOne) sqlSave(ctx context.Context) (_node *Payment
 		}
 		return nil, err
 	}
-	piuo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

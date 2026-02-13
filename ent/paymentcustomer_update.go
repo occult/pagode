@@ -27,230 +27,230 @@ type PaymentCustomerUpdate struct {
 }
 
 // Where appends a list predicates to the PaymentCustomerUpdate builder.
-func (pcu *PaymentCustomerUpdate) Where(ps ...predicate.PaymentCustomer) *PaymentCustomerUpdate {
-	pcu.mutation.Where(ps...)
-	return pcu
+func (_u *PaymentCustomerUpdate) Where(ps ...predicate.PaymentCustomer) *PaymentCustomerUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetProviderCustomerID sets the "provider_customer_id" field.
-func (pcu *PaymentCustomerUpdate) SetProviderCustomerID(s string) *PaymentCustomerUpdate {
-	pcu.mutation.SetProviderCustomerID(s)
-	return pcu
+func (_u *PaymentCustomerUpdate) SetProviderCustomerID(v string) *PaymentCustomerUpdate {
+	_u.mutation.SetProviderCustomerID(v)
+	return _u
 }
 
 // SetNillableProviderCustomerID sets the "provider_customer_id" field if the given value is not nil.
-func (pcu *PaymentCustomerUpdate) SetNillableProviderCustomerID(s *string) *PaymentCustomerUpdate {
-	if s != nil {
-		pcu.SetProviderCustomerID(*s)
+func (_u *PaymentCustomerUpdate) SetNillableProviderCustomerID(v *string) *PaymentCustomerUpdate {
+	if v != nil {
+		_u.SetProviderCustomerID(*v)
 	}
-	return pcu
+	return _u
 }
 
 // SetProvider sets the "provider" field.
-func (pcu *PaymentCustomerUpdate) SetProvider(s string) *PaymentCustomerUpdate {
-	pcu.mutation.SetProvider(s)
-	return pcu
+func (_u *PaymentCustomerUpdate) SetProvider(v string) *PaymentCustomerUpdate {
+	_u.mutation.SetProvider(v)
+	return _u
 }
 
 // SetNillableProvider sets the "provider" field if the given value is not nil.
-func (pcu *PaymentCustomerUpdate) SetNillableProvider(s *string) *PaymentCustomerUpdate {
-	if s != nil {
-		pcu.SetProvider(*s)
+func (_u *PaymentCustomerUpdate) SetNillableProvider(v *string) *PaymentCustomerUpdate {
+	if v != nil {
+		_u.SetProvider(*v)
 	}
-	return pcu
+	return _u
 }
 
 // SetEmail sets the "email" field.
-func (pcu *PaymentCustomerUpdate) SetEmail(s string) *PaymentCustomerUpdate {
-	pcu.mutation.SetEmail(s)
-	return pcu
+func (_u *PaymentCustomerUpdate) SetEmail(v string) *PaymentCustomerUpdate {
+	_u.mutation.SetEmail(v)
+	return _u
 }
 
 // SetNillableEmail sets the "email" field if the given value is not nil.
-func (pcu *PaymentCustomerUpdate) SetNillableEmail(s *string) *PaymentCustomerUpdate {
-	if s != nil {
-		pcu.SetEmail(*s)
+func (_u *PaymentCustomerUpdate) SetNillableEmail(v *string) *PaymentCustomerUpdate {
+	if v != nil {
+		_u.SetEmail(*v)
 	}
-	return pcu
+	return _u
 }
 
 // SetName sets the "name" field.
-func (pcu *PaymentCustomerUpdate) SetName(s string) *PaymentCustomerUpdate {
-	pcu.mutation.SetName(s)
-	return pcu
+func (_u *PaymentCustomerUpdate) SetName(v string) *PaymentCustomerUpdate {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (pcu *PaymentCustomerUpdate) SetNillableName(s *string) *PaymentCustomerUpdate {
-	if s != nil {
-		pcu.SetName(*s)
+func (_u *PaymentCustomerUpdate) SetNillableName(v *string) *PaymentCustomerUpdate {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return pcu
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (pcu *PaymentCustomerUpdate) ClearName() *PaymentCustomerUpdate {
-	pcu.mutation.ClearName()
-	return pcu
+func (_u *PaymentCustomerUpdate) ClearName() *PaymentCustomerUpdate {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetMetadata sets the "metadata" field.
-func (pcu *PaymentCustomerUpdate) SetMetadata(m map[string]interface{}) *PaymentCustomerUpdate {
-	pcu.mutation.SetMetadata(m)
-	return pcu
+func (_u *PaymentCustomerUpdate) SetMetadata(v map[string]interface{}) *PaymentCustomerUpdate {
+	_u.mutation.SetMetadata(v)
+	return _u
 }
 
 // ClearMetadata clears the value of the "metadata" field.
-func (pcu *PaymentCustomerUpdate) ClearMetadata() *PaymentCustomerUpdate {
-	pcu.mutation.ClearMetadata()
-	return pcu
+func (_u *PaymentCustomerUpdate) ClearMetadata() *PaymentCustomerUpdate {
+	_u.mutation.ClearMetadata()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (pcu *PaymentCustomerUpdate) SetUpdatedAt(t time.Time) *PaymentCustomerUpdate {
-	pcu.mutation.SetUpdatedAt(t)
-	return pcu
+func (_u *PaymentCustomerUpdate) SetUpdatedAt(v time.Time) *PaymentCustomerUpdate {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
 // SetUserID sets the "user" edge to the User entity by ID.
-func (pcu *PaymentCustomerUpdate) SetUserID(id int) *PaymentCustomerUpdate {
-	pcu.mutation.SetUserID(id)
-	return pcu
+func (_u *PaymentCustomerUpdate) SetUserID(id int) *PaymentCustomerUpdate {
+	_u.mutation.SetUserID(id)
+	return _u
 }
 
 // SetUser sets the "user" edge to the User entity.
-func (pcu *PaymentCustomerUpdate) SetUser(u *User) *PaymentCustomerUpdate {
-	return pcu.SetUserID(u.ID)
+func (_u *PaymentCustomerUpdate) SetUser(v *User) *PaymentCustomerUpdate {
+	return _u.SetUserID(v.ID)
 }
 
 // AddPaymentIntentIDs adds the "payment_intents" edge to the PaymentIntent entity by IDs.
-func (pcu *PaymentCustomerUpdate) AddPaymentIntentIDs(ids ...int) *PaymentCustomerUpdate {
-	pcu.mutation.AddPaymentIntentIDs(ids...)
-	return pcu
+func (_u *PaymentCustomerUpdate) AddPaymentIntentIDs(ids ...int) *PaymentCustomerUpdate {
+	_u.mutation.AddPaymentIntentIDs(ids...)
+	return _u
 }
 
 // AddPaymentIntents adds the "payment_intents" edges to the PaymentIntent entity.
-func (pcu *PaymentCustomerUpdate) AddPaymentIntents(p ...*PaymentIntent) *PaymentCustomerUpdate {
-	ids := make([]int, len(p))
-	for i := range p {
-		ids[i] = p[i].ID
+func (_u *PaymentCustomerUpdate) AddPaymentIntents(v ...*PaymentIntent) *PaymentCustomerUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return pcu.AddPaymentIntentIDs(ids...)
+	return _u.AddPaymentIntentIDs(ids...)
 }
 
 // AddSubscriptionIDs adds the "subscriptions" edge to the Subscription entity by IDs.
-func (pcu *PaymentCustomerUpdate) AddSubscriptionIDs(ids ...int) *PaymentCustomerUpdate {
-	pcu.mutation.AddSubscriptionIDs(ids...)
-	return pcu
+func (_u *PaymentCustomerUpdate) AddSubscriptionIDs(ids ...int) *PaymentCustomerUpdate {
+	_u.mutation.AddSubscriptionIDs(ids...)
+	return _u
 }
 
 // AddSubscriptions adds the "subscriptions" edges to the Subscription entity.
-func (pcu *PaymentCustomerUpdate) AddSubscriptions(s ...*Subscription) *PaymentCustomerUpdate {
-	ids := make([]int, len(s))
-	for i := range s {
-		ids[i] = s[i].ID
+func (_u *PaymentCustomerUpdate) AddSubscriptions(v ...*Subscription) *PaymentCustomerUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return pcu.AddSubscriptionIDs(ids...)
+	return _u.AddSubscriptionIDs(ids...)
 }
 
 // AddPaymentMethodIDs adds the "payment_methods" edge to the PaymentMethod entity by IDs.
-func (pcu *PaymentCustomerUpdate) AddPaymentMethodIDs(ids ...int) *PaymentCustomerUpdate {
-	pcu.mutation.AddPaymentMethodIDs(ids...)
-	return pcu
+func (_u *PaymentCustomerUpdate) AddPaymentMethodIDs(ids ...int) *PaymentCustomerUpdate {
+	_u.mutation.AddPaymentMethodIDs(ids...)
+	return _u
 }
 
 // AddPaymentMethods adds the "payment_methods" edges to the PaymentMethod entity.
-func (pcu *PaymentCustomerUpdate) AddPaymentMethods(p ...*PaymentMethod) *PaymentCustomerUpdate {
-	ids := make([]int, len(p))
-	for i := range p {
-		ids[i] = p[i].ID
+func (_u *PaymentCustomerUpdate) AddPaymentMethods(v ...*PaymentMethod) *PaymentCustomerUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return pcu.AddPaymentMethodIDs(ids...)
+	return _u.AddPaymentMethodIDs(ids...)
 }
 
 // Mutation returns the PaymentCustomerMutation object of the builder.
-func (pcu *PaymentCustomerUpdate) Mutation() *PaymentCustomerMutation {
-	return pcu.mutation
+func (_u *PaymentCustomerUpdate) Mutation() *PaymentCustomerMutation {
+	return _u.mutation
 }
 
 // ClearUser clears the "user" edge to the User entity.
-func (pcu *PaymentCustomerUpdate) ClearUser() *PaymentCustomerUpdate {
-	pcu.mutation.ClearUser()
-	return pcu
+func (_u *PaymentCustomerUpdate) ClearUser() *PaymentCustomerUpdate {
+	_u.mutation.ClearUser()
+	return _u
 }
 
 // ClearPaymentIntents clears all "payment_intents" edges to the PaymentIntent entity.
-func (pcu *PaymentCustomerUpdate) ClearPaymentIntents() *PaymentCustomerUpdate {
-	pcu.mutation.ClearPaymentIntents()
-	return pcu
+func (_u *PaymentCustomerUpdate) ClearPaymentIntents() *PaymentCustomerUpdate {
+	_u.mutation.ClearPaymentIntents()
+	return _u
 }
 
 // RemovePaymentIntentIDs removes the "payment_intents" edge to PaymentIntent entities by IDs.
-func (pcu *PaymentCustomerUpdate) RemovePaymentIntentIDs(ids ...int) *PaymentCustomerUpdate {
-	pcu.mutation.RemovePaymentIntentIDs(ids...)
-	return pcu
+func (_u *PaymentCustomerUpdate) RemovePaymentIntentIDs(ids ...int) *PaymentCustomerUpdate {
+	_u.mutation.RemovePaymentIntentIDs(ids...)
+	return _u
 }
 
 // RemovePaymentIntents removes "payment_intents" edges to PaymentIntent entities.
-func (pcu *PaymentCustomerUpdate) RemovePaymentIntents(p ...*PaymentIntent) *PaymentCustomerUpdate {
-	ids := make([]int, len(p))
-	for i := range p {
-		ids[i] = p[i].ID
+func (_u *PaymentCustomerUpdate) RemovePaymentIntents(v ...*PaymentIntent) *PaymentCustomerUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return pcu.RemovePaymentIntentIDs(ids...)
+	return _u.RemovePaymentIntentIDs(ids...)
 }
 
 // ClearSubscriptions clears all "subscriptions" edges to the Subscription entity.
-func (pcu *PaymentCustomerUpdate) ClearSubscriptions() *PaymentCustomerUpdate {
-	pcu.mutation.ClearSubscriptions()
-	return pcu
+func (_u *PaymentCustomerUpdate) ClearSubscriptions() *PaymentCustomerUpdate {
+	_u.mutation.ClearSubscriptions()
+	return _u
 }
 
 // RemoveSubscriptionIDs removes the "subscriptions" edge to Subscription entities by IDs.
-func (pcu *PaymentCustomerUpdate) RemoveSubscriptionIDs(ids ...int) *PaymentCustomerUpdate {
-	pcu.mutation.RemoveSubscriptionIDs(ids...)
-	return pcu
+func (_u *PaymentCustomerUpdate) RemoveSubscriptionIDs(ids ...int) *PaymentCustomerUpdate {
+	_u.mutation.RemoveSubscriptionIDs(ids...)
+	return _u
 }
 
 // RemoveSubscriptions removes "subscriptions" edges to Subscription entities.
-func (pcu *PaymentCustomerUpdate) RemoveSubscriptions(s ...*Subscription) *PaymentCustomerUpdate {
-	ids := make([]int, len(s))
-	for i := range s {
-		ids[i] = s[i].ID
+func (_u *PaymentCustomerUpdate) RemoveSubscriptions(v ...*Subscription) *PaymentCustomerUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return pcu.RemoveSubscriptionIDs(ids...)
+	return _u.RemoveSubscriptionIDs(ids...)
 }
 
 // ClearPaymentMethods clears all "payment_methods" edges to the PaymentMethod entity.
-func (pcu *PaymentCustomerUpdate) ClearPaymentMethods() *PaymentCustomerUpdate {
-	pcu.mutation.ClearPaymentMethods()
-	return pcu
+func (_u *PaymentCustomerUpdate) ClearPaymentMethods() *PaymentCustomerUpdate {
+	_u.mutation.ClearPaymentMethods()
+	return _u
 }
 
 // RemovePaymentMethodIDs removes the "payment_methods" edge to PaymentMethod entities by IDs.
-func (pcu *PaymentCustomerUpdate) RemovePaymentMethodIDs(ids ...int) *PaymentCustomerUpdate {
-	pcu.mutation.RemovePaymentMethodIDs(ids...)
-	return pcu
+func (_u *PaymentCustomerUpdate) RemovePaymentMethodIDs(ids ...int) *PaymentCustomerUpdate {
+	_u.mutation.RemovePaymentMethodIDs(ids...)
+	return _u
 }
 
 // RemovePaymentMethods removes "payment_methods" edges to PaymentMethod entities.
-func (pcu *PaymentCustomerUpdate) RemovePaymentMethods(p ...*PaymentMethod) *PaymentCustomerUpdate {
-	ids := make([]int, len(p))
-	for i := range p {
-		ids[i] = p[i].ID
+func (_u *PaymentCustomerUpdate) RemovePaymentMethods(v ...*PaymentMethod) *PaymentCustomerUpdate {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return pcu.RemovePaymentMethodIDs(ids...)
+	return _u.RemovePaymentMethodIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (pcu *PaymentCustomerUpdate) Save(ctx context.Context) (int, error) {
-	pcu.defaults()
-	return withHooks(ctx, pcu.sqlSave, pcu.mutation, pcu.hooks)
+func (_u *PaymentCustomerUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (pcu *PaymentCustomerUpdate) SaveX(ctx context.Context) int {
-	affected, err := pcu.Save(ctx)
+func (_u *PaymentCustomerUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -258,86 +258,86 @@ func (pcu *PaymentCustomerUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (pcu *PaymentCustomerUpdate) Exec(ctx context.Context) error {
-	_, err := pcu.Save(ctx)
+func (_u *PaymentCustomerUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (pcu *PaymentCustomerUpdate) ExecX(ctx context.Context) {
-	if err := pcu.Exec(ctx); err != nil {
+func (_u *PaymentCustomerUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (pcu *PaymentCustomerUpdate) defaults() {
-	if _, ok := pcu.mutation.UpdatedAt(); !ok {
+func (_u *PaymentCustomerUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
 		v := paymentcustomer.UpdateDefaultUpdatedAt()
-		pcu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (pcu *PaymentCustomerUpdate) check() error {
-	if v, ok := pcu.mutation.ProviderCustomerID(); ok {
+func (_u *PaymentCustomerUpdate) check() error {
+	if v, ok := _u.mutation.ProviderCustomerID(); ok {
 		if err := paymentcustomer.ProviderCustomerIDValidator(v); err != nil {
 			return &ValidationError{Name: "provider_customer_id", err: fmt.Errorf(`ent: validator failed for field "PaymentCustomer.provider_customer_id": %w`, err)}
 		}
 	}
-	if v, ok := pcu.mutation.Provider(); ok {
+	if v, ok := _u.mutation.Provider(); ok {
 		if err := paymentcustomer.ProviderValidator(v); err != nil {
 			return &ValidationError{Name: "provider", err: fmt.Errorf(`ent: validator failed for field "PaymentCustomer.provider": %w`, err)}
 		}
 	}
-	if v, ok := pcu.mutation.Email(); ok {
+	if v, ok := _u.mutation.Email(); ok {
 		if err := paymentcustomer.EmailValidator(v); err != nil {
 			return &ValidationError{Name: "email", err: fmt.Errorf(`ent: validator failed for field "PaymentCustomer.email": %w`, err)}
 		}
 	}
-	if pcu.mutation.UserCleared() && len(pcu.mutation.UserIDs()) > 0 {
+	if _u.mutation.UserCleared() && len(_u.mutation.UserIDs()) > 0 {
 		return errors.New(`ent: clearing a required unique edge "PaymentCustomer.user"`)
 	}
 	return nil
 }
 
-func (pcu *PaymentCustomerUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := pcu.check(); err != nil {
-		return n, err
+func (_u *PaymentCustomerUpdate) sqlSave(ctx context.Context) (_node int, err error) {
+	if err := _u.check(); err != nil {
+		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(paymentcustomer.Table, paymentcustomer.Columns, sqlgraph.NewFieldSpec(paymentcustomer.FieldID, field.TypeInt))
-	if ps := pcu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := pcu.mutation.ProviderCustomerID(); ok {
+	if value, ok := _u.mutation.ProviderCustomerID(); ok {
 		_spec.SetField(paymentcustomer.FieldProviderCustomerID, field.TypeString, value)
 	}
-	if value, ok := pcu.mutation.Provider(); ok {
+	if value, ok := _u.mutation.Provider(); ok {
 		_spec.SetField(paymentcustomer.FieldProvider, field.TypeString, value)
 	}
-	if value, ok := pcu.mutation.Email(); ok {
+	if value, ok := _u.mutation.Email(); ok {
 		_spec.SetField(paymentcustomer.FieldEmail, field.TypeString, value)
 	}
-	if value, ok := pcu.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(paymentcustomer.FieldName, field.TypeString, value)
 	}
-	if pcu.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(paymentcustomer.FieldName, field.TypeString)
 	}
-	if value, ok := pcu.mutation.Metadata(); ok {
+	if value, ok := _u.mutation.Metadata(); ok {
 		_spec.SetField(paymentcustomer.FieldMetadata, field.TypeJSON, value)
 	}
-	if pcu.mutation.MetadataCleared() {
+	if _u.mutation.MetadataCleared() {
 		_spec.ClearField(paymentcustomer.FieldMetadata, field.TypeJSON)
 	}
-	if value, ok := pcu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(paymentcustomer.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if pcu.mutation.UserCleared() {
+	if _u.mutation.UserCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2O,
 			Inverse: false,
@@ -350,7 +350,7 @@ func (pcu *PaymentCustomerUpdate) sqlSave(ctx context.Context) (n int, err error
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := pcu.mutation.UserIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.UserIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2O,
 			Inverse: false,
@@ -366,7 +366,7 @@ func (pcu *PaymentCustomerUpdate) sqlSave(ctx context.Context) (n int, err error
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if pcu.mutation.PaymentIntentsCleared() {
+	if _u.mutation.PaymentIntentsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -379,7 +379,7 @@ func (pcu *PaymentCustomerUpdate) sqlSave(ctx context.Context) (n int, err error
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := pcu.mutation.RemovedPaymentIntentsIDs(); len(nodes) > 0 && !pcu.mutation.PaymentIntentsCleared() {
+	if nodes := _u.mutation.RemovedPaymentIntentsIDs(); len(nodes) > 0 && !_u.mutation.PaymentIntentsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -395,7 +395,7 @@ func (pcu *PaymentCustomerUpdate) sqlSave(ctx context.Context) (n int, err error
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := pcu.mutation.PaymentIntentsIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.PaymentIntentsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -411,7 +411,7 @@ func (pcu *PaymentCustomerUpdate) sqlSave(ctx context.Context) (n int, err error
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if pcu.mutation.SubscriptionsCleared() {
+	if _u.mutation.SubscriptionsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -424,7 +424,7 @@ func (pcu *PaymentCustomerUpdate) sqlSave(ctx context.Context) (n int, err error
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := pcu.mutation.RemovedSubscriptionsIDs(); len(nodes) > 0 && !pcu.mutation.SubscriptionsCleared() {
+	if nodes := _u.mutation.RemovedSubscriptionsIDs(); len(nodes) > 0 && !_u.mutation.SubscriptionsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -440,7 +440,7 @@ func (pcu *PaymentCustomerUpdate) sqlSave(ctx context.Context) (n int, err error
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := pcu.mutation.SubscriptionsIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.SubscriptionsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -456,7 +456,7 @@ func (pcu *PaymentCustomerUpdate) sqlSave(ctx context.Context) (n int, err error
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if pcu.mutation.PaymentMethodsCleared() {
+	if _u.mutation.PaymentMethodsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -469,7 +469,7 @@ func (pcu *PaymentCustomerUpdate) sqlSave(ctx context.Context) (n int, err error
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := pcu.mutation.RemovedPaymentMethodsIDs(); len(nodes) > 0 && !pcu.mutation.PaymentMethodsCleared() {
+	if nodes := _u.mutation.RemovedPaymentMethodsIDs(); len(nodes) > 0 && !_u.mutation.PaymentMethodsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -485,7 +485,7 @@ func (pcu *PaymentCustomerUpdate) sqlSave(ctx context.Context) (n int, err error
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := pcu.mutation.PaymentMethodsIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.PaymentMethodsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -501,7 +501,7 @@ func (pcu *PaymentCustomerUpdate) sqlSave(ctx context.Context) (n int, err error
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, pcu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{paymentcustomer.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -509,8 +509,8 @@ func (pcu *PaymentCustomerUpdate) sqlSave(ctx context.Context) (n int, err error
 		}
 		return 0, err
 	}
-	pcu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // PaymentCustomerUpdateOne is the builder for updating a single PaymentCustomer entity.
@@ -522,237 +522,237 @@ type PaymentCustomerUpdateOne struct {
 }
 
 // SetProviderCustomerID sets the "provider_customer_id" field.
-func (pcuo *PaymentCustomerUpdateOne) SetProviderCustomerID(s string) *PaymentCustomerUpdateOne {
-	pcuo.mutation.SetProviderCustomerID(s)
-	return pcuo
+func (_u *PaymentCustomerUpdateOne) SetProviderCustomerID(v string) *PaymentCustomerUpdateOne {
+	_u.mutation.SetProviderCustomerID(v)
+	return _u
 }
 
 // SetNillableProviderCustomerID sets the "provider_customer_id" field if the given value is not nil.
-func (pcuo *PaymentCustomerUpdateOne) SetNillableProviderCustomerID(s *string) *PaymentCustomerUpdateOne {
-	if s != nil {
-		pcuo.SetProviderCustomerID(*s)
+func (_u *PaymentCustomerUpdateOne) SetNillableProviderCustomerID(v *string) *PaymentCustomerUpdateOne {
+	if v != nil {
+		_u.SetProviderCustomerID(*v)
 	}
-	return pcuo
+	return _u
 }
 
 // SetProvider sets the "provider" field.
-func (pcuo *PaymentCustomerUpdateOne) SetProvider(s string) *PaymentCustomerUpdateOne {
-	pcuo.mutation.SetProvider(s)
-	return pcuo
+func (_u *PaymentCustomerUpdateOne) SetProvider(v string) *PaymentCustomerUpdateOne {
+	_u.mutation.SetProvider(v)
+	return _u
 }
 
 // SetNillableProvider sets the "provider" field if the given value is not nil.
-func (pcuo *PaymentCustomerUpdateOne) SetNillableProvider(s *string) *PaymentCustomerUpdateOne {
-	if s != nil {
-		pcuo.SetProvider(*s)
+func (_u *PaymentCustomerUpdateOne) SetNillableProvider(v *string) *PaymentCustomerUpdateOne {
+	if v != nil {
+		_u.SetProvider(*v)
 	}
-	return pcuo
+	return _u
 }
 
 // SetEmail sets the "email" field.
-func (pcuo *PaymentCustomerUpdateOne) SetEmail(s string) *PaymentCustomerUpdateOne {
-	pcuo.mutation.SetEmail(s)
-	return pcuo
+func (_u *PaymentCustomerUpdateOne) SetEmail(v string) *PaymentCustomerUpdateOne {
+	_u.mutation.SetEmail(v)
+	return _u
 }
 
 // SetNillableEmail sets the "email" field if the given value is not nil.
-func (pcuo *PaymentCustomerUpdateOne) SetNillableEmail(s *string) *PaymentCustomerUpdateOne {
-	if s != nil {
-		pcuo.SetEmail(*s)
+func (_u *PaymentCustomerUpdateOne) SetNillableEmail(v *string) *PaymentCustomerUpdateOne {
+	if v != nil {
+		_u.SetEmail(*v)
 	}
-	return pcuo
+	return _u
 }
 
 // SetName sets the "name" field.
-func (pcuo *PaymentCustomerUpdateOne) SetName(s string) *PaymentCustomerUpdateOne {
-	pcuo.mutation.SetName(s)
-	return pcuo
+func (_u *PaymentCustomerUpdateOne) SetName(v string) *PaymentCustomerUpdateOne {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (pcuo *PaymentCustomerUpdateOne) SetNillableName(s *string) *PaymentCustomerUpdateOne {
-	if s != nil {
-		pcuo.SetName(*s)
+func (_u *PaymentCustomerUpdateOne) SetNillableName(v *string) *PaymentCustomerUpdateOne {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return pcuo
+	return _u
 }
 
 // ClearName clears the value of the "name" field.
-func (pcuo *PaymentCustomerUpdateOne) ClearName() *PaymentCustomerUpdateOne {
-	pcuo.mutation.ClearName()
-	return pcuo
+func (_u *PaymentCustomerUpdateOne) ClearName() *PaymentCustomerUpdateOne {
+	_u.mutation.ClearName()
+	return _u
 }
 
 // SetMetadata sets the "metadata" field.
-func (pcuo *PaymentCustomerUpdateOne) SetMetadata(m map[string]interface{}) *PaymentCustomerUpdateOne {
-	pcuo.mutation.SetMetadata(m)
-	return pcuo
+func (_u *PaymentCustomerUpdateOne) SetMetadata(v map[string]interface{}) *PaymentCustomerUpdateOne {
+	_u.mutation.SetMetadata(v)
+	return _u
 }
 
 // ClearMetadata clears the value of the "metadata" field.
-func (pcuo *PaymentCustomerUpdateOne) ClearMetadata() *PaymentCustomerUpdateOne {
-	pcuo.mutation.ClearMetadata()
-	return pcuo
+func (_u *PaymentCustomerUpdateOne) ClearMetadata() *PaymentCustomerUpdateOne {
+	_u.mutation.ClearMetadata()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (pcuo *PaymentCustomerUpdateOne) SetUpdatedAt(t time.Time) *PaymentCustomerUpdateOne {
-	pcuo.mutation.SetUpdatedAt(t)
-	return pcuo
+func (_u *PaymentCustomerUpdateOne) SetUpdatedAt(v time.Time) *PaymentCustomerUpdateOne {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
 // SetUserID sets the "user" edge to the User entity by ID.
-func (pcuo *PaymentCustomerUpdateOne) SetUserID(id int) *PaymentCustomerUpdateOne {
-	pcuo.mutation.SetUserID(id)
-	return pcuo
+func (_u *PaymentCustomerUpdateOne) SetUserID(id int) *PaymentCustomerUpdateOne {
+	_u.mutation.SetUserID(id)
+	return _u
 }
 
 // SetUser sets the "user" edge to the User entity.
-func (pcuo *PaymentCustomerUpdateOne) SetUser(u *User) *PaymentCustomerUpdateOne {
-	return pcuo.SetUserID(u.ID)
+func (_u *PaymentCustomerUpdateOne) SetUser(v *User) *PaymentCustomerUpdateOne {
+	return _u.SetUserID(v.ID)
 }
 
 // AddPaymentIntentIDs adds the "payment_intents" edge to the PaymentIntent entity by IDs.
-func (pcuo *PaymentCustomerUpdateOne) AddPaymentIntentIDs(ids ...int) *PaymentCustomerUpdateOne {
-	pcuo.mutation.AddPaymentIntentIDs(ids...)
-	return pcuo
+func (_u *PaymentCustomerUpdateOne) AddPaymentIntentIDs(ids ...int) *PaymentCustomerUpdateOne {
+	_u.mutation.AddPaymentIntentIDs(ids...)
+	return _u
 }
 
 // AddPaymentIntents adds the "payment_intents" edges to the PaymentIntent entity.
-func (pcuo *PaymentCustomerUpdateOne) AddPaymentIntents(p ...*PaymentIntent) *PaymentCustomerUpdateOne {
-	ids := make([]int, len(p))
-	for i := range p {
-		ids[i] = p[i].ID
+func (_u *PaymentCustomerUpdateOne) AddPaymentIntents(v ...*PaymentIntent) *PaymentCustomerUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return pcuo.AddPaymentIntentIDs(ids...)
+	return _u.AddPaymentIntentIDs(ids...)
 }
 
 // AddSubscriptionIDs adds the "subscriptions" edge to the Subscription entity by IDs.
-func (pcuo *PaymentCustomerUpdateOne) AddSubscriptionIDs(ids ...int) *PaymentCustomerUpdateOne {
-	pcuo.mutation.AddSubscriptionIDs(ids...)
-	return pcuo
+func (_u *PaymentCustomerUpdateOne) AddSubscriptionIDs(ids ...int) *PaymentCustomerUpdateOne {
+	_u.mutation.AddSubscriptionIDs(ids...)
+	return _u
 }
 
 // AddSubscriptions adds the "subscriptions" edges to the Subscription entity.
-func (pcuo *PaymentCustomerUpdateOne) AddSubscriptions(s ...*Subscription) *PaymentCustomerUpdateOne {
-	ids := make([]int, len(s))
-	for i := range s {
-		ids[i] = s[i].ID
+func (_u *PaymentCustomerUpdateOne) AddSubscriptions(v ...*Subscription) *PaymentCustomerUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return pcuo.AddSubscriptionIDs(ids...)
+	return _u.AddSubscriptionIDs(ids...)
 }
 
 // AddPaymentMethodIDs adds the "payment_methods" edge to the PaymentMethod entity by IDs.
-func (pcuo *PaymentCustomerUpdateOne) AddPaymentMethodIDs(ids ...int) *PaymentCustomerUpdateOne {
-	pcuo.mutation.AddPaymentMethodIDs(ids...)
-	return pcuo
+func (_u *PaymentCustomerUpdateOne) AddPaymentMethodIDs(ids ...int) *PaymentCustomerUpdateOne {
+	_u.mutation.AddPaymentMethodIDs(ids...)
+	return _u
 }
 
 // AddPaymentMethods adds the "payment_methods" edges to the PaymentMethod entity.
-func (pcuo *PaymentCustomerUpdateOne) AddPaymentMethods(p ...*PaymentMethod) *PaymentCustomerUpdateOne {
-	ids := make([]int, len(p))
-	for i := range p {
-		ids[i] = p[i].ID
+func (_u *PaymentCustomerUpdateOne) AddPaymentMethods(v ...*PaymentMethod) *PaymentCustomerUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return pcuo.AddPaymentMethodIDs(ids...)
+	return _u.AddPaymentMethodIDs(ids...)
 }
 
 // Mutation returns the PaymentCustomerMutation object of the builder.
-func (pcuo *PaymentCustomerUpdateOne) Mutation() *PaymentCustomerMutation {
-	return pcuo.mutation
+func (_u *PaymentCustomerUpdateOne) Mutation() *PaymentCustomerMutation {
+	return _u.mutation
 }
 
 // ClearUser clears the "user" edge to the User entity.
-func (pcuo *PaymentCustomerUpdateOne) ClearUser() *PaymentCustomerUpdateOne {
-	pcuo.mutation.ClearUser()
-	return pcuo
+func (_u *PaymentCustomerUpdateOne) ClearUser() *PaymentCustomerUpdateOne {
+	_u.mutation.ClearUser()
+	return _u
 }
 
 // ClearPaymentIntents clears all "payment_intents" edges to the PaymentIntent entity.
-func (pcuo *PaymentCustomerUpdateOne) ClearPaymentIntents() *PaymentCustomerUpdateOne {
-	pcuo.mutation.ClearPaymentIntents()
-	return pcuo
+func (_u *PaymentCustomerUpdateOne) ClearPaymentIntents() *PaymentCustomerUpdateOne {
+	_u.mutation.ClearPaymentIntents()
+	return _u
 }
 
 // RemovePaymentIntentIDs removes the "payment_intents" edge to PaymentIntent entities by IDs.
-func (pcuo *PaymentCustomerUpdateOne) RemovePaymentIntentIDs(ids ...int) *PaymentCustomerUpdateOne {
-	pcuo.mutation.RemovePaymentIntentIDs(ids...)
-	return pcuo
+func (_u *PaymentCustomerUpdateOne) RemovePaymentIntentIDs(ids ...int) *PaymentCustomerUpdateOne {
+	_u.mutation.RemovePaymentIntentIDs(ids...)
+	return _u
 }
 
 // RemovePaymentIntents removes "payment_intents" edges to PaymentIntent entities.
-func (pcuo *PaymentCustomerUpdateOne) RemovePaymentIntents(p ...*PaymentIntent) *PaymentCustomerUpdateOne {
-	ids := make([]int, len(p))
-	for i := range p {
-		ids[i] = p[i].ID
+func (_u *PaymentCustomerUpdateOne) RemovePaymentIntents(v ...*PaymentIntent) *PaymentCustomerUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return pcuo.RemovePaymentIntentIDs(ids...)
+	return _u.RemovePaymentIntentIDs(ids...)
 }
 
 // ClearSubscriptions clears all "subscriptions" edges to the Subscription entity.
-func (pcuo *PaymentCustomerUpdateOne) ClearSubscriptions() *PaymentCustomerUpdateOne {
-	pcuo.mutation.ClearSubscriptions()
-	return pcuo
+func (_u *PaymentCustomerUpdateOne) ClearSubscriptions() *PaymentCustomerUpdateOne {
+	_u.mutation.ClearSubscriptions()
+	return _u
 }
 
 // RemoveSubscriptionIDs removes the "subscriptions" edge to Subscription entities by IDs.
-func (pcuo *PaymentCustomerUpdateOne) RemoveSubscriptionIDs(ids ...int) *PaymentCustomerUpdateOne {
-	pcuo.mutation.RemoveSubscriptionIDs(ids...)
-	return pcuo
+func (_u *PaymentCustomerUpdateOne) RemoveSubscriptionIDs(ids ...int) *PaymentCustomerUpdateOne {
+	_u.mutation.RemoveSubscriptionIDs(ids...)
+	return _u
 }
 
 // RemoveSubscriptions removes "subscriptions" edges to Subscription entities.
-func (pcuo *PaymentCustomerUpdateOne) RemoveSubscriptions(s ...*Subscription) *PaymentCustomerUpdateOne {
-	ids := make([]int, len(s))
-	for i := range s {
-		ids[i] = s[i].ID
+func (_u *PaymentCustomerUpdateOne) RemoveSubscriptions(v ...*Subscription) *PaymentCustomerUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return pcuo.RemoveSubscriptionIDs(ids...)
+	return _u.RemoveSubscriptionIDs(ids...)
 }
 
 // ClearPaymentMethods clears all "payment_methods" edges to the PaymentMethod entity.
-func (pcuo *PaymentCustomerUpdateOne) ClearPaymentMethods() *PaymentCustomerUpdateOne {
-	pcuo.mutation.ClearPaymentMethods()
-	return pcuo
+func (_u *PaymentCustomerUpdateOne) ClearPaymentMethods() *PaymentCustomerUpdateOne {
+	_u.mutation.ClearPaymentMethods()
+	return _u
 }
 
 // RemovePaymentMethodIDs removes the "payment_methods" edge to PaymentMethod entities by IDs.
-func (pcuo *PaymentCustomerUpdateOne) RemovePaymentMethodIDs(ids ...int) *PaymentCustomerUpdateOne {
-	pcuo.mutation.RemovePaymentMethodIDs(ids...)
-	return pcuo
+func (_u *PaymentCustomerUpdateOne) RemovePaymentMethodIDs(ids ...int) *PaymentCustomerUpdateOne {
+	_u.mutation.RemovePaymentMethodIDs(ids...)
+	return _u
 }
 
 // RemovePaymentMethods removes "payment_methods" edges to PaymentMethod entities.
-func (pcuo *PaymentCustomerUpdateOne) RemovePaymentMethods(p ...*PaymentMethod) *PaymentCustomerUpdateOne {
-	ids := make([]int, len(p))
-	for i := range p {
-		ids[i] = p[i].ID
+func (_u *PaymentCustomerUpdateOne) RemovePaymentMethods(v ...*PaymentMethod) *PaymentCustomerUpdateOne {
+	ids := make([]int, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return pcuo.RemovePaymentMethodIDs(ids...)
+	return _u.RemovePaymentMethodIDs(ids...)
 }
 
 // Where appends a list predicates to the PaymentCustomerUpdate builder.
-func (pcuo *PaymentCustomerUpdateOne) Where(ps ...predicate.PaymentCustomer) *PaymentCustomerUpdateOne {
-	pcuo.mutation.Where(ps...)
-	return pcuo
+func (_u *PaymentCustomerUpdateOne) Where(ps ...predicate.PaymentCustomer) *PaymentCustomerUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (pcuo *PaymentCustomerUpdateOne) Select(field string, fields ...string) *PaymentCustomerUpdateOne {
-	pcuo.fields = append([]string{field}, fields...)
-	return pcuo
+func (_u *PaymentCustomerUpdateOne) Select(field string, fields ...string) *PaymentCustomerUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated PaymentCustomer entity.
-func (pcuo *PaymentCustomerUpdateOne) Save(ctx context.Context) (*PaymentCustomer, error) {
-	pcuo.defaults()
-	return withHooks(ctx, pcuo.sqlSave, pcuo.mutation, pcuo.hooks)
+func (_u *PaymentCustomerUpdateOne) Save(ctx context.Context) (*PaymentCustomer, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (pcuo *PaymentCustomerUpdateOne) SaveX(ctx context.Context) *PaymentCustomer {
-	node, err := pcuo.Save(ctx)
+func (_u *PaymentCustomerUpdateOne) SaveX(ctx context.Context) *PaymentCustomer {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -760,60 +760,60 @@ func (pcuo *PaymentCustomerUpdateOne) SaveX(ctx context.Context) *PaymentCustome
 }
 
 // Exec executes the query on the entity.
-func (pcuo *PaymentCustomerUpdateOne) Exec(ctx context.Context) error {
-	_, err := pcuo.Save(ctx)
+func (_u *PaymentCustomerUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (pcuo *PaymentCustomerUpdateOne) ExecX(ctx context.Context) {
-	if err := pcuo.Exec(ctx); err != nil {
+func (_u *PaymentCustomerUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (pcuo *PaymentCustomerUpdateOne) defaults() {
-	if _, ok := pcuo.mutation.UpdatedAt(); !ok {
+func (_u *PaymentCustomerUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
 		v := paymentcustomer.UpdateDefaultUpdatedAt()
-		pcuo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (pcuo *PaymentCustomerUpdateOne) check() error {
-	if v, ok := pcuo.mutation.ProviderCustomerID(); ok {
+func (_u *PaymentCustomerUpdateOne) check() error {
+	if v, ok := _u.mutation.ProviderCustomerID(); ok {
 		if err := paymentcustomer.ProviderCustomerIDValidator(v); err != nil {
 			return &ValidationError{Name: "provider_customer_id", err: fmt.Errorf(`ent: validator failed for field "PaymentCustomer.provider_customer_id": %w`, err)}
 		}
 	}
-	if v, ok := pcuo.mutation.Provider(); ok {
+	if v, ok := _u.mutation.Provider(); ok {
 		if err := paymentcustomer.ProviderValidator(v); err != nil {
 			return &ValidationError{Name: "provider", err: fmt.Errorf(`ent: validator failed for field "PaymentCustomer.provider": %w`, err)}
 		}
 	}
-	if v, ok := pcuo.mutation.Email(); ok {
+	if v, ok := _u.mutation.Email(); ok {
 		if err := paymentcustomer.EmailValidator(v); err != nil {
 			return &ValidationError{Name: "email", err: fmt.Errorf(`ent: validator failed for field "PaymentCustomer.email": %w`, err)}
 		}
 	}
-	if pcuo.mutation.UserCleared() && len(pcuo.mutation.UserIDs()) > 0 {
+	if _u.mutation.UserCleared() && len(_u.mutation.UserIDs()) > 0 {
 		return errors.New(`ent: clearing a required unique edge "PaymentCustomer.user"`)
 	}
 	return nil
 }
 
-func (pcuo *PaymentCustomerUpdateOne) sqlSave(ctx context.Context) (_node *PaymentCustomer, err error) {
-	if err := pcuo.check(); err != nil {
+func (_u *PaymentCustomerUpdateOne) sqlSave(ctx context.Context) (_node *PaymentCustomer, err error) {
+	if err := _u.check(); err != nil {
 		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(paymentcustomer.Table, paymentcustomer.Columns, sqlgraph.NewFieldSpec(paymentcustomer.FieldID, field.TypeInt))
-	id, ok := pcuo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "PaymentCustomer.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := pcuo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, paymentcustomer.FieldID)
 		for _, f := range fields {
@@ -825,38 +825,38 @@ func (pcuo *PaymentCustomerUpdateOne) sqlSave(ctx context.Context) (_node *Payme
 			}
 		}
 	}
-	if ps := pcuo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := pcuo.mutation.ProviderCustomerID(); ok {
+	if value, ok := _u.mutation.ProviderCustomerID(); ok {
 		_spec.SetField(paymentcustomer.FieldProviderCustomerID, field.TypeString, value)
 	}
-	if value, ok := pcuo.mutation.Provider(); ok {
+	if value, ok := _u.mutation.Provider(); ok {
 		_spec.SetField(paymentcustomer.FieldProvider, field.TypeString, value)
 	}
-	if value, ok := pcuo.mutation.Email(); ok {
+	if value, ok := _u.mutation.Email(); ok {
 		_spec.SetField(paymentcustomer.FieldEmail, field.TypeString, value)
 	}
-	if value, ok := pcuo.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(paymentcustomer.FieldName, field.TypeString, value)
 	}
-	if pcuo.mutation.NameCleared() {
+	if _u.mutation.NameCleared() {
 		_spec.ClearField(paymentcustomer.FieldName, field.TypeString)
 	}
-	if value, ok := pcuo.mutation.Metadata(); ok {
+	if value, ok := _u.mutation.Metadata(); ok {
 		_spec.SetField(paymentcustomer.FieldMetadata, field.TypeJSON, value)
 	}
-	if pcuo.mutation.MetadataCleared() {
+	if _u.mutation.MetadataCleared() {
 		_spec.ClearField(paymentcustomer.FieldMetadata, field.TypeJSON)
 	}
-	if value, ok := pcuo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(paymentcustomer.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if pcuo.mutation.UserCleared() {
+	if _u.mutation.UserCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2O,
 			Inverse: false,
@@ -869,7 +869,7 @@ func (pcuo *PaymentCustomerUpdateOne) sqlSave(ctx context.Context) (_node *Payme
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := pcuo.mutation.UserIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.UserIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2O,
 			Inverse: false,
@@ -885,7 +885,7 @@ func (pcuo *PaymentCustomerUpdateOne) sqlSave(ctx context.Context) (_node *Payme
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if pcuo.mutation.PaymentIntentsCleared() {
+	if _u.mutation.PaymentIntentsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -898,7 +898,7 @@ func (pcuo *PaymentCustomerUpdateOne) sqlSave(ctx context.Context) (_node *Payme
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := pcuo.mutation.RemovedPaymentIntentsIDs(); len(nodes) > 0 && !pcuo.mutation.PaymentIntentsCleared() {
+	if nodes := _u.mutation.RemovedPaymentIntentsIDs(); len(nodes) > 0 && !_u.mutation.PaymentIntentsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -914,7 +914,7 @@ func (pcuo *PaymentCustomerUpdateOne) sqlSave(ctx context.Context) (_node *Payme
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := pcuo.mutation.PaymentIntentsIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.PaymentIntentsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -930,7 +930,7 @@ func (pcuo *PaymentCustomerUpdateOne) sqlSave(ctx context.Context) (_node *Payme
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if pcuo.mutation.SubscriptionsCleared() {
+	if _u.mutation.SubscriptionsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -943,7 +943,7 @@ func (pcuo *PaymentCustomerUpdateOne) sqlSave(ctx context.Context) (_node *Payme
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := pcuo.mutation.RemovedSubscriptionsIDs(); len(nodes) > 0 && !pcuo.mutation.SubscriptionsCleared() {
+	if nodes := _u.mutation.RemovedSubscriptionsIDs(); len(nodes) > 0 && !_u.mutation.SubscriptionsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -959,7 +959,7 @@ func (pcuo *PaymentCustomerUpdateOne) sqlSave(ctx context.Context) (_node *Payme
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := pcuo.mutation.SubscriptionsIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.SubscriptionsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -975,7 +975,7 @@ func (pcuo *PaymentCustomerUpdateOne) sqlSave(ctx context.Context) (_node *Payme
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if pcuo.mutation.PaymentMethodsCleared() {
+	if _u.mutation.PaymentMethodsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -988,7 +988,7 @@ func (pcuo *PaymentCustomerUpdateOne) sqlSave(ctx context.Context) (_node *Payme
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := pcuo.mutation.RemovedPaymentMethodsIDs(); len(nodes) > 0 && !pcuo.mutation.PaymentMethodsCleared() {
+	if nodes := _u.mutation.RemovedPaymentMethodsIDs(); len(nodes) > 0 && !_u.mutation.PaymentMethodsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -1004,7 +1004,7 @@ func (pcuo *PaymentCustomerUpdateOne) sqlSave(ctx context.Context) (_node *Payme
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := pcuo.mutation.PaymentMethodsIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.PaymentMethodsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -1020,10 +1020,10 @@ func (pcuo *PaymentCustomerUpdateOne) sqlSave(ctx context.Context) (_node *Payme
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	_node = &PaymentCustomer{config: pcuo.config}
+	_node = &PaymentCustomer{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, pcuo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{paymentcustomer.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -1031,6 +1031,6 @@ func (pcuo *PaymentCustomerUpdateOne) sqlSave(ctx context.Context) (_node *Payme
 		}
 		return nil, err
 	}
-	pcuo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }
