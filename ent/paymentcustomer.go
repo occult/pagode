@@ -114,7 +114,7 @@ func (*PaymentCustomer) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the PaymentCustomer fields.
-func (pc *PaymentCustomer) assignValues(columns []string, values []any) error {
+func (_m *PaymentCustomer) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -125,36 +125,36 @@ func (pc *PaymentCustomer) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			pc.ID = int(value.Int64)
+			_m.ID = int(value.Int64)
 		case paymentcustomer.FieldProviderCustomerID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field provider_customer_id", values[i])
 			} else if value.Valid {
-				pc.ProviderCustomerID = value.String
+				_m.ProviderCustomerID = value.String
 			}
 		case paymentcustomer.FieldProvider:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field provider", values[i])
 			} else if value.Valid {
-				pc.Provider = value.String
+				_m.Provider = value.String
 			}
 		case paymentcustomer.FieldEmail:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field email", values[i])
 			} else if value.Valid {
-				pc.Email = value.String
+				_m.Email = value.String
 			}
 		case paymentcustomer.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
-				pc.Name = value.String
+				_m.Name = value.String
 			}
 		case paymentcustomer.FieldMetadata:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field metadata", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &pc.Metadata); err != nil {
+				if err := json.Unmarshal(*value, &_m.Metadata); err != nil {
 					return fmt.Errorf("unmarshal field metadata: %w", err)
 				}
 			}
@@ -162,16 +162,16 @@ func (pc *PaymentCustomer) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				pc.CreatedAt = value.Time
+				_m.CreatedAt = value.Time
 			}
 		case paymentcustomer.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				pc.UpdatedAt = value.Time
+				_m.UpdatedAt = value.Time
 			}
 		default:
-			pc.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -179,73 +179,73 @@ func (pc *PaymentCustomer) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the PaymentCustomer.
 // This includes values selected through modifiers, order, etc.
-func (pc *PaymentCustomer) Value(name string) (ent.Value, error) {
-	return pc.selectValues.Get(name)
+func (_m *PaymentCustomer) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // QueryUser queries the "user" edge of the PaymentCustomer entity.
-func (pc *PaymentCustomer) QueryUser() *UserQuery {
-	return NewPaymentCustomerClient(pc.config).QueryUser(pc)
+func (_m *PaymentCustomer) QueryUser() *UserQuery {
+	return NewPaymentCustomerClient(_m.config).QueryUser(_m)
 }
 
 // QueryPaymentIntents queries the "payment_intents" edge of the PaymentCustomer entity.
-func (pc *PaymentCustomer) QueryPaymentIntents() *PaymentIntentQuery {
-	return NewPaymentCustomerClient(pc.config).QueryPaymentIntents(pc)
+func (_m *PaymentCustomer) QueryPaymentIntents() *PaymentIntentQuery {
+	return NewPaymentCustomerClient(_m.config).QueryPaymentIntents(_m)
 }
 
 // QuerySubscriptions queries the "subscriptions" edge of the PaymentCustomer entity.
-func (pc *PaymentCustomer) QuerySubscriptions() *SubscriptionQuery {
-	return NewPaymentCustomerClient(pc.config).QuerySubscriptions(pc)
+func (_m *PaymentCustomer) QuerySubscriptions() *SubscriptionQuery {
+	return NewPaymentCustomerClient(_m.config).QuerySubscriptions(_m)
 }
 
 // QueryPaymentMethods queries the "payment_methods" edge of the PaymentCustomer entity.
-func (pc *PaymentCustomer) QueryPaymentMethods() *PaymentMethodQuery {
-	return NewPaymentCustomerClient(pc.config).QueryPaymentMethods(pc)
+func (_m *PaymentCustomer) QueryPaymentMethods() *PaymentMethodQuery {
+	return NewPaymentCustomerClient(_m.config).QueryPaymentMethods(_m)
 }
 
 // Update returns a builder for updating this PaymentCustomer.
 // Note that you need to call PaymentCustomer.Unwrap() before calling this method if this PaymentCustomer
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (pc *PaymentCustomer) Update() *PaymentCustomerUpdateOne {
-	return NewPaymentCustomerClient(pc.config).UpdateOne(pc)
+func (_m *PaymentCustomer) Update() *PaymentCustomerUpdateOne {
+	return NewPaymentCustomerClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the PaymentCustomer entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (pc *PaymentCustomer) Unwrap() *PaymentCustomer {
-	_tx, ok := pc.config.driver.(*txDriver)
+func (_m *PaymentCustomer) Unwrap() *PaymentCustomer {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: PaymentCustomer is not a transactional entity")
 	}
-	pc.config.driver = _tx.drv
-	return pc
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (pc *PaymentCustomer) String() string {
+func (_m *PaymentCustomer) String() string {
 	var builder strings.Builder
 	builder.WriteString("PaymentCustomer(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", pc.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("provider_customer_id=")
-	builder.WriteString(pc.ProviderCustomerID)
+	builder.WriteString(_m.ProviderCustomerID)
 	builder.WriteString(", ")
 	builder.WriteString("provider=")
-	builder.WriteString(pc.Provider)
+	builder.WriteString(_m.Provider)
 	builder.WriteString(", ")
 	builder.WriteString("email=")
-	builder.WriteString(pc.Email)
+	builder.WriteString(_m.Email)
 	builder.WriteString(", ")
 	builder.WriteString("name=")
-	builder.WriteString(pc.Name)
+	builder.WriteString(_m.Name)
 	builder.WriteString(", ")
 	builder.WriteString("metadata=")
-	builder.WriteString(fmt.Sprintf("%v", pc.Metadata))
+	builder.WriteString(fmt.Sprintf("%v", _m.Metadata))
 	builder.WriteString(", ")
 	builder.WriteString("created_at=")
-	builder.WriteString(pc.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.CreatedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(pc.UpdatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
 }

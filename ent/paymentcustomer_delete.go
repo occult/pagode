@@ -20,56 +20,56 @@ type PaymentCustomerDelete struct {
 }
 
 // Where appends a list predicates to the PaymentCustomerDelete builder.
-func (pcd *PaymentCustomerDelete) Where(ps ...predicate.PaymentCustomer) *PaymentCustomerDelete {
-	pcd.mutation.Where(ps...)
-	return pcd
+func (_d *PaymentCustomerDelete) Where(ps ...predicate.PaymentCustomer) *PaymentCustomerDelete {
+	_d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query and returns how many vertices were deleted.
-func (pcd *PaymentCustomerDelete) Exec(ctx context.Context) (int, error) {
-	return withHooks(ctx, pcd.sqlExec, pcd.mutation, pcd.hooks)
+func (_d *PaymentCustomerDelete) Exec(ctx context.Context) (int, error) {
+	return withHooks(ctx, _d.sqlExec, _d.mutation, _d.hooks)
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (pcd *PaymentCustomerDelete) ExecX(ctx context.Context) int {
-	n, err := pcd.Exec(ctx)
+func (_d *PaymentCustomerDelete) ExecX(ctx context.Context) int {
+	n, err := _d.Exec(ctx)
 	if err != nil {
 		panic(err)
 	}
 	return n
 }
 
-func (pcd *PaymentCustomerDelete) sqlExec(ctx context.Context) (int, error) {
+func (_d *PaymentCustomerDelete) sqlExec(ctx context.Context) (int, error) {
 	_spec := sqlgraph.NewDeleteSpec(paymentcustomer.Table, sqlgraph.NewFieldSpec(paymentcustomer.FieldID, field.TypeInt))
-	if ps := pcd.mutation.predicates; len(ps) > 0 {
+	if ps := _d.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	affected, err := sqlgraph.DeleteNodes(ctx, pcd.driver, _spec)
+	affected, err := sqlgraph.DeleteNodes(ctx, _d.driver, _spec)
 	if err != nil && sqlgraph.IsConstraintError(err) {
 		err = &ConstraintError{msg: err.Error(), wrap: err}
 	}
-	pcd.mutation.done = true
+	_d.mutation.done = true
 	return affected, err
 }
 
 // PaymentCustomerDeleteOne is the builder for deleting a single PaymentCustomer entity.
 type PaymentCustomerDeleteOne struct {
-	pcd *PaymentCustomerDelete
+	_d *PaymentCustomerDelete
 }
 
 // Where appends a list predicates to the PaymentCustomerDelete builder.
-func (pcdo *PaymentCustomerDeleteOne) Where(ps ...predicate.PaymentCustomer) *PaymentCustomerDeleteOne {
-	pcdo.pcd.mutation.Where(ps...)
-	return pcdo
+func (_d *PaymentCustomerDeleteOne) Where(ps ...predicate.PaymentCustomer) *PaymentCustomerDeleteOne {
+	_d._d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query.
-func (pcdo *PaymentCustomerDeleteOne) Exec(ctx context.Context) error {
-	n, err := pcdo.pcd.Exec(ctx)
+func (_d *PaymentCustomerDeleteOne) Exec(ctx context.Context) error {
+	n, err := _d._d.Exec(ctx)
 	switch {
 	case err != nil:
 		return err
@@ -81,8 +81,8 @@ func (pcdo *PaymentCustomerDeleteOne) Exec(ctx context.Context) error {
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (pcdo *PaymentCustomerDeleteOne) ExecX(ctx context.Context) {
-	if err := pcdo.Exec(ctx); err != nil {
+func (_d *PaymentCustomerDeleteOne) ExecX(ctx context.Context) {
+	if err := _d.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

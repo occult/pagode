@@ -22,228 +22,228 @@ type SubscriptionCreate struct {
 }
 
 // SetProviderSubscriptionID sets the "provider_subscription_id" field.
-func (sc *SubscriptionCreate) SetProviderSubscriptionID(s string) *SubscriptionCreate {
-	sc.mutation.SetProviderSubscriptionID(s)
-	return sc
+func (_c *SubscriptionCreate) SetProviderSubscriptionID(v string) *SubscriptionCreate {
+	_c.mutation.SetProviderSubscriptionID(v)
+	return _c
 }
 
 // SetProvider sets the "provider" field.
-func (sc *SubscriptionCreate) SetProvider(s string) *SubscriptionCreate {
-	sc.mutation.SetProvider(s)
-	return sc
+func (_c *SubscriptionCreate) SetProvider(v string) *SubscriptionCreate {
+	_c.mutation.SetProvider(v)
+	return _c
 }
 
 // SetNillableProvider sets the "provider" field if the given value is not nil.
-func (sc *SubscriptionCreate) SetNillableProvider(s *string) *SubscriptionCreate {
-	if s != nil {
-		sc.SetProvider(*s)
+func (_c *SubscriptionCreate) SetNillableProvider(v *string) *SubscriptionCreate {
+	if v != nil {
+		_c.SetProvider(*v)
 	}
-	return sc
+	return _c
 }
 
 // SetStatus sets the "status" field.
-func (sc *SubscriptionCreate) SetStatus(s subscription.Status) *SubscriptionCreate {
-	sc.mutation.SetStatus(s)
-	return sc
+func (_c *SubscriptionCreate) SetStatus(v subscription.Status) *SubscriptionCreate {
+	_c.mutation.SetStatus(v)
+	return _c
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (sc *SubscriptionCreate) SetNillableStatus(s *subscription.Status) *SubscriptionCreate {
-	if s != nil {
-		sc.SetStatus(*s)
+func (_c *SubscriptionCreate) SetNillableStatus(v *subscription.Status) *SubscriptionCreate {
+	if v != nil {
+		_c.SetStatus(*v)
 	}
-	return sc
+	return _c
 }
 
 // SetPriceID sets the "price_id" field.
-func (sc *SubscriptionCreate) SetPriceID(s string) *SubscriptionCreate {
-	sc.mutation.SetPriceID(s)
-	return sc
+func (_c *SubscriptionCreate) SetPriceID(v string) *SubscriptionCreate {
+	_c.mutation.SetPriceID(v)
+	return _c
 }
 
 // SetAmount sets the "amount" field.
-func (sc *SubscriptionCreate) SetAmount(i int64) *SubscriptionCreate {
-	sc.mutation.SetAmount(i)
-	return sc
+func (_c *SubscriptionCreate) SetAmount(v int64) *SubscriptionCreate {
+	_c.mutation.SetAmount(v)
+	return _c
 }
 
 // SetCurrency sets the "currency" field.
-func (sc *SubscriptionCreate) SetCurrency(s string) *SubscriptionCreate {
-	sc.mutation.SetCurrency(s)
-	return sc
+func (_c *SubscriptionCreate) SetCurrency(v string) *SubscriptionCreate {
+	_c.mutation.SetCurrency(v)
+	return _c
 }
 
 // SetNillableCurrency sets the "currency" field if the given value is not nil.
-func (sc *SubscriptionCreate) SetNillableCurrency(s *string) *SubscriptionCreate {
-	if s != nil {
-		sc.SetCurrency(*s)
+func (_c *SubscriptionCreate) SetNillableCurrency(v *string) *SubscriptionCreate {
+	if v != nil {
+		_c.SetCurrency(*v)
 	}
-	return sc
+	return _c
 }
 
 // SetInterval sets the "interval" field.
-func (sc *SubscriptionCreate) SetInterval(s subscription.Interval) *SubscriptionCreate {
-	sc.mutation.SetInterval(s)
-	return sc
+func (_c *SubscriptionCreate) SetInterval(v subscription.Interval) *SubscriptionCreate {
+	_c.mutation.SetInterval(v)
+	return _c
 }
 
 // SetIntervalCount sets the "interval_count" field.
-func (sc *SubscriptionCreate) SetIntervalCount(i int) *SubscriptionCreate {
-	sc.mutation.SetIntervalCount(i)
-	return sc
+func (_c *SubscriptionCreate) SetIntervalCount(v int) *SubscriptionCreate {
+	_c.mutation.SetIntervalCount(v)
+	return _c
 }
 
 // SetNillableIntervalCount sets the "interval_count" field if the given value is not nil.
-func (sc *SubscriptionCreate) SetNillableIntervalCount(i *int) *SubscriptionCreate {
-	if i != nil {
-		sc.SetIntervalCount(*i)
+func (_c *SubscriptionCreate) SetNillableIntervalCount(v *int) *SubscriptionCreate {
+	if v != nil {
+		_c.SetIntervalCount(*v)
 	}
-	return sc
+	return _c
 }
 
 // SetCurrentPeriodStart sets the "current_period_start" field.
-func (sc *SubscriptionCreate) SetCurrentPeriodStart(t time.Time) *SubscriptionCreate {
-	sc.mutation.SetCurrentPeriodStart(t)
-	return sc
+func (_c *SubscriptionCreate) SetCurrentPeriodStart(v time.Time) *SubscriptionCreate {
+	_c.mutation.SetCurrentPeriodStart(v)
+	return _c
 }
 
 // SetNillableCurrentPeriodStart sets the "current_period_start" field if the given value is not nil.
-func (sc *SubscriptionCreate) SetNillableCurrentPeriodStart(t *time.Time) *SubscriptionCreate {
-	if t != nil {
-		sc.SetCurrentPeriodStart(*t)
+func (_c *SubscriptionCreate) SetNillableCurrentPeriodStart(v *time.Time) *SubscriptionCreate {
+	if v != nil {
+		_c.SetCurrentPeriodStart(*v)
 	}
-	return sc
+	return _c
 }
 
 // SetCurrentPeriodEnd sets the "current_period_end" field.
-func (sc *SubscriptionCreate) SetCurrentPeriodEnd(t time.Time) *SubscriptionCreate {
-	sc.mutation.SetCurrentPeriodEnd(t)
-	return sc
+func (_c *SubscriptionCreate) SetCurrentPeriodEnd(v time.Time) *SubscriptionCreate {
+	_c.mutation.SetCurrentPeriodEnd(v)
+	return _c
 }
 
 // SetNillableCurrentPeriodEnd sets the "current_period_end" field if the given value is not nil.
-func (sc *SubscriptionCreate) SetNillableCurrentPeriodEnd(t *time.Time) *SubscriptionCreate {
-	if t != nil {
-		sc.SetCurrentPeriodEnd(*t)
+func (_c *SubscriptionCreate) SetNillableCurrentPeriodEnd(v *time.Time) *SubscriptionCreate {
+	if v != nil {
+		_c.SetCurrentPeriodEnd(*v)
 	}
-	return sc
+	return _c
 }
 
 // SetTrialStart sets the "trial_start" field.
-func (sc *SubscriptionCreate) SetTrialStart(t time.Time) *SubscriptionCreate {
-	sc.mutation.SetTrialStart(t)
-	return sc
+func (_c *SubscriptionCreate) SetTrialStart(v time.Time) *SubscriptionCreate {
+	_c.mutation.SetTrialStart(v)
+	return _c
 }
 
 // SetNillableTrialStart sets the "trial_start" field if the given value is not nil.
-func (sc *SubscriptionCreate) SetNillableTrialStart(t *time.Time) *SubscriptionCreate {
-	if t != nil {
-		sc.SetTrialStart(*t)
+func (_c *SubscriptionCreate) SetNillableTrialStart(v *time.Time) *SubscriptionCreate {
+	if v != nil {
+		_c.SetTrialStart(*v)
 	}
-	return sc
+	return _c
 }
 
 // SetTrialEnd sets the "trial_end" field.
-func (sc *SubscriptionCreate) SetTrialEnd(t time.Time) *SubscriptionCreate {
-	sc.mutation.SetTrialEnd(t)
-	return sc
+func (_c *SubscriptionCreate) SetTrialEnd(v time.Time) *SubscriptionCreate {
+	_c.mutation.SetTrialEnd(v)
+	return _c
 }
 
 // SetNillableTrialEnd sets the "trial_end" field if the given value is not nil.
-func (sc *SubscriptionCreate) SetNillableTrialEnd(t *time.Time) *SubscriptionCreate {
-	if t != nil {
-		sc.SetTrialEnd(*t)
+func (_c *SubscriptionCreate) SetNillableTrialEnd(v *time.Time) *SubscriptionCreate {
+	if v != nil {
+		_c.SetTrialEnd(*v)
 	}
-	return sc
+	return _c
 }
 
 // SetCanceledAt sets the "canceled_at" field.
-func (sc *SubscriptionCreate) SetCanceledAt(t time.Time) *SubscriptionCreate {
-	sc.mutation.SetCanceledAt(t)
-	return sc
+func (_c *SubscriptionCreate) SetCanceledAt(v time.Time) *SubscriptionCreate {
+	_c.mutation.SetCanceledAt(v)
+	return _c
 }
 
 // SetNillableCanceledAt sets the "canceled_at" field if the given value is not nil.
-func (sc *SubscriptionCreate) SetNillableCanceledAt(t *time.Time) *SubscriptionCreate {
-	if t != nil {
-		sc.SetCanceledAt(*t)
+func (_c *SubscriptionCreate) SetNillableCanceledAt(v *time.Time) *SubscriptionCreate {
+	if v != nil {
+		_c.SetCanceledAt(*v)
 	}
-	return sc
+	return _c
 }
 
 // SetEndedAt sets the "ended_at" field.
-func (sc *SubscriptionCreate) SetEndedAt(t time.Time) *SubscriptionCreate {
-	sc.mutation.SetEndedAt(t)
-	return sc
+func (_c *SubscriptionCreate) SetEndedAt(v time.Time) *SubscriptionCreate {
+	_c.mutation.SetEndedAt(v)
+	return _c
 }
 
 // SetNillableEndedAt sets the "ended_at" field if the given value is not nil.
-func (sc *SubscriptionCreate) SetNillableEndedAt(t *time.Time) *SubscriptionCreate {
-	if t != nil {
-		sc.SetEndedAt(*t)
+func (_c *SubscriptionCreate) SetNillableEndedAt(v *time.Time) *SubscriptionCreate {
+	if v != nil {
+		_c.SetEndedAt(*v)
 	}
-	return sc
+	return _c
 }
 
 // SetMetadata sets the "metadata" field.
-func (sc *SubscriptionCreate) SetMetadata(m map[string]interface{}) *SubscriptionCreate {
-	sc.mutation.SetMetadata(m)
-	return sc
+func (_c *SubscriptionCreate) SetMetadata(v map[string]interface{}) *SubscriptionCreate {
+	_c.mutation.SetMetadata(v)
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (sc *SubscriptionCreate) SetCreatedAt(t time.Time) *SubscriptionCreate {
-	sc.mutation.SetCreatedAt(t)
-	return sc
+func (_c *SubscriptionCreate) SetCreatedAt(v time.Time) *SubscriptionCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (sc *SubscriptionCreate) SetNillableCreatedAt(t *time.Time) *SubscriptionCreate {
-	if t != nil {
-		sc.SetCreatedAt(*t)
+func (_c *SubscriptionCreate) SetNillableCreatedAt(v *time.Time) *SubscriptionCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return sc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (sc *SubscriptionCreate) SetUpdatedAt(t time.Time) *SubscriptionCreate {
-	sc.mutation.SetUpdatedAt(t)
-	return sc
+func (_c *SubscriptionCreate) SetUpdatedAt(v time.Time) *SubscriptionCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (sc *SubscriptionCreate) SetNillableUpdatedAt(t *time.Time) *SubscriptionCreate {
-	if t != nil {
-		sc.SetUpdatedAt(*t)
+func (_c *SubscriptionCreate) SetNillableUpdatedAt(v *time.Time) *SubscriptionCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return sc
+	return _c
 }
 
 // SetCustomerID sets the "customer" edge to the PaymentCustomer entity by ID.
-func (sc *SubscriptionCreate) SetCustomerID(id int) *SubscriptionCreate {
-	sc.mutation.SetCustomerID(id)
-	return sc
+func (_c *SubscriptionCreate) SetCustomerID(id int) *SubscriptionCreate {
+	_c.mutation.SetCustomerID(id)
+	return _c
 }
 
 // SetCustomer sets the "customer" edge to the PaymentCustomer entity.
-func (sc *SubscriptionCreate) SetCustomer(p *PaymentCustomer) *SubscriptionCreate {
-	return sc.SetCustomerID(p.ID)
+func (_c *SubscriptionCreate) SetCustomer(v *PaymentCustomer) *SubscriptionCreate {
+	return _c.SetCustomerID(v.ID)
 }
 
 // Mutation returns the SubscriptionMutation object of the builder.
-func (sc *SubscriptionCreate) Mutation() *SubscriptionMutation {
-	return sc.mutation
+func (_c *SubscriptionCreate) Mutation() *SubscriptionMutation {
+	return _c.mutation
 }
 
 // Save creates the Subscription in the database.
-func (sc *SubscriptionCreate) Save(ctx context.Context) (*Subscription, error) {
-	sc.defaults()
-	return withHooks(ctx, sc.sqlSave, sc.mutation, sc.hooks)
+func (_c *SubscriptionCreate) Save(ctx context.Context) (*Subscription, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (sc *SubscriptionCreate) SaveX(ctx context.Context) *Subscription {
-	v, err := sc.Save(ctx)
+func (_c *SubscriptionCreate) SaveX(ctx context.Context) *Subscription {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -251,130 +251,130 @@ func (sc *SubscriptionCreate) SaveX(ctx context.Context) *Subscription {
 }
 
 // Exec executes the query.
-func (sc *SubscriptionCreate) Exec(ctx context.Context) error {
-	_, err := sc.Save(ctx)
+func (_c *SubscriptionCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (sc *SubscriptionCreate) ExecX(ctx context.Context) {
-	if err := sc.Exec(ctx); err != nil {
+func (_c *SubscriptionCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (sc *SubscriptionCreate) defaults() {
-	if _, ok := sc.mutation.Provider(); !ok {
+func (_c *SubscriptionCreate) defaults() {
+	if _, ok := _c.mutation.Provider(); !ok {
 		v := subscription.DefaultProvider
-		sc.mutation.SetProvider(v)
+		_c.mutation.SetProvider(v)
 	}
-	if _, ok := sc.mutation.Status(); !ok {
+	if _, ok := _c.mutation.Status(); !ok {
 		v := subscription.DefaultStatus
-		sc.mutation.SetStatus(v)
+		_c.mutation.SetStatus(v)
 	}
-	if _, ok := sc.mutation.Currency(); !ok {
+	if _, ok := _c.mutation.Currency(); !ok {
 		v := subscription.DefaultCurrency
-		sc.mutation.SetCurrency(v)
+		_c.mutation.SetCurrency(v)
 	}
-	if _, ok := sc.mutation.IntervalCount(); !ok {
+	if _, ok := _c.mutation.IntervalCount(); !ok {
 		v := subscription.DefaultIntervalCount
-		sc.mutation.SetIntervalCount(v)
+		_c.mutation.SetIntervalCount(v)
 	}
-	if _, ok := sc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := subscription.DefaultCreatedAt()
-		sc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := sc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := subscription.DefaultUpdatedAt()
-		sc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (sc *SubscriptionCreate) check() error {
-	if _, ok := sc.mutation.ProviderSubscriptionID(); !ok {
+func (_c *SubscriptionCreate) check() error {
+	if _, ok := _c.mutation.ProviderSubscriptionID(); !ok {
 		return &ValidationError{Name: "provider_subscription_id", err: errors.New(`ent: missing required field "Subscription.provider_subscription_id"`)}
 	}
-	if v, ok := sc.mutation.ProviderSubscriptionID(); ok {
+	if v, ok := _c.mutation.ProviderSubscriptionID(); ok {
 		if err := subscription.ProviderSubscriptionIDValidator(v); err != nil {
 			return &ValidationError{Name: "provider_subscription_id", err: fmt.Errorf(`ent: validator failed for field "Subscription.provider_subscription_id": %w`, err)}
 		}
 	}
-	if _, ok := sc.mutation.Provider(); !ok {
+	if _, ok := _c.mutation.Provider(); !ok {
 		return &ValidationError{Name: "provider", err: errors.New(`ent: missing required field "Subscription.provider"`)}
 	}
-	if v, ok := sc.mutation.Provider(); ok {
+	if v, ok := _c.mutation.Provider(); ok {
 		if err := subscription.ProviderValidator(v); err != nil {
 			return &ValidationError{Name: "provider", err: fmt.Errorf(`ent: validator failed for field "Subscription.provider": %w`, err)}
 		}
 	}
-	if _, ok := sc.mutation.Status(); !ok {
+	if _, ok := _c.mutation.Status(); !ok {
 		return &ValidationError{Name: "status", err: errors.New(`ent: missing required field "Subscription.status"`)}
 	}
-	if v, ok := sc.mutation.Status(); ok {
+	if v, ok := _c.mutation.Status(); ok {
 		if err := subscription.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Subscription.status": %w`, err)}
 		}
 	}
-	if _, ok := sc.mutation.PriceID(); !ok {
+	if _, ok := _c.mutation.PriceID(); !ok {
 		return &ValidationError{Name: "price_id", err: errors.New(`ent: missing required field "Subscription.price_id"`)}
 	}
-	if v, ok := sc.mutation.PriceID(); ok {
+	if v, ok := _c.mutation.PriceID(); ok {
 		if err := subscription.PriceIDValidator(v); err != nil {
 			return &ValidationError{Name: "price_id", err: fmt.Errorf(`ent: validator failed for field "Subscription.price_id": %w`, err)}
 		}
 	}
-	if _, ok := sc.mutation.Amount(); !ok {
+	if _, ok := _c.mutation.Amount(); !ok {
 		return &ValidationError{Name: "amount", err: errors.New(`ent: missing required field "Subscription.amount"`)}
 	}
-	if v, ok := sc.mutation.Amount(); ok {
+	if v, ok := _c.mutation.Amount(); ok {
 		if err := subscription.AmountValidator(v); err != nil {
 			return &ValidationError{Name: "amount", err: fmt.Errorf(`ent: validator failed for field "Subscription.amount": %w`, err)}
 		}
 	}
-	if _, ok := sc.mutation.Currency(); !ok {
+	if _, ok := _c.mutation.Currency(); !ok {
 		return &ValidationError{Name: "currency", err: errors.New(`ent: missing required field "Subscription.currency"`)}
 	}
-	if v, ok := sc.mutation.Currency(); ok {
+	if v, ok := _c.mutation.Currency(); ok {
 		if err := subscription.CurrencyValidator(v); err != nil {
 			return &ValidationError{Name: "currency", err: fmt.Errorf(`ent: validator failed for field "Subscription.currency": %w`, err)}
 		}
 	}
-	if _, ok := sc.mutation.Interval(); !ok {
+	if _, ok := _c.mutation.Interval(); !ok {
 		return &ValidationError{Name: "interval", err: errors.New(`ent: missing required field "Subscription.interval"`)}
 	}
-	if v, ok := sc.mutation.Interval(); ok {
+	if v, ok := _c.mutation.Interval(); ok {
 		if err := subscription.IntervalValidator(v); err != nil {
 			return &ValidationError{Name: "interval", err: fmt.Errorf(`ent: validator failed for field "Subscription.interval": %w`, err)}
 		}
 	}
-	if _, ok := sc.mutation.IntervalCount(); !ok {
+	if _, ok := _c.mutation.IntervalCount(); !ok {
 		return &ValidationError{Name: "interval_count", err: errors.New(`ent: missing required field "Subscription.interval_count"`)}
 	}
-	if v, ok := sc.mutation.IntervalCount(); ok {
+	if v, ok := _c.mutation.IntervalCount(); ok {
 		if err := subscription.IntervalCountValidator(v); err != nil {
 			return &ValidationError{Name: "interval_count", err: fmt.Errorf(`ent: validator failed for field "Subscription.interval_count": %w`, err)}
 		}
 	}
-	if _, ok := sc.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		return &ValidationError{Name: "created_at", err: errors.New(`ent: missing required field "Subscription.created_at"`)}
 	}
-	if _, ok := sc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		return &ValidationError{Name: "updated_at", err: errors.New(`ent: missing required field "Subscription.updated_at"`)}
 	}
-	if len(sc.mutation.CustomerIDs()) == 0 {
+	if len(_c.mutation.CustomerIDs()) == 0 {
 		return &ValidationError{Name: "customer", err: errors.New(`ent: missing required edge "Subscription.customer"`)}
 	}
 	return nil
 }
 
-func (sc *SubscriptionCreate) sqlSave(ctx context.Context) (*Subscription, error) {
-	if err := sc.check(); err != nil {
+func (_c *SubscriptionCreate) sqlSave(ctx context.Context) (*Subscription, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := sc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, sc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -382,85 +382,85 @@ func (sc *SubscriptionCreate) sqlSave(ctx context.Context) (*Subscription, error
 	}
 	id := _spec.ID.Value.(int64)
 	_node.ID = int(id)
-	sc.mutation.id = &_node.ID
-	sc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (sc *SubscriptionCreate) createSpec() (*Subscription, *sqlgraph.CreateSpec) {
+func (_c *SubscriptionCreate) createSpec() (*Subscription, *sqlgraph.CreateSpec) {
 	var (
-		_node = &Subscription{config: sc.config}
+		_node = &Subscription{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(subscription.Table, sqlgraph.NewFieldSpec(subscription.FieldID, field.TypeInt))
 	)
-	if value, ok := sc.mutation.ProviderSubscriptionID(); ok {
+	if value, ok := _c.mutation.ProviderSubscriptionID(); ok {
 		_spec.SetField(subscription.FieldProviderSubscriptionID, field.TypeString, value)
 		_node.ProviderSubscriptionID = value
 	}
-	if value, ok := sc.mutation.Provider(); ok {
+	if value, ok := _c.mutation.Provider(); ok {
 		_spec.SetField(subscription.FieldProvider, field.TypeString, value)
 		_node.Provider = value
 	}
-	if value, ok := sc.mutation.Status(); ok {
+	if value, ok := _c.mutation.Status(); ok {
 		_spec.SetField(subscription.FieldStatus, field.TypeEnum, value)
 		_node.Status = value
 	}
-	if value, ok := sc.mutation.PriceID(); ok {
+	if value, ok := _c.mutation.PriceID(); ok {
 		_spec.SetField(subscription.FieldPriceID, field.TypeString, value)
 		_node.PriceID = value
 	}
-	if value, ok := sc.mutation.Amount(); ok {
+	if value, ok := _c.mutation.Amount(); ok {
 		_spec.SetField(subscription.FieldAmount, field.TypeInt64, value)
 		_node.Amount = value
 	}
-	if value, ok := sc.mutation.Currency(); ok {
+	if value, ok := _c.mutation.Currency(); ok {
 		_spec.SetField(subscription.FieldCurrency, field.TypeString, value)
 		_node.Currency = value
 	}
-	if value, ok := sc.mutation.Interval(); ok {
+	if value, ok := _c.mutation.Interval(); ok {
 		_spec.SetField(subscription.FieldInterval, field.TypeEnum, value)
 		_node.Interval = value
 	}
-	if value, ok := sc.mutation.IntervalCount(); ok {
+	if value, ok := _c.mutation.IntervalCount(); ok {
 		_spec.SetField(subscription.FieldIntervalCount, field.TypeInt, value)
 		_node.IntervalCount = value
 	}
-	if value, ok := sc.mutation.CurrentPeriodStart(); ok {
+	if value, ok := _c.mutation.CurrentPeriodStart(); ok {
 		_spec.SetField(subscription.FieldCurrentPeriodStart, field.TypeTime, value)
 		_node.CurrentPeriodStart = value
 	}
-	if value, ok := sc.mutation.CurrentPeriodEnd(); ok {
+	if value, ok := _c.mutation.CurrentPeriodEnd(); ok {
 		_spec.SetField(subscription.FieldCurrentPeriodEnd, field.TypeTime, value)
 		_node.CurrentPeriodEnd = value
 	}
-	if value, ok := sc.mutation.TrialStart(); ok {
+	if value, ok := _c.mutation.TrialStart(); ok {
 		_spec.SetField(subscription.FieldTrialStart, field.TypeTime, value)
 		_node.TrialStart = value
 	}
-	if value, ok := sc.mutation.TrialEnd(); ok {
+	if value, ok := _c.mutation.TrialEnd(); ok {
 		_spec.SetField(subscription.FieldTrialEnd, field.TypeTime, value)
 		_node.TrialEnd = value
 	}
-	if value, ok := sc.mutation.CanceledAt(); ok {
+	if value, ok := _c.mutation.CanceledAt(); ok {
 		_spec.SetField(subscription.FieldCanceledAt, field.TypeTime, value)
 		_node.CanceledAt = value
 	}
-	if value, ok := sc.mutation.EndedAt(); ok {
+	if value, ok := _c.mutation.EndedAt(); ok {
 		_spec.SetField(subscription.FieldEndedAt, field.TypeTime, value)
 		_node.EndedAt = value
 	}
-	if value, ok := sc.mutation.Metadata(); ok {
+	if value, ok := _c.mutation.Metadata(); ok {
 		_spec.SetField(subscription.FieldMetadata, field.TypeJSON, value)
 		_node.Metadata = value
 	}
-	if value, ok := sc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(subscription.FieldCreatedAt, field.TypeTime, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := sc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(subscription.FieldUpdatedAt, field.TypeTime, value)
 		_node.UpdatedAt = value
 	}
-	if nodes := sc.mutation.CustomerIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.CustomerIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -488,16 +488,16 @@ type SubscriptionCreateBulk struct {
 }
 
 // Save creates the Subscription entities in the database.
-func (scb *SubscriptionCreateBulk) Save(ctx context.Context) ([]*Subscription, error) {
-	if scb.err != nil {
-		return nil, scb.err
+func (_c *SubscriptionCreateBulk) Save(ctx context.Context) ([]*Subscription, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(scb.builders))
-	nodes := make([]*Subscription, len(scb.builders))
-	mutators := make([]Mutator, len(scb.builders))
-	for i := range scb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*Subscription, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := scb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*SubscriptionMutation)
@@ -511,11 +511,11 @@ func (scb *SubscriptionCreateBulk) Save(ctx context.Context) ([]*Subscription, e
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, scb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, scb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -539,7 +539,7 @@ func (scb *SubscriptionCreateBulk) Save(ctx context.Context) ([]*Subscription, e
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, scb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -547,8 +547,8 @@ func (scb *SubscriptionCreateBulk) Save(ctx context.Context) ([]*Subscription, e
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (scb *SubscriptionCreateBulk) SaveX(ctx context.Context) []*Subscription {
-	v, err := scb.Save(ctx)
+func (_c *SubscriptionCreateBulk) SaveX(ctx context.Context) []*Subscription {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -556,14 +556,14 @@ func (scb *SubscriptionCreateBulk) SaveX(ctx context.Context) []*Subscription {
 }
 
 // Exec executes the query.
-func (scb *SubscriptionCreateBulk) Exec(ctx context.Context) error {
-	_, err := scb.Save(ctx)
+func (_c *SubscriptionCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (scb *SubscriptionCreateBulk) ExecX(ctx context.Context) {
-	if err := scb.Exec(ctx); err != nil {
+func (_c *SubscriptionCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

@@ -24,306 +24,306 @@ type SubscriptionUpdate struct {
 }
 
 // Where appends a list predicates to the SubscriptionUpdate builder.
-func (su *SubscriptionUpdate) Where(ps ...predicate.Subscription) *SubscriptionUpdate {
-	su.mutation.Where(ps...)
-	return su
+func (_u *SubscriptionUpdate) Where(ps ...predicate.Subscription) *SubscriptionUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetProviderSubscriptionID sets the "provider_subscription_id" field.
-func (su *SubscriptionUpdate) SetProviderSubscriptionID(s string) *SubscriptionUpdate {
-	su.mutation.SetProviderSubscriptionID(s)
-	return su
+func (_u *SubscriptionUpdate) SetProviderSubscriptionID(v string) *SubscriptionUpdate {
+	_u.mutation.SetProviderSubscriptionID(v)
+	return _u
 }
 
 // SetNillableProviderSubscriptionID sets the "provider_subscription_id" field if the given value is not nil.
-func (su *SubscriptionUpdate) SetNillableProviderSubscriptionID(s *string) *SubscriptionUpdate {
-	if s != nil {
-		su.SetProviderSubscriptionID(*s)
+func (_u *SubscriptionUpdate) SetNillableProviderSubscriptionID(v *string) *SubscriptionUpdate {
+	if v != nil {
+		_u.SetProviderSubscriptionID(*v)
 	}
-	return su
+	return _u
 }
 
 // SetProvider sets the "provider" field.
-func (su *SubscriptionUpdate) SetProvider(s string) *SubscriptionUpdate {
-	su.mutation.SetProvider(s)
-	return su
+func (_u *SubscriptionUpdate) SetProvider(v string) *SubscriptionUpdate {
+	_u.mutation.SetProvider(v)
+	return _u
 }
 
 // SetNillableProvider sets the "provider" field if the given value is not nil.
-func (su *SubscriptionUpdate) SetNillableProvider(s *string) *SubscriptionUpdate {
-	if s != nil {
-		su.SetProvider(*s)
+func (_u *SubscriptionUpdate) SetNillableProvider(v *string) *SubscriptionUpdate {
+	if v != nil {
+		_u.SetProvider(*v)
 	}
-	return su
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (su *SubscriptionUpdate) SetStatus(s subscription.Status) *SubscriptionUpdate {
-	su.mutation.SetStatus(s)
-	return su
+func (_u *SubscriptionUpdate) SetStatus(v subscription.Status) *SubscriptionUpdate {
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (su *SubscriptionUpdate) SetNillableStatus(s *subscription.Status) *SubscriptionUpdate {
-	if s != nil {
-		su.SetStatus(*s)
+func (_u *SubscriptionUpdate) SetNillableStatus(v *subscription.Status) *SubscriptionUpdate {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return su
+	return _u
 }
 
 // SetPriceID sets the "price_id" field.
-func (su *SubscriptionUpdate) SetPriceID(s string) *SubscriptionUpdate {
-	su.mutation.SetPriceID(s)
-	return su
+func (_u *SubscriptionUpdate) SetPriceID(v string) *SubscriptionUpdate {
+	_u.mutation.SetPriceID(v)
+	return _u
 }
 
 // SetNillablePriceID sets the "price_id" field if the given value is not nil.
-func (su *SubscriptionUpdate) SetNillablePriceID(s *string) *SubscriptionUpdate {
-	if s != nil {
-		su.SetPriceID(*s)
+func (_u *SubscriptionUpdate) SetNillablePriceID(v *string) *SubscriptionUpdate {
+	if v != nil {
+		_u.SetPriceID(*v)
 	}
-	return su
+	return _u
 }
 
 // SetAmount sets the "amount" field.
-func (su *SubscriptionUpdate) SetAmount(i int64) *SubscriptionUpdate {
-	su.mutation.ResetAmount()
-	su.mutation.SetAmount(i)
-	return su
+func (_u *SubscriptionUpdate) SetAmount(v int64) *SubscriptionUpdate {
+	_u.mutation.ResetAmount()
+	_u.mutation.SetAmount(v)
+	return _u
 }
 
 // SetNillableAmount sets the "amount" field if the given value is not nil.
-func (su *SubscriptionUpdate) SetNillableAmount(i *int64) *SubscriptionUpdate {
-	if i != nil {
-		su.SetAmount(*i)
+func (_u *SubscriptionUpdate) SetNillableAmount(v *int64) *SubscriptionUpdate {
+	if v != nil {
+		_u.SetAmount(*v)
 	}
-	return su
+	return _u
 }
 
-// AddAmount adds i to the "amount" field.
-func (su *SubscriptionUpdate) AddAmount(i int64) *SubscriptionUpdate {
-	su.mutation.AddAmount(i)
-	return su
+// AddAmount adds value to the "amount" field.
+func (_u *SubscriptionUpdate) AddAmount(v int64) *SubscriptionUpdate {
+	_u.mutation.AddAmount(v)
+	return _u
 }
 
 // SetCurrency sets the "currency" field.
-func (su *SubscriptionUpdate) SetCurrency(s string) *SubscriptionUpdate {
-	su.mutation.SetCurrency(s)
-	return su
+func (_u *SubscriptionUpdate) SetCurrency(v string) *SubscriptionUpdate {
+	_u.mutation.SetCurrency(v)
+	return _u
 }
 
 // SetNillableCurrency sets the "currency" field if the given value is not nil.
-func (su *SubscriptionUpdate) SetNillableCurrency(s *string) *SubscriptionUpdate {
-	if s != nil {
-		su.SetCurrency(*s)
+func (_u *SubscriptionUpdate) SetNillableCurrency(v *string) *SubscriptionUpdate {
+	if v != nil {
+		_u.SetCurrency(*v)
 	}
-	return su
+	return _u
 }
 
 // SetInterval sets the "interval" field.
-func (su *SubscriptionUpdate) SetInterval(s subscription.Interval) *SubscriptionUpdate {
-	su.mutation.SetInterval(s)
-	return su
+func (_u *SubscriptionUpdate) SetInterval(v subscription.Interval) *SubscriptionUpdate {
+	_u.mutation.SetInterval(v)
+	return _u
 }
 
 // SetNillableInterval sets the "interval" field if the given value is not nil.
-func (su *SubscriptionUpdate) SetNillableInterval(s *subscription.Interval) *SubscriptionUpdate {
-	if s != nil {
-		su.SetInterval(*s)
+func (_u *SubscriptionUpdate) SetNillableInterval(v *subscription.Interval) *SubscriptionUpdate {
+	if v != nil {
+		_u.SetInterval(*v)
 	}
-	return su
+	return _u
 }
 
 // SetIntervalCount sets the "interval_count" field.
-func (su *SubscriptionUpdate) SetIntervalCount(i int) *SubscriptionUpdate {
-	su.mutation.ResetIntervalCount()
-	su.mutation.SetIntervalCount(i)
-	return su
+func (_u *SubscriptionUpdate) SetIntervalCount(v int) *SubscriptionUpdate {
+	_u.mutation.ResetIntervalCount()
+	_u.mutation.SetIntervalCount(v)
+	return _u
 }
 
 // SetNillableIntervalCount sets the "interval_count" field if the given value is not nil.
-func (su *SubscriptionUpdate) SetNillableIntervalCount(i *int) *SubscriptionUpdate {
-	if i != nil {
-		su.SetIntervalCount(*i)
+func (_u *SubscriptionUpdate) SetNillableIntervalCount(v *int) *SubscriptionUpdate {
+	if v != nil {
+		_u.SetIntervalCount(*v)
 	}
-	return su
+	return _u
 }
 
-// AddIntervalCount adds i to the "interval_count" field.
-func (su *SubscriptionUpdate) AddIntervalCount(i int) *SubscriptionUpdate {
-	su.mutation.AddIntervalCount(i)
-	return su
+// AddIntervalCount adds value to the "interval_count" field.
+func (_u *SubscriptionUpdate) AddIntervalCount(v int) *SubscriptionUpdate {
+	_u.mutation.AddIntervalCount(v)
+	return _u
 }
 
 // SetCurrentPeriodStart sets the "current_period_start" field.
-func (su *SubscriptionUpdate) SetCurrentPeriodStart(t time.Time) *SubscriptionUpdate {
-	su.mutation.SetCurrentPeriodStart(t)
-	return su
+func (_u *SubscriptionUpdate) SetCurrentPeriodStart(v time.Time) *SubscriptionUpdate {
+	_u.mutation.SetCurrentPeriodStart(v)
+	return _u
 }
 
 // SetNillableCurrentPeriodStart sets the "current_period_start" field if the given value is not nil.
-func (su *SubscriptionUpdate) SetNillableCurrentPeriodStart(t *time.Time) *SubscriptionUpdate {
-	if t != nil {
-		su.SetCurrentPeriodStart(*t)
+func (_u *SubscriptionUpdate) SetNillableCurrentPeriodStart(v *time.Time) *SubscriptionUpdate {
+	if v != nil {
+		_u.SetCurrentPeriodStart(*v)
 	}
-	return su
+	return _u
 }
 
 // ClearCurrentPeriodStart clears the value of the "current_period_start" field.
-func (su *SubscriptionUpdate) ClearCurrentPeriodStart() *SubscriptionUpdate {
-	su.mutation.ClearCurrentPeriodStart()
-	return su
+func (_u *SubscriptionUpdate) ClearCurrentPeriodStart() *SubscriptionUpdate {
+	_u.mutation.ClearCurrentPeriodStart()
+	return _u
 }
 
 // SetCurrentPeriodEnd sets the "current_period_end" field.
-func (su *SubscriptionUpdate) SetCurrentPeriodEnd(t time.Time) *SubscriptionUpdate {
-	su.mutation.SetCurrentPeriodEnd(t)
-	return su
+func (_u *SubscriptionUpdate) SetCurrentPeriodEnd(v time.Time) *SubscriptionUpdate {
+	_u.mutation.SetCurrentPeriodEnd(v)
+	return _u
 }
 
 // SetNillableCurrentPeriodEnd sets the "current_period_end" field if the given value is not nil.
-func (su *SubscriptionUpdate) SetNillableCurrentPeriodEnd(t *time.Time) *SubscriptionUpdate {
-	if t != nil {
-		su.SetCurrentPeriodEnd(*t)
+func (_u *SubscriptionUpdate) SetNillableCurrentPeriodEnd(v *time.Time) *SubscriptionUpdate {
+	if v != nil {
+		_u.SetCurrentPeriodEnd(*v)
 	}
-	return su
+	return _u
 }
 
 // ClearCurrentPeriodEnd clears the value of the "current_period_end" field.
-func (su *SubscriptionUpdate) ClearCurrentPeriodEnd() *SubscriptionUpdate {
-	su.mutation.ClearCurrentPeriodEnd()
-	return su
+func (_u *SubscriptionUpdate) ClearCurrentPeriodEnd() *SubscriptionUpdate {
+	_u.mutation.ClearCurrentPeriodEnd()
+	return _u
 }
 
 // SetTrialStart sets the "trial_start" field.
-func (su *SubscriptionUpdate) SetTrialStart(t time.Time) *SubscriptionUpdate {
-	su.mutation.SetTrialStart(t)
-	return su
+func (_u *SubscriptionUpdate) SetTrialStart(v time.Time) *SubscriptionUpdate {
+	_u.mutation.SetTrialStart(v)
+	return _u
 }
 
 // SetNillableTrialStart sets the "trial_start" field if the given value is not nil.
-func (su *SubscriptionUpdate) SetNillableTrialStart(t *time.Time) *SubscriptionUpdate {
-	if t != nil {
-		su.SetTrialStart(*t)
+func (_u *SubscriptionUpdate) SetNillableTrialStart(v *time.Time) *SubscriptionUpdate {
+	if v != nil {
+		_u.SetTrialStart(*v)
 	}
-	return su
+	return _u
 }
 
 // ClearTrialStart clears the value of the "trial_start" field.
-func (su *SubscriptionUpdate) ClearTrialStart() *SubscriptionUpdate {
-	su.mutation.ClearTrialStart()
-	return su
+func (_u *SubscriptionUpdate) ClearTrialStart() *SubscriptionUpdate {
+	_u.mutation.ClearTrialStart()
+	return _u
 }
 
 // SetTrialEnd sets the "trial_end" field.
-func (su *SubscriptionUpdate) SetTrialEnd(t time.Time) *SubscriptionUpdate {
-	su.mutation.SetTrialEnd(t)
-	return su
+func (_u *SubscriptionUpdate) SetTrialEnd(v time.Time) *SubscriptionUpdate {
+	_u.mutation.SetTrialEnd(v)
+	return _u
 }
 
 // SetNillableTrialEnd sets the "trial_end" field if the given value is not nil.
-func (su *SubscriptionUpdate) SetNillableTrialEnd(t *time.Time) *SubscriptionUpdate {
-	if t != nil {
-		su.SetTrialEnd(*t)
+func (_u *SubscriptionUpdate) SetNillableTrialEnd(v *time.Time) *SubscriptionUpdate {
+	if v != nil {
+		_u.SetTrialEnd(*v)
 	}
-	return su
+	return _u
 }
 
 // ClearTrialEnd clears the value of the "trial_end" field.
-func (su *SubscriptionUpdate) ClearTrialEnd() *SubscriptionUpdate {
-	su.mutation.ClearTrialEnd()
-	return su
+func (_u *SubscriptionUpdate) ClearTrialEnd() *SubscriptionUpdate {
+	_u.mutation.ClearTrialEnd()
+	return _u
 }
 
 // SetCanceledAt sets the "canceled_at" field.
-func (su *SubscriptionUpdate) SetCanceledAt(t time.Time) *SubscriptionUpdate {
-	su.mutation.SetCanceledAt(t)
-	return su
+func (_u *SubscriptionUpdate) SetCanceledAt(v time.Time) *SubscriptionUpdate {
+	_u.mutation.SetCanceledAt(v)
+	return _u
 }
 
 // SetNillableCanceledAt sets the "canceled_at" field if the given value is not nil.
-func (su *SubscriptionUpdate) SetNillableCanceledAt(t *time.Time) *SubscriptionUpdate {
-	if t != nil {
-		su.SetCanceledAt(*t)
+func (_u *SubscriptionUpdate) SetNillableCanceledAt(v *time.Time) *SubscriptionUpdate {
+	if v != nil {
+		_u.SetCanceledAt(*v)
 	}
-	return su
+	return _u
 }
 
 // ClearCanceledAt clears the value of the "canceled_at" field.
-func (su *SubscriptionUpdate) ClearCanceledAt() *SubscriptionUpdate {
-	su.mutation.ClearCanceledAt()
-	return su
+func (_u *SubscriptionUpdate) ClearCanceledAt() *SubscriptionUpdate {
+	_u.mutation.ClearCanceledAt()
+	return _u
 }
 
 // SetEndedAt sets the "ended_at" field.
-func (su *SubscriptionUpdate) SetEndedAt(t time.Time) *SubscriptionUpdate {
-	su.mutation.SetEndedAt(t)
-	return su
+func (_u *SubscriptionUpdate) SetEndedAt(v time.Time) *SubscriptionUpdate {
+	_u.mutation.SetEndedAt(v)
+	return _u
 }
 
 // SetNillableEndedAt sets the "ended_at" field if the given value is not nil.
-func (su *SubscriptionUpdate) SetNillableEndedAt(t *time.Time) *SubscriptionUpdate {
-	if t != nil {
-		su.SetEndedAt(*t)
+func (_u *SubscriptionUpdate) SetNillableEndedAt(v *time.Time) *SubscriptionUpdate {
+	if v != nil {
+		_u.SetEndedAt(*v)
 	}
-	return su
+	return _u
 }
 
 // ClearEndedAt clears the value of the "ended_at" field.
-func (su *SubscriptionUpdate) ClearEndedAt() *SubscriptionUpdate {
-	su.mutation.ClearEndedAt()
-	return su
+func (_u *SubscriptionUpdate) ClearEndedAt() *SubscriptionUpdate {
+	_u.mutation.ClearEndedAt()
+	return _u
 }
 
 // SetMetadata sets the "metadata" field.
-func (su *SubscriptionUpdate) SetMetadata(m map[string]interface{}) *SubscriptionUpdate {
-	su.mutation.SetMetadata(m)
-	return su
+func (_u *SubscriptionUpdate) SetMetadata(v map[string]interface{}) *SubscriptionUpdate {
+	_u.mutation.SetMetadata(v)
+	return _u
 }
 
 // ClearMetadata clears the value of the "metadata" field.
-func (su *SubscriptionUpdate) ClearMetadata() *SubscriptionUpdate {
-	su.mutation.ClearMetadata()
-	return su
+func (_u *SubscriptionUpdate) ClearMetadata() *SubscriptionUpdate {
+	_u.mutation.ClearMetadata()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (su *SubscriptionUpdate) SetUpdatedAt(t time.Time) *SubscriptionUpdate {
-	su.mutation.SetUpdatedAt(t)
-	return su
+func (_u *SubscriptionUpdate) SetUpdatedAt(v time.Time) *SubscriptionUpdate {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
 // SetCustomerID sets the "customer" edge to the PaymentCustomer entity by ID.
-func (su *SubscriptionUpdate) SetCustomerID(id int) *SubscriptionUpdate {
-	su.mutation.SetCustomerID(id)
-	return su
+func (_u *SubscriptionUpdate) SetCustomerID(id int) *SubscriptionUpdate {
+	_u.mutation.SetCustomerID(id)
+	return _u
 }
 
 // SetCustomer sets the "customer" edge to the PaymentCustomer entity.
-func (su *SubscriptionUpdate) SetCustomer(p *PaymentCustomer) *SubscriptionUpdate {
-	return su.SetCustomerID(p.ID)
+func (_u *SubscriptionUpdate) SetCustomer(v *PaymentCustomer) *SubscriptionUpdate {
+	return _u.SetCustomerID(v.ID)
 }
 
 // Mutation returns the SubscriptionMutation object of the builder.
-func (su *SubscriptionUpdate) Mutation() *SubscriptionMutation {
-	return su.mutation
+func (_u *SubscriptionUpdate) Mutation() *SubscriptionMutation {
+	return _u.mutation
 }
 
 // ClearCustomer clears the "customer" edge to the PaymentCustomer entity.
-func (su *SubscriptionUpdate) ClearCustomer() *SubscriptionUpdate {
-	su.mutation.ClearCustomer()
-	return su
+func (_u *SubscriptionUpdate) ClearCustomer() *SubscriptionUpdate {
+	_u.mutation.ClearCustomer()
+	return _u
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (su *SubscriptionUpdate) Save(ctx context.Context) (int, error) {
-	su.defaults()
-	return withHooks(ctx, su.sqlSave, su.mutation, su.hooks)
+func (_u *SubscriptionUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (su *SubscriptionUpdate) SaveX(ctx context.Context) int {
-	affected, err := su.Save(ctx)
+func (_u *SubscriptionUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -331,162 +331,162 @@ func (su *SubscriptionUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (su *SubscriptionUpdate) Exec(ctx context.Context) error {
-	_, err := su.Save(ctx)
+func (_u *SubscriptionUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (su *SubscriptionUpdate) ExecX(ctx context.Context) {
-	if err := su.Exec(ctx); err != nil {
+func (_u *SubscriptionUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (su *SubscriptionUpdate) defaults() {
-	if _, ok := su.mutation.UpdatedAt(); !ok {
+func (_u *SubscriptionUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
 		v := subscription.UpdateDefaultUpdatedAt()
-		su.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (su *SubscriptionUpdate) check() error {
-	if v, ok := su.mutation.ProviderSubscriptionID(); ok {
+func (_u *SubscriptionUpdate) check() error {
+	if v, ok := _u.mutation.ProviderSubscriptionID(); ok {
 		if err := subscription.ProviderSubscriptionIDValidator(v); err != nil {
 			return &ValidationError{Name: "provider_subscription_id", err: fmt.Errorf(`ent: validator failed for field "Subscription.provider_subscription_id": %w`, err)}
 		}
 	}
-	if v, ok := su.mutation.Provider(); ok {
+	if v, ok := _u.mutation.Provider(); ok {
 		if err := subscription.ProviderValidator(v); err != nil {
 			return &ValidationError{Name: "provider", err: fmt.Errorf(`ent: validator failed for field "Subscription.provider": %w`, err)}
 		}
 	}
-	if v, ok := su.mutation.Status(); ok {
+	if v, ok := _u.mutation.Status(); ok {
 		if err := subscription.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Subscription.status": %w`, err)}
 		}
 	}
-	if v, ok := su.mutation.PriceID(); ok {
+	if v, ok := _u.mutation.PriceID(); ok {
 		if err := subscription.PriceIDValidator(v); err != nil {
 			return &ValidationError{Name: "price_id", err: fmt.Errorf(`ent: validator failed for field "Subscription.price_id": %w`, err)}
 		}
 	}
-	if v, ok := su.mutation.Amount(); ok {
+	if v, ok := _u.mutation.Amount(); ok {
 		if err := subscription.AmountValidator(v); err != nil {
 			return &ValidationError{Name: "amount", err: fmt.Errorf(`ent: validator failed for field "Subscription.amount": %w`, err)}
 		}
 	}
-	if v, ok := su.mutation.Currency(); ok {
+	if v, ok := _u.mutation.Currency(); ok {
 		if err := subscription.CurrencyValidator(v); err != nil {
 			return &ValidationError{Name: "currency", err: fmt.Errorf(`ent: validator failed for field "Subscription.currency": %w`, err)}
 		}
 	}
-	if v, ok := su.mutation.Interval(); ok {
+	if v, ok := _u.mutation.Interval(); ok {
 		if err := subscription.IntervalValidator(v); err != nil {
 			return &ValidationError{Name: "interval", err: fmt.Errorf(`ent: validator failed for field "Subscription.interval": %w`, err)}
 		}
 	}
-	if v, ok := su.mutation.IntervalCount(); ok {
+	if v, ok := _u.mutation.IntervalCount(); ok {
 		if err := subscription.IntervalCountValidator(v); err != nil {
 			return &ValidationError{Name: "interval_count", err: fmt.Errorf(`ent: validator failed for field "Subscription.interval_count": %w`, err)}
 		}
 	}
-	if su.mutation.CustomerCleared() && len(su.mutation.CustomerIDs()) > 0 {
+	if _u.mutation.CustomerCleared() && len(_u.mutation.CustomerIDs()) > 0 {
 		return errors.New(`ent: clearing a required unique edge "Subscription.customer"`)
 	}
 	return nil
 }
 
-func (su *SubscriptionUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := su.check(); err != nil {
-		return n, err
+func (_u *SubscriptionUpdate) sqlSave(ctx context.Context) (_node int, err error) {
+	if err := _u.check(); err != nil {
+		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(subscription.Table, subscription.Columns, sqlgraph.NewFieldSpec(subscription.FieldID, field.TypeInt))
-	if ps := su.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := su.mutation.ProviderSubscriptionID(); ok {
+	if value, ok := _u.mutation.ProviderSubscriptionID(); ok {
 		_spec.SetField(subscription.FieldProviderSubscriptionID, field.TypeString, value)
 	}
-	if value, ok := su.mutation.Provider(); ok {
+	if value, ok := _u.mutation.Provider(); ok {
 		_spec.SetField(subscription.FieldProvider, field.TypeString, value)
 	}
-	if value, ok := su.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(subscription.FieldStatus, field.TypeEnum, value)
 	}
-	if value, ok := su.mutation.PriceID(); ok {
+	if value, ok := _u.mutation.PriceID(); ok {
 		_spec.SetField(subscription.FieldPriceID, field.TypeString, value)
 	}
-	if value, ok := su.mutation.Amount(); ok {
+	if value, ok := _u.mutation.Amount(); ok {
 		_spec.SetField(subscription.FieldAmount, field.TypeInt64, value)
 	}
-	if value, ok := su.mutation.AddedAmount(); ok {
+	if value, ok := _u.mutation.AddedAmount(); ok {
 		_spec.AddField(subscription.FieldAmount, field.TypeInt64, value)
 	}
-	if value, ok := su.mutation.Currency(); ok {
+	if value, ok := _u.mutation.Currency(); ok {
 		_spec.SetField(subscription.FieldCurrency, field.TypeString, value)
 	}
-	if value, ok := su.mutation.Interval(); ok {
+	if value, ok := _u.mutation.Interval(); ok {
 		_spec.SetField(subscription.FieldInterval, field.TypeEnum, value)
 	}
-	if value, ok := su.mutation.IntervalCount(); ok {
+	if value, ok := _u.mutation.IntervalCount(); ok {
 		_spec.SetField(subscription.FieldIntervalCount, field.TypeInt, value)
 	}
-	if value, ok := su.mutation.AddedIntervalCount(); ok {
+	if value, ok := _u.mutation.AddedIntervalCount(); ok {
 		_spec.AddField(subscription.FieldIntervalCount, field.TypeInt, value)
 	}
-	if value, ok := su.mutation.CurrentPeriodStart(); ok {
+	if value, ok := _u.mutation.CurrentPeriodStart(); ok {
 		_spec.SetField(subscription.FieldCurrentPeriodStart, field.TypeTime, value)
 	}
-	if su.mutation.CurrentPeriodStartCleared() {
+	if _u.mutation.CurrentPeriodStartCleared() {
 		_spec.ClearField(subscription.FieldCurrentPeriodStart, field.TypeTime)
 	}
-	if value, ok := su.mutation.CurrentPeriodEnd(); ok {
+	if value, ok := _u.mutation.CurrentPeriodEnd(); ok {
 		_spec.SetField(subscription.FieldCurrentPeriodEnd, field.TypeTime, value)
 	}
-	if su.mutation.CurrentPeriodEndCleared() {
+	if _u.mutation.CurrentPeriodEndCleared() {
 		_spec.ClearField(subscription.FieldCurrentPeriodEnd, field.TypeTime)
 	}
-	if value, ok := su.mutation.TrialStart(); ok {
+	if value, ok := _u.mutation.TrialStart(); ok {
 		_spec.SetField(subscription.FieldTrialStart, field.TypeTime, value)
 	}
-	if su.mutation.TrialStartCleared() {
+	if _u.mutation.TrialStartCleared() {
 		_spec.ClearField(subscription.FieldTrialStart, field.TypeTime)
 	}
-	if value, ok := su.mutation.TrialEnd(); ok {
+	if value, ok := _u.mutation.TrialEnd(); ok {
 		_spec.SetField(subscription.FieldTrialEnd, field.TypeTime, value)
 	}
-	if su.mutation.TrialEndCleared() {
+	if _u.mutation.TrialEndCleared() {
 		_spec.ClearField(subscription.FieldTrialEnd, field.TypeTime)
 	}
-	if value, ok := su.mutation.CanceledAt(); ok {
+	if value, ok := _u.mutation.CanceledAt(); ok {
 		_spec.SetField(subscription.FieldCanceledAt, field.TypeTime, value)
 	}
-	if su.mutation.CanceledAtCleared() {
+	if _u.mutation.CanceledAtCleared() {
 		_spec.ClearField(subscription.FieldCanceledAt, field.TypeTime)
 	}
-	if value, ok := su.mutation.EndedAt(); ok {
+	if value, ok := _u.mutation.EndedAt(); ok {
 		_spec.SetField(subscription.FieldEndedAt, field.TypeTime, value)
 	}
-	if su.mutation.EndedAtCleared() {
+	if _u.mutation.EndedAtCleared() {
 		_spec.ClearField(subscription.FieldEndedAt, field.TypeTime)
 	}
-	if value, ok := su.mutation.Metadata(); ok {
+	if value, ok := _u.mutation.Metadata(); ok {
 		_spec.SetField(subscription.FieldMetadata, field.TypeJSON, value)
 	}
-	if su.mutation.MetadataCleared() {
+	if _u.mutation.MetadataCleared() {
 		_spec.ClearField(subscription.FieldMetadata, field.TypeJSON)
 	}
-	if value, ok := su.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(subscription.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if su.mutation.CustomerCleared() {
+	if _u.mutation.CustomerCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -499,7 +499,7 @@ func (su *SubscriptionUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := su.mutation.CustomerIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.CustomerIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -515,7 +515,7 @@ func (su *SubscriptionUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, su.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{subscription.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -523,8 +523,8 @@ func (su *SubscriptionUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	su.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // SubscriptionUpdateOne is the builder for updating a single Subscription entity.
@@ -536,313 +536,313 @@ type SubscriptionUpdateOne struct {
 }
 
 // SetProviderSubscriptionID sets the "provider_subscription_id" field.
-func (suo *SubscriptionUpdateOne) SetProviderSubscriptionID(s string) *SubscriptionUpdateOne {
-	suo.mutation.SetProviderSubscriptionID(s)
-	return suo
+func (_u *SubscriptionUpdateOne) SetProviderSubscriptionID(v string) *SubscriptionUpdateOne {
+	_u.mutation.SetProviderSubscriptionID(v)
+	return _u
 }
 
 // SetNillableProviderSubscriptionID sets the "provider_subscription_id" field if the given value is not nil.
-func (suo *SubscriptionUpdateOne) SetNillableProviderSubscriptionID(s *string) *SubscriptionUpdateOne {
-	if s != nil {
-		suo.SetProviderSubscriptionID(*s)
+func (_u *SubscriptionUpdateOne) SetNillableProviderSubscriptionID(v *string) *SubscriptionUpdateOne {
+	if v != nil {
+		_u.SetProviderSubscriptionID(*v)
 	}
-	return suo
+	return _u
 }
 
 // SetProvider sets the "provider" field.
-func (suo *SubscriptionUpdateOne) SetProvider(s string) *SubscriptionUpdateOne {
-	suo.mutation.SetProvider(s)
-	return suo
+func (_u *SubscriptionUpdateOne) SetProvider(v string) *SubscriptionUpdateOne {
+	_u.mutation.SetProvider(v)
+	return _u
 }
 
 // SetNillableProvider sets the "provider" field if the given value is not nil.
-func (suo *SubscriptionUpdateOne) SetNillableProvider(s *string) *SubscriptionUpdateOne {
-	if s != nil {
-		suo.SetProvider(*s)
+func (_u *SubscriptionUpdateOne) SetNillableProvider(v *string) *SubscriptionUpdateOne {
+	if v != nil {
+		_u.SetProvider(*v)
 	}
-	return suo
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (suo *SubscriptionUpdateOne) SetStatus(s subscription.Status) *SubscriptionUpdateOne {
-	suo.mutation.SetStatus(s)
-	return suo
+func (_u *SubscriptionUpdateOne) SetStatus(v subscription.Status) *SubscriptionUpdateOne {
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (suo *SubscriptionUpdateOne) SetNillableStatus(s *subscription.Status) *SubscriptionUpdateOne {
-	if s != nil {
-		suo.SetStatus(*s)
+func (_u *SubscriptionUpdateOne) SetNillableStatus(v *subscription.Status) *SubscriptionUpdateOne {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return suo
+	return _u
 }
 
 // SetPriceID sets the "price_id" field.
-func (suo *SubscriptionUpdateOne) SetPriceID(s string) *SubscriptionUpdateOne {
-	suo.mutation.SetPriceID(s)
-	return suo
+func (_u *SubscriptionUpdateOne) SetPriceID(v string) *SubscriptionUpdateOne {
+	_u.mutation.SetPriceID(v)
+	return _u
 }
 
 // SetNillablePriceID sets the "price_id" field if the given value is not nil.
-func (suo *SubscriptionUpdateOne) SetNillablePriceID(s *string) *SubscriptionUpdateOne {
-	if s != nil {
-		suo.SetPriceID(*s)
+func (_u *SubscriptionUpdateOne) SetNillablePriceID(v *string) *SubscriptionUpdateOne {
+	if v != nil {
+		_u.SetPriceID(*v)
 	}
-	return suo
+	return _u
 }
 
 // SetAmount sets the "amount" field.
-func (suo *SubscriptionUpdateOne) SetAmount(i int64) *SubscriptionUpdateOne {
-	suo.mutation.ResetAmount()
-	suo.mutation.SetAmount(i)
-	return suo
+func (_u *SubscriptionUpdateOne) SetAmount(v int64) *SubscriptionUpdateOne {
+	_u.mutation.ResetAmount()
+	_u.mutation.SetAmount(v)
+	return _u
 }
 
 // SetNillableAmount sets the "amount" field if the given value is not nil.
-func (suo *SubscriptionUpdateOne) SetNillableAmount(i *int64) *SubscriptionUpdateOne {
-	if i != nil {
-		suo.SetAmount(*i)
+func (_u *SubscriptionUpdateOne) SetNillableAmount(v *int64) *SubscriptionUpdateOne {
+	if v != nil {
+		_u.SetAmount(*v)
 	}
-	return suo
+	return _u
 }
 
-// AddAmount adds i to the "amount" field.
-func (suo *SubscriptionUpdateOne) AddAmount(i int64) *SubscriptionUpdateOne {
-	suo.mutation.AddAmount(i)
-	return suo
+// AddAmount adds value to the "amount" field.
+func (_u *SubscriptionUpdateOne) AddAmount(v int64) *SubscriptionUpdateOne {
+	_u.mutation.AddAmount(v)
+	return _u
 }
 
 // SetCurrency sets the "currency" field.
-func (suo *SubscriptionUpdateOne) SetCurrency(s string) *SubscriptionUpdateOne {
-	suo.mutation.SetCurrency(s)
-	return suo
+func (_u *SubscriptionUpdateOne) SetCurrency(v string) *SubscriptionUpdateOne {
+	_u.mutation.SetCurrency(v)
+	return _u
 }
 
 // SetNillableCurrency sets the "currency" field if the given value is not nil.
-func (suo *SubscriptionUpdateOne) SetNillableCurrency(s *string) *SubscriptionUpdateOne {
-	if s != nil {
-		suo.SetCurrency(*s)
+func (_u *SubscriptionUpdateOne) SetNillableCurrency(v *string) *SubscriptionUpdateOne {
+	if v != nil {
+		_u.SetCurrency(*v)
 	}
-	return suo
+	return _u
 }
 
 // SetInterval sets the "interval" field.
-func (suo *SubscriptionUpdateOne) SetInterval(s subscription.Interval) *SubscriptionUpdateOne {
-	suo.mutation.SetInterval(s)
-	return suo
+func (_u *SubscriptionUpdateOne) SetInterval(v subscription.Interval) *SubscriptionUpdateOne {
+	_u.mutation.SetInterval(v)
+	return _u
 }
 
 // SetNillableInterval sets the "interval" field if the given value is not nil.
-func (suo *SubscriptionUpdateOne) SetNillableInterval(s *subscription.Interval) *SubscriptionUpdateOne {
-	if s != nil {
-		suo.SetInterval(*s)
+func (_u *SubscriptionUpdateOne) SetNillableInterval(v *subscription.Interval) *SubscriptionUpdateOne {
+	if v != nil {
+		_u.SetInterval(*v)
 	}
-	return suo
+	return _u
 }
 
 // SetIntervalCount sets the "interval_count" field.
-func (suo *SubscriptionUpdateOne) SetIntervalCount(i int) *SubscriptionUpdateOne {
-	suo.mutation.ResetIntervalCount()
-	suo.mutation.SetIntervalCount(i)
-	return suo
+func (_u *SubscriptionUpdateOne) SetIntervalCount(v int) *SubscriptionUpdateOne {
+	_u.mutation.ResetIntervalCount()
+	_u.mutation.SetIntervalCount(v)
+	return _u
 }
 
 // SetNillableIntervalCount sets the "interval_count" field if the given value is not nil.
-func (suo *SubscriptionUpdateOne) SetNillableIntervalCount(i *int) *SubscriptionUpdateOne {
-	if i != nil {
-		suo.SetIntervalCount(*i)
+func (_u *SubscriptionUpdateOne) SetNillableIntervalCount(v *int) *SubscriptionUpdateOne {
+	if v != nil {
+		_u.SetIntervalCount(*v)
 	}
-	return suo
+	return _u
 }
 
-// AddIntervalCount adds i to the "interval_count" field.
-func (suo *SubscriptionUpdateOne) AddIntervalCount(i int) *SubscriptionUpdateOne {
-	suo.mutation.AddIntervalCount(i)
-	return suo
+// AddIntervalCount adds value to the "interval_count" field.
+func (_u *SubscriptionUpdateOne) AddIntervalCount(v int) *SubscriptionUpdateOne {
+	_u.mutation.AddIntervalCount(v)
+	return _u
 }
 
 // SetCurrentPeriodStart sets the "current_period_start" field.
-func (suo *SubscriptionUpdateOne) SetCurrentPeriodStart(t time.Time) *SubscriptionUpdateOne {
-	suo.mutation.SetCurrentPeriodStart(t)
-	return suo
+func (_u *SubscriptionUpdateOne) SetCurrentPeriodStart(v time.Time) *SubscriptionUpdateOne {
+	_u.mutation.SetCurrentPeriodStart(v)
+	return _u
 }
 
 // SetNillableCurrentPeriodStart sets the "current_period_start" field if the given value is not nil.
-func (suo *SubscriptionUpdateOne) SetNillableCurrentPeriodStart(t *time.Time) *SubscriptionUpdateOne {
-	if t != nil {
-		suo.SetCurrentPeriodStart(*t)
+func (_u *SubscriptionUpdateOne) SetNillableCurrentPeriodStart(v *time.Time) *SubscriptionUpdateOne {
+	if v != nil {
+		_u.SetCurrentPeriodStart(*v)
 	}
-	return suo
+	return _u
 }
 
 // ClearCurrentPeriodStart clears the value of the "current_period_start" field.
-func (suo *SubscriptionUpdateOne) ClearCurrentPeriodStart() *SubscriptionUpdateOne {
-	suo.mutation.ClearCurrentPeriodStart()
-	return suo
+func (_u *SubscriptionUpdateOne) ClearCurrentPeriodStart() *SubscriptionUpdateOne {
+	_u.mutation.ClearCurrentPeriodStart()
+	return _u
 }
 
 // SetCurrentPeriodEnd sets the "current_period_end" field.
-func (suo *SubscriptionUpdateOne) SetCurrentPeriodEnd(t time.Time) *SubscriptionUpdateOne {
-	suo.mutation.SetCurrentPeriodEnd(t)
-	return suo
+func (_u *SubscriptionUpdateOne) SetCurrentPeriodEnd(v time.Time) *SubscriptionUpdateOne {
+	_u.mutation.SetCurrentPeriodEnd(v)
+	return _u
 }
 
 // SetNillableCurrentPeriodEnd sets the "current_period_end" field if the given value is not nil.
-func (suo *SubscriptionUpdateOne) SetNillableCurrentPeriodEnd(t *time.Time) *SubscriptionUpdateOne {
-	if t != nil {
-		suo.SetCurrentPeriodEnd(*t)
+func (_u *SubscriptionUpdateOne) SetNillableCurrentPeriodEnd(v *time.Time) *SubscriptionUpdateOne {
+	if v != nil {
+		_u.SetCurrentPeriodEnd(*v)
 	}
-	return suo
+	return _u
 }
 
 // ClearCurrentPeriodEnd clears the value of the "current_period_end" field.
-func (suo *SubscriptionUpdateOne) ClearCurrentPeriodEnd() *SubscriptionUpdateOne {
-	suo.mutation.ClearCurrentPeriodEnd()
-	return suo
+func (_u *SubscriptionUpdateOne) ClearCurrentPeriodEnd() *SubscriptionUpdateOne {
+	_u.mutation.ClearCurrentPeriodEnd()
+	return _u
 }
 
 // SetTrialStart sets the "trial_start" field.
-func (suo *SubscriptionUpdateOne) SetTrialStart(t time.Time) *SubscriptionUpdateOne {
-	suo.mutation.SetTrialStart(t)
-	return suo
+func (_u *SubscriptionUpdateOne) SetTrialStart(v time.Time) *SubscriptionUpdateOne {
+	_u.mutation.SetTrialStart(v)
+	return _u
 }
 
 // SetNillableTrialStart sets the "trial_start" field if the given value is not nil.
-func (suo *SubscriptionUpdateOne) SetNillableTrialStart(t *time.Time) *SubscriptionUpdateOne {
-	if t != nil {
-		suo.SetTrialStart(*t)
+func (_u *SubscriptionUpdateOne) SetNillableTrialStart(v *time.Time) *SubscriptionUpdateOne {
+	if v != nil {
+		_u.SetTrialStart(*v)
 	}
-	return suo
+	return _u
 }
 
 // ClearTrialStart clears the value of the "trial_start" field.
-func (suo *SubscriptionUpdateOne) ClearTrialStart() *SubscriptionUpdateOne {
-	suo.mutation.ClearTrialStart()
-	return suo
+func (_u *SubscriptionUpdateOne) ClearTrialStart() *SubscriptionUpdateOne {
+	_u.mutation.ClearTrialStart()
+	return _u
 }
 
 // SetTrialEnd sets the "trial_end" field.
-func (suo *SubscriptionUpdateOne) SetTrialEnd(t time.Time) *SubscriptionUpdateOne {
-	suo.mutation.SetTrialEnd(t)
-	return suo
+func (_u *SubscriptionUpdateOne) SetTrialEnd(v time.Time) *SubscriptionUpdateOne {
+	_u.mutation.SetTrialEnd(v)
+	return _u
 }
 
 // SetNillableTrialEnd sets the "trial_end" field if the given value is not nil.
-func (suo *SubscriptionUpdateOne) SetNillableTrialEnd(t *time.Time) *SubscriptionUpdateOne {
-	if t != nil {
-		suo.SetTrialEnd(*t)
+func (_u *SubscriptionUpdateOne) SetNillableTrialEnd(v *time.Time) *SubscriptionUpdateOne {
+	if v != nil {
+		_u.SetTrialEnd(*v)
 	}
-	return suo
+	return _u
 }
 
 // ClearTrialEnd clears the value of the "trial_end" field.
-func (suo *SubscriptionUpdateOne) ClearTrialEnd() *SubscriptionUpdateOne {
-	suo.mutation.ClearTrialEnd()
-	return suo
+func (_u *SubscriptionUpdateOne) ClearTrialEnd() *SubscriptionUpdateOne {
+	_u.mutation.ClearTrialEnd()
+	return _u
 }
 
 // SetCanceledAt sets the "canceled_at" field.
-func (suo *SubscriptionUpdateOne) SetCanceledAt(t time.Time) *SubscriptionUpdateOne {
-	suo.mutation.SetCanceledAt(t)
-	return suo
+func (_u *SubscriptionUpdateOne) SetCanceledAt(v time.Time) *SubscriptionUpdateOne {
+	_u.mutation.SetCanceledAt(v)
+	return _u
 }
 
 // SetNillableCanceledAt sets the "canceled_at" field if the given value is not nil.
-func (suo *SubscriptionUpdateOne) SetNillableCanceledAt(t *time.Time) *SubscriptionUpdateOne {
-	if t != nil {
-		suo.SetCanceledAt(*t)
+func (_u *SubscriptionUpdateOne) SetNillableCanceledAt(v *time.Time) *SubscriptionUpdateOne {
+	if v != nil {
+		_u.SetCanceledAt(*v)
 	}
-	return suo
+	return _u
 }
 
 // ClearCanceledAt clears the value of the "canceled_at" field.
-func (suo *SubscriptionUpdateOne) ClearCanceledAt() *SubscriptionUpdateOne {
-	suo.mutation.ClearCanceledAt()
-	return suo
+func (_u *SubscriptionUpdateOne) ClearCanceledAt() *SubscriptionUpdateOne {
+	_u.mutation.ClearCanceledAt()
+	return _u
 }
 
 // SetEndedAt sets the "ended_at" field.
-func (suo *SubscriptionUpdateOne) SetEndedAt(t time.Time) *SubscriptionUpdateOne {
-	suo.mutation.SetEndedAt(t)
-	return suo
+func (_u *SubscriptionUpdateOne) SetEndedAt(v time.Time) *SubscriptionUpdateOne {
+	_u.mutation.SetEndedAt(v)
+	return _u
 }
 
 // SetNillableEndedAt sets the "ended_at" field if the given value is not nil.
-func (suo *SubscriptionUpdateOne) SetNillableEndedAt(t *time.Time) *SubscriptionUpdateOne {
-	if t != nil {
-		suo.SetEndedAt(*t)
+func (_u *SubscriptionUpdateOne) SetNillableEndedAt(v *time.Time) *SubscriptionUpdateOne {
+	if v != nil {
+		_u.SetEndedAt(*v)
 	}
-	return suo
+	return _u
 }
 
 // ClearEndedAt clears the value of the "ended_at" field.
-func (suo *SubscriptionUpdateOne) ClearEndedAt() *SubscriptionUpdateOne {
-	suo.mutation.ClearEndedAt()
-	return suo
+func (_u *SubscriptionUpdateOne) ClearEndedAt() *SubscriptionUpdateOne {
+	_u.mutation.ClearEndedAt()
+	return _u
 }
 
 // SetMetadata sets the "metadata" field.
-func (suo *SubscriptionUpdateOne) SetMetadata(m map[string]interface{}) *SubscriptionUpdateOne {
-	suo.mutation.SetMetadata(m)
-	return suo
+func (_u *SubscriptionUpdateOne) SetMetadata(v map[string]interface{}) *SubscriptionUpdateOne {
+	_u.mutation.SetMetadata(v)
+	return _u
 }
 
 // ClearMetadata clears the value of the "metadata" field.
-func (suo *SubscriptionUpdateOne) ClearMetadata() *SubscriptionUpdateOne {
-	suo.mutation.ClearMetadata()
-	return suo
+func (_u *SubscriptionUpdateOne) ClearMetadata() *SubscriptionUpdateOne {
+	_u.mutation.ClearMetadata()
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (suo *SubscriptionUpdateOne) SetUpdatedAt(t time.Time) *SubscriptionUpdateOne {
-	suo.mutation.SetUpdatedAt(t)
-	return suo
+func (_u *SubscriptionUpdateOne) SetUpdatedAt(v time.Time) *SubscriptionUpdateOne {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
 // SetCustomerID sets the "customer" edge to the PaymentCustomer entity by ID.
-func (suo *SubscriptionUpdateOne) SetCustomerID(id int) *SubscriptionUpdateOne {
-	suo.mutation.SetCustomerID(id)
-	return suo
+func (_u *SubscriptionUpdateOne) SetCustomerID(id int) *SubscriptionUpdateOne {
+	_u.mutation.SetCustomerID(id)
+	return _u
 }
 
 // SetCustomer sets the "customer" edge to the PaymentCustomer entity.
-func (suo *SubscriptionUpdateOne) SetCustomer(p *PaymentCustomer) *SubscriptionUpdateOne {
-	return suo.SetCustomerID(p.ID)
+func (_u *SubscriptionUpdateOne) SetCustomer(v *PaymentCustomer) *SubscriptionUpdateOne {
+	return _u.SetCustomerID(v.ID)
 }
 
 // Mutation returns the SubscriptionMutation object of the builder.
-func (suo *SubscriptionUpdateOne) Mutation() *SubscriptionMutation {
-	return suo.mutation
+func (_u *SubscriptionUpdateOne) Mutation() *SubscriptionMutation {
+	return _u.mutation
 }
 
 // ClearCustomer clears the "customer" edge to the PaymentCustomer entity.
-func (suo *SubscriptionUpdateOne) ClearCustomer() *SubscriptionUpdateOne {
-	suo.mutation.ClearCustomer()
-	return suo
+func (_u *SubscriptionUpdateOne) ClearCustomer() *SubscriptionUpdateOne {
+	_u.mutation.ClearCustomer()
+	return _u
 }
 
 // Where appends a list predicates to the SubscriptionUpdate builder.
-func (suo *SubscriptionUpdateOne) Where(ps ...predicate.Subscription) *SubscriptionUpdateOne {
-	suo.mutation.Where(ps...)
-	return suo
+func (_u *SubscriptionUpdateOne) Where(ps ...predicate.Subscription) *SubscriptionUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (suo *SubscriptionUpdateOne) Select(field string, fields ...string) *SubscriptionUpdateOne {
-	suo.fields = append([]string{field}, fields...)
-	return suo
+func (_u *SubscriptionUpdateOne) Select(field string, fields ...string) *SubscriptionUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated Subscription entity.
-func (suo *SubscriptionUpdateOne) Save(ctx context.Context) (*Subscription, error) {
-	suo.defaults()
-	return withHooks(ctx, suo.sqlSave, suo.mutation, suo.hooks)
+func (_u *SubscriptionUpdateOne) Save(ctx context.Context) (*Subscription, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (suo *SubscriptionUpdateOne) SaveX(ctx context.Context) *Subscription {
-	node, err := suo.Save(ctx)
+func (_u *SubscriptionUpdateOne) SaveX(ctx context.Context) *Subscription {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -850,85 +850,85 @@ func (suo *SubscriptionUpdateOne) SaveX(ctx context.Context) *Subscription {
 }
 
 // Exec executes the query on the entity.
-func (suo *SubscriptionUpdateOne) Exec(ctx context.Context) error {
-	_, err := suo.Save(ctx)
+func (_u *SubscriptionUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (suo *SubscriptionUpdateOne) ExecX(ctx context.Context) {
-	if err := suo.Exec(ctx); err != nil {
+func (_u *SubscriptionUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (suo *SubscriptionUpdateOne) defaults() {
-	if _, ok := suo.mutation.UpdatedAt(); !ok {
+func (_u *SubscriptionUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
 		v := subscription.UpdateDefaultUpdatedAt()
-		suo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (suo *SubscriptionUpdateOne) check() error {
-	if v, ok := suo.mutation.ProviderSubscriptionID(); ok {
+func (_u *SubscriptionUpdateOne) check() error {
+	if v, ok := _u.mutation.ProviderSubscriptionID(); ok {
 		if err := subscription.ProviderSubscriptionIDValidator(v); err != nil {
 			return &ValidationError{Name: "provider_subscription_id", err: fmt.Errorf(`ent: validator failed for field "Subscription.provider_subscription_id": %w`, err)}
 		}
 	}
-	if v, ok := suo.mutation.Provider(); ok {
+	if v, ok := _u.mutation.Provider(); ok {
 		if err := subscription.ProviderValidator(v); err != nil {
 			return &ValidationError{Name: "provider", err: fmt.Errorf(`ent: validator failed for field "Subscription.provider": %w`, err)}
 		}
 	}
-	if v, ok := suo.mutation.Status(); ok {
+	if v, ok := _u.mutation.Status(); ok {
 		if err := subscription.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Subscription.status": %w`, err)}
 		}
 	}
-	if v, ok := suo.mutation.PriceID(); ok {
+	if v, ok := _u.mutation.PriceID(); ok {
 		if err := subscription.PriceIDValidator(v); err != nil {
 			return &ValidationError{Name: "price_id", err: fmt.Errorf(`ent: validator failed for field "Subscription.price_id": %w`, err)}
 		}
 	}
-	if v, ok := suo.mutation.Amount(); ok {
+	if v, ok := _u.mutation.Amount(); ok {
 		if err := subscription.AmountValidator(v); err != nil {
 			return &ValidationError{Name: "amount", err: fmt.Errorf(`ent: validator failed for field "Subscription.amount": %w`, err)}
 		}
 	}
-	if v, ok := suo.mutation.Currency(); ok {
+	if v, ok := _u.mutation.Currency(); ok {
 		if err := subscription.CurrencyValidator(v); err != nil {
 			return &ValidationError{Name: "currency", err: fmt.Errorf(`ent: validator failed for field "Subscription.currency": %w`, err)}
 		}
 	}
-	if v, ok := suo.mutation.Interval(); ok {
+	if v, ok := _u.mutation.Interval(); ok {
 		if err := subscription.IntervalValidator(v); err != nil {
 			return &ValidationError{Name: "interval", err: fmt.Errorf(`ent: validator failed for field "Subscription.interval": %w`, err)}
 		}
 	}
-	if v, ok := suo.mutation.IntervalCount(); ok {
+	if v, ok := _u.mutation.IntervalCount(); ok {
 		if err := subscription.IntervalCountValidator(v); err != nil {
 			return &ValidationError{Name: "interval_count", err: fmt.Errorf(`ent: validator failed for field "Subscription.interval_count": %w`, err)}
 		}
 	}
-	if suo.mutation.CustomerCleared() && len(suo.mutation.CustomerIDs()) > 0 {
+	if _u.mutation.CustomerCleared() && len(_u.mutation.CustomerIDs()) > 0 {
 		return errors.New(`ent: clearing a required unique edge "Subscription.customer"`)
 	}
 	return nil
 }
 
-func (suo *SubscriptionUpdateOne) sqlSave(ctx context.Context) (_node *Subscription, err error) {
-	if err := suo.check(); err != nil {
+func (_u *SubscriptionUpdateOne) sqlSave(ctx context.Context) (_node *Subscription, err error) {
+	if err := _u.check(); err != nil {
 		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(subscription.Table, subscription.Columns, sqlgraph.NewFieldSpec(subscription.FieldID, field.TypeInt))
-	id, ok := suo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Subscription.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := suo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, subscription.FieldID)
 		for _, f := range fields {
@@ -940,89 +940,89 @@ func (suo *SubscriptionUpdateOne) sqlSave(ctx context.Context) (_node *Subscript
 			}
 		}
 	}
-	if ps := suo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := suo.mutation.ProviderSubscriptionID(); ok {
+	if value, ok := _u.mutation.ProviderSubscriptionID(); ok {
 		_spec.SetField(subscription.FieldProviderSubscriptionID, field.TypeString, value)
 	}
-	if value, ok := suo.mutation.Provider(); ok {
+	if value, ok := _u.mutation.Provider(); ok {
 		_spec.SetField(subscription.FieldProvider, field.TypeString, value)
 	}
-	if value, ok := suo.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(subscription.FieldStatus, field.TypeEnum, value)
 	}
-	if value, ok := suo.mutation.PriceID(); ok {
+	if value, ok := _u.mutation.PriceID(); ok {
 		_spec.SetField(subscription.FieldPriceID, field.TypeString, value)
 	}
-	if value, ok := suo.mutation.Amount(); ok {
+	if value, ok := _u.mutation.Amount(); ok {
 		_spec.SetField(subscription.FieldAmount, field.TypeInt64, value)
 	}
-	if value, ok := suo.mutation.AddedAmount(); ok {
+	if value, ok := _u.mutation.AddedAmount(); ok {
 		_spec.AddField(subscription.FieldAmount, field.TypeInt64, value)
 	}
-	if value, ok := suo.mutation.Currency(); ok {
+	if value, ok := _u.mutation.Currency(); ok {
 		_spec.SetField(subscription.FieldCurrency, field.TypeString, value)
 	}
-	if value, ok := suo.mutation.Interval(); ok {
+	if value, ok := _u.mutation.Interval(); ok {
 		_spec.SetField(subscription.FieldInterval, field.TypeEnum, value)
 	}
-	if value, ok := suo.mutation.IntervalCount(); ok {
+	if value, ok := _u.mutation.IntervalCount(); ok {
 		_spec.SetField(subscription.FieldIntervalCount, field.TypeInt, value)
 	}
-	if value, ok := suo.mutation.AddedIntervalCount(); ok {
+	if value, ok := _u.mutation.AddedIntervalCount(); ok {
 		_spec.AddField(subscription.FieldIntervalCount, field.TypeInt, value)
 	}
-	if value, ok := suo.mutation.CurrentPeriodStart(); ok {
+	if value, ok := _u.mutation.CurrentPeriodStart(); ok {
 		_spec.SetField(subscription.FieldCurrentPeriodStart, field.TypeTime, value)
 	}
-	if suo.mutation.CurrentPeriodStartCleared() {
+	if _u.mutation.CurrentPeriodStartCleared() {
 		_spec.ClearField(subscription.FieldCurrentPeriodStart, field.TypeTime)
 	}
-	if value, ok := suo.mutation.CurrentPeriodEnd(); ok {
+	if value, ok := _u.mutation.CurrentPeriodEnd(); ok {
 		_spec.SetField(subscription.FieldCurrentPeriodEnd, field.TypeTime, value)
 	}
-	if suo.mutation.CurrentPeriodEndCleared() {
+	if _u.mutation.CurrentPeriodEndCleared() {
 		_spec.ClearField(subscription.FieldCurrentPeriodEnd, field.TypeTime)
 	}
-	if value, ok := suo.mutation.TrialStart(); ok {
+	if value, ok := _u.mutation.TrialStart(); ok {
 		_spec.SetField(subscription.FieldTrialStart, field.TypeTime, value)
 	}
-	if suo.mutation.TrialStartCleared() {
+	if _u.mutation.TrialStartCleared() {
 		_spec.ClearField(subscription.FieldTrialStart, field.TypeTime)
 	}
-	if value, ok := suo.mutation.TrialEnd(); ok {
+	if value, ok := _u.mutation.TrialEnd(); ok {
 		_spec.SetField(subscription.FieldTrialEnd, field.TypeTime, value)
 	}
-	if suo.mutation.TrialEndCleared() {
+	if _u.mutation.TrialEndCleared() {
 		_spec.ClearField(subscription.FieldTrialEnd, field.TypeTime)
 	}
-	if value, ok := suo.mutation.CanceledAt(); ok {
+	if value, ok := _u.mutation.CanceledAt(); ok {
 		_spec.SetField(subscription.FieldCanceledAt, field.TypeTime, value)
 	}
-	if suo.mutation.CanceledAtCleared() {
+	if _u.mutation.CanceledAtCleared() {
 		_spec.ClearField(subscription.FieldCanceledAt, field.TypeTime)
 	}
-	if value, ok := suo.mutation.EndedAt(); ok {
+	if value, ok := _u.mutation.EndedAt(); ok {
 		_spec.SetField(subscription.FieldEndedAt, field.TypeTime, value)
 	}
-	if suo.mutation.EndedAtCleared() {
+	if _u.mutation.EndedAtCleared() {
 		_spec.ClearField(subscription.FieldEndedAt, field.TypeTime)
 	}
-	if value, ok := suo.mutation.Metadata(); ok {
+	if value, ok := _u.mutation.Metadata(); ok {
 		_spec.SetField(subscription.FieldMetadata, field.TypeJSON, value)
 	}
-	if suo.mutation.MetadataCleared() {
+	if _u.mutation.MetadataCleared() {
 		_spec.ClearField(subscription.FieldMetadata, field.TypeJSON)
 	}
-	if value, ok := suo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(subscription.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if suo.mutation.CustomerCleared() {
+	if _u.mutation.CustomerCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -1035,7 +1035,7 @@ func (suo *SubscriptionUpdateOne) sqlSave(ctx context.Context) (_node *Subscript
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := suo.mutation.CustomerIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.CustomerIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -1051,10 +1051,10 @@ func (suo *SubscriptionUpdateOne) sqlSave(ctx context.Context) (_node *Subscript
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	_node = &Subscription{config: suo.config}
+	_node = &Subscription{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, suo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{subscription.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -1062,6 +1062,6 @@ func (suo *SubscriptionUpdateOne) sqlSave(ctx context.Context) (_node *Subscript
 		}
 		return nil, err
 	}
-	suo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

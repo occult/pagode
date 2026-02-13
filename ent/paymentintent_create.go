@@ -22,146 +22,146 @@ type PaymentIntentCreate struct {
 }
 
 // SetProviderPaymentIntentID sets the "provider_payment_intent_id" field.
-func (pic *PaymentIntentCreate) SetProviderPaymentIntentID(s string) *PaymentIntentCreate {
-	pic.mutation.SetProviderPaymentIntentID(s)
-	return pic
+func (_c *PaymentIntentCreate) SetProviderPaymentIntentID(v string) *PaymentIntentCreate {
+	_c.mutation.SetProviderPaymentIntentID(v)
+	return _c
 }
 
 // SetProvider sets the "provider" field.
-func (pic *PaymentIntentCreate) SetProvider(s string) *PaymentIntentCreate {
-	pic.mutation.SetProvider(s)
-	return pic
+func (_c *PaymentIntentCreate) SetProvider(v string) *PaymentIntentCreate {
+	_c.mutation.SetProvider(v)
+	return _c
 }
 
 // SetNillableProvider sets the "provider" field if the given value is not nil.
-func (pic *PaymentIntentCreate) SetNillableProvider(s *string) *PaymentIntentCreate {
-	if s != nil {
-		pic.SetProvider(*s)
+func (_c *PaymentIntentCreate) SetNillableProvider(v *string) *PaymentIntentCreate {
+	if v != nil {
+		_c.SetProvider(*v)
 	}
-	return pic
+	return _c
 }
 
 // SetStatus sets the "status" field.
-func (pic *PaymentIntentCreate) SetStatus(pa paymentintent.Status) *PaymentIntentCreate {
-	pic.mutation.SetStatus(pa)
-	return pic
+func (_c *PaymentIntentCreate) SetStatus(v paymentintent.Status) *PaymentIntentCreate {
+	_c.mutation.SetStatus(v)
+	return _c
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (pic *PaymentIntentCreate) SetNillableStatus(pa *paymentintent.Status) *PaymentIntentCreate {
-	if pa != nil {
-		pic.SetStatus(*pa)
+func (_c *PaymentIntentCreate) SetNillableStatus(v *paymentintent.Status) *PaymentIntentCreate {
+	if v != nil {
+		_c.SetStatus(*v)
 	}
-	return pic
+	return _c
 }
 
 // SetAmount sets the "amount" field.
-func (pic *PaymentIntentCreate) SetAmount(i int64) *PaymentIntentCreate {
-	pic.mutation.SetAmount(i)
-	return pic
+func (_c *PaymentIntentCreate) SetAmount(v int64) *PaymentIntentCreate {
+	_c.mutation.SetAmount(v)
+	return _c
 }
 
 // SetCurrency sets the "currency" field.
-func (pic *PaymentIntentCreate) SetCurrency(s string) *PaymentIntentCreate {
-	pic.mutation.SetCurrency(s)
-	return pic
+func (_c *PaymentIntentCreate) SetCurrency(v string) *PaymentIntentCreate {
+	_c.mutation.SetCurrency(v)
+	return _c
 }
 
 // SetNillableCurrency sets the "currency" field if the given value is not nil.
-func (pic *PaymentIntentCreate) SetNillableCurrency(s *string) *PaymentIntentCreate {
-	if s != nil {
-		pic.SetCurrency(*s)
+func (_c *PaymentIntentCreate) SetNillableCurrency(v *string) *PaymentIntentCreate {
+	if v != nil {
+		_c.SetCurrency(*v)
 	}
-	return pic
+	return _c
 }
 
 // SetDescription sets the "description" field.
-func (pic *PaymentIntentCreate) SetDescription(s string) *PaymentIntentCreate {
-	pic.mutation.SetDescription(s)
-	return pic
+func (_c *PaymentIntentCreate) SetDescription(v string) *PaymentIntentCreate {
+	_c.mutation.SetDescription(v)
+	return _c
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (pic *PaymentIntentCreate) SetNillableDescription(s *string) *PaymentIntentCreate {
-	if s != nil {
-		pic.SetDescription(*s)
+func (_c *PaymentIntentCreate) SetNillableDescription(v *string) *PaymentIntentCreate {
+	if v != nil {
+		_c.SetDescription(*v)
 	}
-	return pic
+	return _c
 }
 
 // SetClientSecret sets the "client_secret" field.
-func (pic *PaymentIntentCreate) SetClientSecret(s string) *PaymentIntentCreate {
-	pic.mutation.SetClientSecret(s)
-	return pic
+func (_c *PaymentIntentCreate) SetClientSecret(v string) *PaymentIntentCreate {
+	_c.mutation.SetClientSecret(v)
+	return _c
 }
 
 // SetNillableClientSecret sets the "client_secret" field if the given value is not nil.
-func (pic *PaymentIntentCreate) SetNillableClientSecret(s *string) *PaymentIntentCreate {
-	if s != nil {
-		pic.SetClientSecret(*s)
+func (_c *PaymentIntentCreate) SetNillableClientSecret(v *string) *PaymentIntentCreate {
+	if v != nil {
+		_c.SetClientSecret(*v)
 	}
-	return pic
+	return _c
 }
 
 // SetMetadata sets the "metadata" field.
-func (pic *PaymentIntentCreate) SetMetadata(m map[string]interface{}) *PaymentIntentCreate {
-	pic.mutation.SetMetadata(m)
-	return pic
+func (_c *PaymentIntentCreate) SetMetadata(v map[string]interface{}) *PaymentIntentCreate {
+	_c.mutation.SetMetadata(v)
+	return _c
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (pic *PaymentIntentCreate) SetCreatedAt(t time.Time) *PaymentIntentCreate {
-	pic.mutation.SetCreatedAt(t)
-	return pic
+func (_c *PaymentIntentCreate) SetCreatedAt(v time.Time) *PaymentIntentCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (pic *PaymentIntentCreate) SetNillableCreatedAt(t *time.Time) *PaymentIntentCreate {
-	if t != nil {
-		pic.SetCreatedAt(*t)
+func (_c *PaymentIntentCreate) SetNillableCreatedAt(v *time.Time) *PaymentIntentCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return pic
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (pic *PaymentIntentCreate) SetUpdatedAt(t time.Time) *PaymentIntentCreate {
-	pic.mutation.SetUpdatedAt(t)
-	return pic
+func (_c *PaymentIntentCreate) SetUpdatedAt(v time.Time) *PaymentIntentCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (pic *PaymentIntentCreate) SetNillableUpdatedAt(t *time.Time) *PaymentIntentCreate {
-	if t != nil {
-		pic.SetUpdatedAt(*t)
+func (_c *PaymentIntentCreate) SetNillableUpdatedAt(v *time.Time) *PaymentIntentCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return pic
+	return _c
 }
 
 // SetCustomerID sets the "customer" edge to the PaymentCustomer entity by ID.
-func (pic *PaymentIntentCreate) SetCustomerID(id int) *PaymentIntentCreate {
-	pic.mutation.SetCustomerID(id)
-	return pic
+func (_c *PaymentIntentCreate) SetCustomerID(id int) *PaymentIntentCreate {
+	_c.mutation.SetCustomerID(id)
+	return _c
 }
 
 // SetCustomer sets the "customer" edge to the PaymentCustomer entity.
-func (pic *PaymentIntentCreate) SetCustomer(p *PaymentCustomer) *PaymentIntentCreate {
-	return pic.SetCustomerID(p.ID)
+func (_c *PaymentIntentCreate) SetCustomer(v *PaymentCustomer) *PaymentIntentCreate {
+	return _c.SetCustomerID(v.ID)
 }
 
 // Mutation returns the PaymentIntentMutation object of the builder.
-func (pic *PaymentIntentCreate) Mutation() *PaymentIntentMutation {
-	return pic.mutation
+func (_c *PaymentIntentCreate) Mutation() *PaymentIntentMutation {
+	return _c.mutation
 }
 
 // Save creates the PaymentIntent in the database.
-func (pic *PaymentIntentCreate) Save(ctx context.Context) (*PaymentIntent, error) {
-	pic.defaults()
-	return withHooks(ctx, pic.sqlSave, pic.mutation, pic.hooks)
+func (_c *PaymentIntentCreate) Save(ctx context.Context) (*PaymentIntent, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (pic *PaymentIntentCreate) SaveX(ctx context.Context) *PaymentIntent {
-	v, err := pic.Save(ctx)
+func (_c *PaymentIntentCreate) SaveX(ctx context.Context) *PaymentIntent {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -169,102 +169,102 @@ func (pic *PaymentIntentCreate) SaveX(ctx context.Context) *PaymentIntent {
 }
 
 // Exec executes the query.
-func (pic *PaymentIntentCreate) Exec(ctx context.Context) error {
-	_, err := pic.Save(ctx)
+func (_c *PaymentIntentCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (pic *PaymentIntentCreate) ExecX(ctx context.Context) {
-	if err := pic.Exec(ctx); err != nil {
+func (_c *PaymentIntentCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (pic *PaymentIntentCreate) defaults() {
-	if _, ok := pic.mutation.Provider(); !ok {
+func (_c *PaymentIntentCreate) defaults() {
+	if _, ok := _c.mutation.Provider(); !ok {
 		v := paymentintent.DefaultProvider
-		pic.mutation.SetProvider(v)
+		_c.mutation.SetProvider(v)
 	}
-	if _, ok := pic.mutation.Status(); !ok {
+	if _, ok := _c.mutation.Status(); !ok {
 		v := paymentintent.DefaultStatus
-		pic.mutation.SetStatus(v)
+		_c.mutation.SetStatus(v)
 	}
-	if _, ok := pic.mutation.Currency(); !ok {
+	if _, ok := _c.mutation.Currency(); !ok {
 		v := paymentintent.DefaultCurrency
-		pic.mutation.SetCurrency(v)
+		_c.mutation.SetCurrency(v)
 	}
-	if _, ok := pic.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := paymentintent.DefaultCreatedAt()
-		pic.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := pic.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := paymentintent.DefaultUpdatedAt()
-		pic.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (pic *PaymentIntentCreate) check() error {
-	if _, ok := pic.mutation.ProviderPaymentIntentID(); !ok {
+func (_c *PaymentIntentCreate) check() error {
+	if _, ok := _c.mutation.ProviderPaymentIntentID(); !ok {
 		return &ValidationError{Name: "provider_payment_intent_id", err: errors.New(`ent: missing required field "PaymentIntent.provider_payment_intent_id"`)}
 	}
-	if v, ok := pic.mutation.ProviderPaymentIntentID(); ok {
+	if v, ok := _c.mutation.ProviderPaymentIntentID(); ok {
 		if err := paymentintent.ProviderPaymentIntentIDValidator(v); err != nil {
 			return &ValidationError{Name: "provider_payment_intent_id", err: fmt.Errorf(`ent: validator failed for field "PaymentIntent.provider_payment_intent_id": %w`, err)}
 		}
 	}
-	if _, ok := pic.mutation.Provider(); !ok {
+	if _, ok := _c.mutation.Provider(); !ok {
 		return &ValidationError{Name: "provider", err: errors.New(`ent: missing required field "PaymentIntent.provider"`)}
 	}
-	if v, ok := pic.mutation.Provider(); ok {
+	if v, ok := _c.mutation.Provider(); ok {
 		if err := paymentintent.ProviderValidator(v); err != nil {
 			return &ValidationError{Name: "provider", err: fmt.Errorf(`ent: validator failed for field "PaymentIntent.provider": %w`, err)}
 		}
 	}
-	if _, ok := pic.mutation.Status(); !ok {
+	if _, ok := _c.mutation.Status(); !ok {
 		return &ValidationError{Name: "status", err: errors.New(`ent: missing required field "PaymentIntent.status"`)}
 	}
-	if v, ok := pic.mutation.Status(); ok {
+	if v, ok := _c.mutation.Status(); ok {
 		if err := paymentintent.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "PaymentIntent.status": %w`, err)}
 		}
 	}
-	if _, ok := pic.mutation.Amount(); !ok {
+	if _, ok := _c.mutation.Amount(); !ok {
 		return &ValidationError{Name: "amount", err: errors.New(`ent: missing required field "PaymentIntent.amount"`)}
 	}
-	if v, ok := pic.mutation.Amount(); ok {
+	if v, ok := _c.mutation.Amount(); ok {
 		if err := paymentintent.AmountValidator(v); err != nil {
 			return &ValidationError{Name: "amount", err: fmt.Errorf(`ent: validator failed for field "PaymentIntent.amount": %w`, err)}
 		}
 	}
-	if _, ok := pic.mutation.Currency(); !ok {
+	if _, ok := _c.mutation.Currency(); !ok {
 		return &ValidationError{Name: "currency", err: errors.New(`ent: missing required field "PaymentIntent.currency"`)}
 	}
-	if v, ok := pic.mutation.Currency(); ok {
+	if v, ok := _c.mutation.Currency(); ok {
 		if err := paymentintent.CurrencyValidator(v); err != nil {
 			return &ValidationError{Name: "currency", err: fmt.Errorf(`ent: validator failed for field "PaymentIntent.currency": %w`, err)}
 		}
 	}
-	if _, ok := pic.mutation.CreatedAt(); !ok {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		return &ValidationError{Name: "created_at", err: errors.New(`ent: missing required field "PaymentIntent.created_at"`)}
 	}
-	if _, ok := pic.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		return &ValidationError{Name: "updated_at", err: errors.New(`ent: missing required field "PaymentIntent.updated_at"`)}
 	}
-	if len(pic.mutation.CustomerIDs()) == 0 {
+	if len(_c.mutation.CustomerIDs()) == 0 {
 		return &ValidationError{Name: "customer", err: errors.New(`ent: missing required edge "PaymentIntent.customer"`)}
 	}
 	return nil
 }
 
-func (pic *PaymentIntentCreate) sqlSave(ctx context.Context) (*PaymentIntent, error) {
-	if err := pic.check(); err != nil {
+func (_c *PaymentIntentCreate) sqlSave(ctx context.Context) (*PaymentIntent, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := pic.createSpec()
-	if err := sqlgraph.CreateNode(ctx, pic.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -272,57 +272,57 @@ func (pic *PaymentIntentCreate) sqlSave(ctx context.Context) (*PaymentIntent, er
 	}
 	id := _spec.ID.Value.(int64)
 	_node.ID = int(id)
-	pic.mutation.id = &_node.ID
-	pic.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (pic *PaymentIntentCreate) createSpec() (*PaymentIntent, *sqlgraph.CreateSpec) {
+func (_c *PaymentIntentCreate) createSpec() (*PaymentIntent, *sqlgraph.CreateSpec) {
 	var (
-		_node = &PaymentIntent{config: pic.config}
+		_node = &PaymentIntent{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(paymentintent.Table, sqlgraph.NewFieldSpec(paymentintent.FieldID, field.TypeInt))
 	)
-	if value, ok := pic.mutation.ProviderPaymentIntentID(); ok {
+	if value, ok := _c.mutation.ProviderPaymentIntentID(); ok {
 		_spec.SetField(paymentintent.FieldProviderPaymentIntentID, field.TypeString, value)
 		_node.ProviderPaymentIntentID = value
 	}
-	if value, ok := pic.mutation.Provider(); ok {
+	if value, ok := _c.mutation.Provider(); ok {
 		_spec.SetField(paymentintent.FieldProvider, field.TypeString, value)
 		_node.Provider = value
 	}
-	if value, ok := pic.mutation.Status(); ok {
+	if value, ok := _c.mutation.Status(); ok {
 		_spec.SetField(paymentintent.FieldStatus, field.TypeEnum, value)
 		_node.Status = value
 	}
-	if value, ok := pic.mutation.Amount(); ok {
+	if value, ok := _c.mutation.Amount(); ok {
 		_spec.SetField(paymentintent.FieldAmount, field.TypeInt64, value)
 		_node.Amount = value
 	}
-	if value, ok := pic.mutation.Currency(); ok {
+	if value, ok := _c.mutation.Currency(); ok {
 		_spec.SetField(paymentintent.FieldCurrency, field.TypeString, value)
 		_node.Currency = value
 	}
-	if value, ok := pic.mutation.Description(); ok {
+	if value, ok := _c.mutation.Description(); ok {
 		_spec.SetField(paymentintent.FieldDescription, field.TypeString, value)
 		_node.Description = value
 	}
-	if value, ok := pic.mutation.ClientSecret(); ok {
+	if value, ok := _c.mutation.ClientSecret(); ok {
 		_spec.SetField(paymentintent.FieldClientSecret, field.TypeString, value)
 		_node.ClientSecret = value
 	}
-	if value, ok := pic.mutation.Metadata(); ok {
+	if value, ok := _c.mutation.Metadata(); ok {
 		_spec.SetField(paymentintent.FieldMetadata, field.TypeJSON, value)
 		_node.Metadata = value
 	}
-	if value, ok := pic.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(paymentintent.FieldCreatedAt, field.TypeTime, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := pic.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(paymentintent.FieldUpdatedAt, field.TypeTime, value)
 		_node.UpdatedAt = value
 	}
-	if nodes := pic.mutation.CustomerIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.CustomerIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -350,16 +350,16 @@ type PaymentIntentCreateBulk struct {
 }
 
 // Save creates the PaymentIntent entities in the database.
-func (picb *PaymentIntentCreateBulk) Save(ctx context.Context) ([]*PaymentIntent, error) {
-	if picb.err != nil {
-		return nil, picb.err
+func (_c *PaymentIntentCreateBulk) Save(ctx context.Context) ([]*PaymentIntent, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(picb.builders))
-	nodes := make([]*PaymentIntent, len(picb.builders))
-	mutators := make([]Mutator, len(picb.builders))
-	for i := range picb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*PaymentIntent, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := picb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*PaymentIntentMutation)
@@ -373,11 +373,11 @@ func (picb *PaymentIntentCreateBulk) Save(ctx context.Context) ([]*PaymentIntent
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, picb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, picb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -401,7 +401,7 @@ func (picb *PaymentIntentCreateBulk) Save(ctx context.Context) ([]*PaymentIntent
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, picb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -409,8 +409,8 @@ func (picb *PaymentIntentCreateBulk) Save(ctx context.Context) ([]*PaymentIntent
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (picb *PaymentIntentCreateBulk) SaveX(ctx context.Context) []*PaymentIntent {
-	v, err := picb.Save(ctx)
+func (_c *PaymentIntentCreateBulk) SaveX(ctx context.Context) []*PaymentIntent {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -418,14 +418,14 @@ func (picb *PaymentIntentCreateBulk) SaveX(ctx context.Context) []*PaymentIntent
 }
 
 // Exec executes the query.
-func (picb *PaymentIntentCreateBulk) Exec(ctx context.Context) error {
-	_, err := picb.Save(ctx)
+func (_c *PaymentIntentCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (picb *PaymentIntentCreateBulk) ExecX(ctx context.Context) {
-	if err := picb.Exec(ctx); err != nil {
+func (_c *PaymentIntentCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

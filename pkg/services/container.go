@@ -319,24 +319,26 @@ func (c *Container) getInertia() *inertia.Inertia {
 	}
 
 	// laravel-vite-plugin not running in dev mode, use build manifest file
-	// check if the manifest file exists, if not, rename it
+	// Vite 6+ places the manifest at .vite/manifest.json; support both paths
+	// without renaming to avoid race conditions when tests run in parallel.
+	actualManifestPath := manifestPath
 	if _, err := os.Stat(manifestPath); os.IsNotExist(err) {
-		// move the manifest from ./public/build/.vite/manifest.json to ./public/build/manifest.json
-		// so that the vite function can find it
-		if err := os.Rename(viteManifestPath, manifestPath); err != nil {
-			panic(fmt.Errorf("inertia build manifest file not found: %w", err))
+		if _, err := os.Stat(viteManifestPath); err == nil {
+			actualManifestPath = viteManifestPath
+		} else {
+			panic(fmt.Errorf("inertia build manifest file not found at %s or %s", manifestPath, viteManifestPath))
 		}
 	}
 
 	i, err := inertia.NewFromFile(
 		rootViewFile,
-		inertia.WithVersionFromFile(manifestPath),
+		inertia.WithVersionFromFile(actualManifestPath),
 	)
 	if err != nil {
 		panic(err)
 	}
 
-	i.ShareTemplateFunc("vite", vite(manifestPath, "/build/"))
+	i.ShareTemplateFunc("vite", vite(actualManifestPath, "/build/"))
 	i.ShareTemplateFunc("viteReactRefresh", viteReactRefresh(url))
 
 	return i
