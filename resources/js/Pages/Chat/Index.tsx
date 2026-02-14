@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -16,7 +17,7 @@ import { type BreadcrumbItem } from "@/types";
 import type { ChatRoom } from "@/types/chat";
 import { SharedProps } from "@/types/global";
 import { Head, router, usePage } from "@inertiajs/react";
-import { MessageCircle, Plus } from "lucide-react";
+import { MessageCircle, Plus, UserRound } from "lucide-react";
 
 function ChatLayout({ children, isAuth }: { children: ReactNode; isAuth: boolean }) {
   if (isAuth) {
@@ -50,10 +51,14 @@ export default function ChatIndex({ rooms = [] }: ChatIndexProps) {
   const [editingNick, setEditingNick] = useState(false);
   const [nickInput, setNickInput] = useState(nickname);
 
+  // Nickname prompt when joining without one
+  const [nicknameRoom, setNicknameRoom] = useState<ChatRoom | null>(null);
+  const [nicknamePromptInput, setNicknamePromptInput] = useState("");
+
   // Password prompt state
   const [passwordRoom, setPasswordRoom] = useState<ChatRoom | null>(null);
 
-  const handleJoinRoom = (room: ChatRoom) => {
+  const proceedToRoom = (room: ChatRoom) => {
     if (room.hasPassword) {
       setPasswordRoom(room);
       return;
@@ -61,9 +66,36 @@ export default function ChatIndex({ rooms = [] }: ChatIndexProps) {
     router.visit(`/chat/rooms/${room.id}`);
   };
 
+  const handleJoinRoom = (room: ChatRoom) => {
+    // Authenticated users or users with a nickname go straight through
+    if (auth.user || nickname) {
+      proceedToRoom(room);
+      return;
+    }
+    // Anonymous without nickname — prompt them
+    setNicknamePromptInput("");
+    setNicknameRoom(room);
+  };
+
+  const handleNicknameSet = () => {
+    const trimmed = nicknamePromptInput.trim();
+    if (trimmed) {
+      localStorage.setItem("chat_nickname", trimmed);
+      setNickname(trimmed);
+    }
+    const room = nicknameRoom;
+    setNicknameRoom(null);
+    if (room) proceedToRoom(room);
+  };
+
+  const handleNicknameSkip = () => {
+    const room = nicknameRoom;
+    setNicknameRoom(null);
+    if (room) proceedToRoom(room);
+  };
+
   const handlePasswordSubmit = (password: string) => {
     if (!passwordRoom) return;
-    // Store password in sessionStorage for WebSocket connection
     sessionStorage.setItem(`chat_pwd_${passwordRoom.id}`, password);
     setPasswordRoom(null);
     router.visit(`/chat/rooms/${passwordRoom.id}`);
@@ -102,12 +134,12 @@ export default function ChatIndex({ rooms = [] }: ChatIndexProps) {
   return (
     <ChatLayout isAuth={isAuth}>
       <Head title="Chat" />
-      <div className="flex h-full flex-1 flex-col gap-6 rounded-xl p-6">
+      <div className="flex flex-1 flex-col gap-6 rounded-xl p-4 sm:p-6">
         {/* Header */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <h1 className="text-2xl font-bold tracking-tight">Community Chat</h1>
-            <p className="text-muted-foreground">
+            <h1 className="text-xl sm:text-2xl font-bold tracking-tight">Community Chat</h1>
+            <p className="text-sm text-muted-foreground">
               Join a room to start chatting
             </p>
           </div>
@@ -151,14 +183,17 @@ export default function ChatIndex({ rooms = [] }: ChatIndexProps) {
           </div>
         </div>
 
-        {/* Room Grid */}
+        {/* Room List */}
         {rooms.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-16 text-muted-foreground">
-            <MessageCircle className="h-12 w-12 mb-4" />
-            <p>No chat rooms yet</p>
+          <div className="flex flex-col items-center justify-center py-20 text-muted-foreground">
+            <div className="h-16 w-16 rounded-2xl bg-muted flex items-center justify-center mb-4">
+              <MessageCircle className="h-8 w-8" />
+            </div>
+            <p className="font-medium">No chat rooms yet</p>
+            <p className="text-sm mt-1">Create one to get started</p>
           </div>
         ) : (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {rooms.map((room) => (
               <ChatRoomCard
                 key={room.id}
@@ -208,6 +243,49 @@ export default function ChatIndex({ rooms = [] }: ChatIndexProps) {
                 </Button>
                 <Button type="submit" disabled={creating || !newRoomName.trim()}>
                   {creating ? "Creating..." : "Create"}
+                </Button>
+              </div>
+            </form>
+          </DialogContent>
+        </Dialog>
+
+        {/* Nickname Prompt */}
+        <Dialog open={!!nicknameRoom} onOpenChange={(v) => !v && setNicknameRoom(null)}>
+          <DialogContent className="sm:max-w-sm">
+            <DialogHeader className="items-center text-center">
+              <div className="mx-auto mb-2 h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
+                <UserRound className="h-6 w-6 text-primary" />
+              </div>
+              <DialogTitle>Choose a nickname</DialogTitle>
+              <DialogDescription>
+                Pick a name so others know who you are. You can always change it later.
+              </DialogDescription>
+            </DialogHeader>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleNicknameSet();
+              }}
+              className="space-y-4"
+            >
+              <Input
+                value={nicknamePromptInput}
+                onChange={(e) => setNicknamePromptInput(e.target.value)}
+                placeholder="Your nickname"
+                maxLength={30}
+                autoFocus
+              />
+              <div className="flex flex-col gap-2">
+                <Button type="submit" disabled={!nicknamePromptInput.trim()}>
+                  Join as {nicknamePromptInput.trim() || "..."}
+                </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  className="text-muted-foreground"
+                  onClick={handleNicknameSkip}
+                >
+                  Continue without nickname
                 </Button>
               </div>
             </form>

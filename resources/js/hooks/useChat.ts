@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { router } from "@inertiajs/react";
 import type {
   ChatMessage,
   ChatParticipant,
@@ -9,6 +10,7 @@ interface UseChatOptions {
   roomId: number;
   name: string;
   password?: string;
+  enabled?: boolean;
 }
 
 type MessageItem = ChatMessage | { type: "join" | "leave"; senderName: string; createdAt: string };
@@ -18,6 +20,7 @@ interface UseChatReturn {
   participants: ChatParticipant[];
   connected: boolean;
   error: string | null;
+  resetError: () => void;
   sendMessage: (body: string) => void;
   sendTyping: () => void;
   typingUsers: string[];
@@ -26,7 +29,7 @@ interface UseChatReturn {
   loadMore: () => void;
 }
 
-export function useChat({ roomId, name, password }: UseChatOptions): UseChatReturn {
+export function useChat({ roomId, name, password, enabled = true }: UseChatOptions): UseChatReturn {
   const [messages, setMessages] = useState<MessageItem[]>([]);
   const [participants, setParticipants] = useState<ChatParticipant[]>([]);
   const [connected, setConnected] = useState(false);
@@ -53,7 +56,14 @@ export function useChat({ roomId, name, password }: UseChatOptions): UseChatRetu
   }, []);
 
   const connect = useCallback(() => {
-    if (!mountedRef.current) return;
+    if (!mountedRef.current || !enabled) return;
+
+    const scheduleReconnect = () => {
+      reconnectTimeoutRef.current = setTimeout(() => {
+        reconnectDelayRef.current = Math.min(reconnectDelayRef.current * 2, 30000);
+        connect();
+      }, reconnectDelayRef.current);
+    };
 
     const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
     const params = new URLSearchParams();
@@ -74,14 +84,27 @@ export function useChat({ roomId, name, password }: UseChatOptions): UseChatRetu
       reconnectDelayRef.current = 1000;
     };
 
-    ws.onclose = () => {
+    ws.onclose = (event) => {
       if (!mountedRef.current) return;
       setConnected(false);
 
-      reconnectTimeoutRef.current = setTimeout(() => {
-        reconnectDelayRef.current = Math.min(reconnectDelayRef.current * 2, 30000);
-        connect();
-      }, reconnectDelayRef.current);
+      // If the connection was never established (code 1006), check if the room still exists
+      if (event.code === 1006) {
+        fetch(`/chat/rooms/${roomId}/messages?limit=1`).then((res) => {
+          if (res.status === 404) {
+            // Room was deleted — redirect to chat index
+            router.visit("/chat");
+            return;
+          }
+          // Room exists, just a network issue — reconnect
+          scheduleReconnect();
+        }).catch(() => {
+          scheduleReconnect();
+        });
+        return;
+      }
+
+      scheduleReconnect();
     };
 
     ws.onerror = () => {
@@ -130,9 +153,11 @@ export function useChat({ roomId, name, password }: UseChatOptions): UseChatRetu
           break;
       }
     };
-  }, [roomId, name, password, updateMessages]);
+  }, [roomId, name, password, enabled, updateMessages]);
 
   useEffect(() => {
+    if (!enabled) return;
+
     mountedRef.current = true;
     connect();
 
@@ -147,7 +172,7 @@ export function useChat({ roomId, name, password }: UseChatOptions): UseChatRetu
         wsRef.current.close();
       }
     };
-  }, [connect]);
+  }, [connect, enabled]);
 
   const loadMore = useCallback(async () => {
     if (loadingMore || !hasMore) return;
@@ -198,11 +223,16 @@ export function useChat({ roomId, name, password }: UseChatOptions): UseChatRetu
     }
   }, []);
 
+  const resetError = useCallback(() => {
+    setError(null);
+  }, []);
+
   return {
     messages,
     participants,
     connected,
     error,
+    resetError,
     sendMessage,
     sendTyping,
     typingUsers,

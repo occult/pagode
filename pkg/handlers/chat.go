@@ -138,7 +138,7 @@ func (h *Chat) Index(ctx echo.Context) error {
 func (h *Chat) Room(ctx echo.Context) error {
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
-		return echo.NewHTTPError(http.StatusNotFound)
+		return ctx.Redirect(http.StatusSeeOther, "/chat")
 	}
 
 	room, err := h.orm.ChatRoom.Query().
@@ -146,7 +146,8 @@ func (h *Chat) Room(ctx echo.Context) error {
 		WithOwner().
 		Only(ctx.Request().Context())
 	if err != nil {
-		return echo.NewHTTPError(http.StatusNotFound)
+		msg.Danger(ctx, "This chat room no longer exists.")
+		return ctx.Redirect(http.StatusSeeOther, "/chat")
 	}
 
 	type roomDetailProps struct {
@@ -550,7 +551,7 @@ func (h *Chat) wsUpgrader() websocket.Upgrader {
 func (h *Chat) WebSocket(ctx echo.Context) error {
 	roomID, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
-		return echo.NewHTTPError(http.StatusNotFound)
+		return echo.NewHTTPError(http.StatusNotFound, "room not found")
 	}
 
 	// Verify room exists
@@ -559,7 +560,7 @@ func (h *Chat) WebSocket(ctx echo.Context) error {
 		WithOwner().
 		Only(ctx.Request().Context())
 	if err != nil {
-		return echo.NewHTTPError(http.StatusNotFound)
+		return echo.NewHTTPError(http.StatusNotFound, "room not found")
 	}
 
 	// Get user info
@@ -600,8 +601,8 @@ func (h *Chat) WebSocket(ctx echo.Context) error {
 		}
 	}
 
-	// Password check
-	if room.PasswordHash != "" {
+	// Password check — room owner and admins skip this
+	if room.PasswordHash != "" && !isOwner && !isAdmin {
 		password := ctx.QueryParam("password")
 		if err := bcrypt.CompareHashAndPassword([]byte(room.PasswordHash), []byte(password)); err != nil {
 			return echo.NewHTTPError(http.StatusForbidden, "incorrect room password")

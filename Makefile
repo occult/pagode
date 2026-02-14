@@ -40,6 +40,14 @@ test: ## Run all tests
 check-updates: ## Check for direct dependency updates
 	go list -u -m -f '{{if not .Indirect}}{{.}}{{end}}' all | grep "\["
 
+.PHONY: chat-clear
+chat-clear: ## Clear all chat messages, rooms, bans, and uploaded files
+	@echo "Clearing chat uploads..."
+	rm -rf static/chat-uploads/*
+	@echo "Clearing chat tables..."
+	sqlite3 dbs/main.db "DELETE FROM chat_bans; DELETE FROM chat_messages; DELETE FROM chat_rooms;"
+	@echo "Chat data cleared."
+
 .PHONY: docker-build
 docker-build: ## Build the application
 	nixpacks build . --name pagode

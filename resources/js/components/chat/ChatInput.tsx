@@ -1,8 +1,8 @@
 import { useCallback, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ImagePlus, Camera, Send, Loader2 } from "lucide-react";
-import { AudioRecorder } from "./AudioRecorder";
+import { ImagePlus, Camera, Send, Loader2, Mic, X, Square } from "lucide-react";
+import { useAudioRecorder } from "@/hooks/useAudioRecorder";
 import { CameraCapture } from "./CameraCapture";
 
 interface ChatInputProps {
@@ -38,13 +38,45 @@ async function uploadFile(blob: Blob, filename: string): Promise<string> {
   return data.url;
 }
 
+function formatTime(seconds: number) {
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  return `${m}:${s.toString().padStart(2, "0")}`;
+}
+
 export function ChatInput({ onSend, onTyping, disabled }: ChatInputProps) {
   const [value, setValue] = useState("");
   const [uploading, setUploading] = useState(false);
-  const [recording, setRecording] = useState(false);
   const [cameraOpen, setCameraOpen] = useState(false);
   const typingTimeout = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleAudioRecorded = useCallback(
+    async (blob: Blob) => {
+      setUploading(true);
+      try {
+        const ext = blob.type.includes("mp4") ? ".m4a" : blob.type.includes("ogg") ? ".ogg" : ".webm";
+        const url = await uploadFile(blob, `voice-message${ext}`);
+        onSend(url);
+      } catch (err) {
+        console.error("Audio upload failed:", err);
+        alert("Failed to upload voice message");
+      } finally {
+        setUploading(false);
+      }
+    },
+    [onSend]
+  );
+
+  const {
+    recording,
+    starting,
+    elapsed,
+    maxDuration,
+    start: startRecording,
+    stop: stopRecording,
+    cancel: cancelRecording,
+  } = useAudioRecorder({ maxDuration: 30, onRecorded: handleAudioRecorded });
 
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
@@ -60,9 +92,7 @@ export function ChatInput({ onSend, onTyping, disabled }: ChatInputProps) {
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setValue(e.target.value);
-      if (!typingTimeout.current) {
-        onTyping();
-      }
+      if (!typingTimeout.current) onTyping();
       clearTimeout(typingTimeout.current);
       typingTimeout.current = setTimeout(() => {
         typingTimeout.current = undefined;
@@ -96,23 +126,6 @@ export function ChatInput({ onSend, onTyping, disabled }: ChatInputProps) {
     [onSend]
   );
 
-  const handleAudioRecorded = useCallback(
-    async (blob: Blob) => {
-      setUploading(true);
-      try {
-        const ext = blob.type.includes("mp4") ? ".m4a" : blob.type.includes("ogg") ? ".ogg" : ".webm";
-        const url = await uploadFile(blob, `voice-message${ext}`);
-        onSend(url);
-      } catch (err) {
-        console.error("Audio upload failed:", err);
-        alert("Failed to upload voice message");
-      } finally {
-        setUploading(false);
-      }
-    },
-    [onSend]
-  );
-
   const handleCameraCapture = useCallback(
     async (blob: Blob) => {
       setCameraOpen(false);
@@ -131,11 +144,12 @@ export function ChatInput({ onSend, onTyping, disabled }: ChatInputProps) {
   );
 
   const isDisabled = disabled || uploading;
+  const pct = maxDuration > 0 ? (elapsed / maxDuration) * 100 : 0;
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="flex items-center gap-2 p-4 border-t">
-        {/* Hidden file input for image picker */}
+      {/* Relative wrapper — the recording overlay is positioned inside this */}
+      <div className="relative border-t">
         <input
           ref={fileInputRef}
           type="file"
@@ -144,64 +158,114 @@ export function ChatInput({ onSend, onTyping, disabled }: ChatInputProps) {
           onChange={handleFileSelect}
         />
 
-        {/* Uploading indicator */}
-        {uploading && !recording && (
-          <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
-        )}
+        {/* Base input bar — always in flow, dimensions never change */}
+        <form
+          onSubmit={handleSubmit}
+          className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-2"
+        >
+          <Button
+            type="button"
+            size="icon"
+            variant="ghost"
+            disabled={isDisabled}
+            onClick={() => fileInputRef.current?.click()}
+            title="Send image"
+            className="flex-shrink-0 h-10 w-10 sm:h-9 sm:w-9"
+          >
+            {uploading ? (
+              <Loader2 className="h-5 w-5 sm:h-4 sm:w-4 animate-spin" />
+            ) : (
+              <ImagePlus className="h-5 w-5 sm:h-4 sm:w-4" />
+            )}
+          </Button>
 
-        {/* Image + Camera buttons: hidden when recording or uploading */}
-        {!recording && !uploading && (
-          <>
-            <Button
-              type="button"
-              size="icon"
-              variant="ghost"
-              disabled={isDisabled}
-              onClick={() => fileInputRef.current?.click()}
-              title="Send image"
-            >
-              <ImagePlus className="h-4 w-4" />
-            </Button>
+          <Button
+            type="button"
+            size="icon"
+            variant="ghost"
+            disabled={isDisabled}
+            onClick={() => setCameraOpen(true)}
+            title="Take photo"
+            className="flex-shrink-0 h-10 w-10 sm:h-9 sm:w-9"
+          >
+            <Camera className="h-5 w-5 sm:h-4 sm:w-4" />
+          </Button>
 
-            <Button
-              type="button"
-              size="icon"
-              variant="ghost"
-              disabled={isDisabled}
-              onClick={() => setCameraOpen(true)}
-              title="Take photo"
-            >
-              <Camera className="h-4 w-4" />
-            </Button>
-          </>
-        )}
+          <Button
+            type="button"
+            size="icon"
+            variant="ghost"
+            disabled={isDisabled || starting}
+            onClick={startRecording}
+            title="Record voice message"
+            className="flex-shrink-0 h-10 w-10 sm:h-9 sm:w-9"
+          >
+            {starting ? (
+              <Loader2 className="h-5 w-5 sm:h-4 sm:w-4 animate-spin" />
+            ) : (
+              <Mic className="h-5 w-5 sm:h-4 sm:w-4" />
+            )}
+          </Button>
 
-        {/* Single AudioRecorder instance — always mounted, manages its own UI */}
-        <AudioRecorder
-          onRecorded={handleAudioRecorded}
-          onCancel={() => {}}
-          onRecordingChange={setRecording}
-          maxDuration={30}
-          disabled={isDisabled}
-        />
+          <Input
+            value={value}
+            onChange={handleChange}
+            placeholder="Type a message..."
+            disabled={isDisabled}
+            autoComplete="off"
+            className="flex-1 min-w-0 h-10 sm:h-9"
+          />
 
-        {/* Text input + Send: hidden when recording */}
-        {!recording && (
-          <>
-            <Input
-              value={value}
-              onChange={handleChange}
-              placeholder="Type a message..."
-              disabled={isDisabled}
-              autoComplete="off"
-              className="flex-1"
-            />
-            <Button type="submit" size="icon" disabled={isDisabled || !value.trim()}>
-              <Send className="h-4 w-4" />
-            </Button>
-          </>
-        )}
-      </form>
+          <Button
+            type="submit"
+            size="icon"
+            disabled={isDisabled || !value.trim()}
+            className="flex-shrink-0 h-10 w-10 sm:h-9 sm:w-9"
+          >
+            <Send className="h-5 w-5 sm:h-4 sm:w-4" />
+          </Button>
+        </form>
+
+        {/* Recording overlay — absolutely positioned, ZERO layout impact on the form */}
+        <div
+          className={`absolute inset-0 z-10 flex items-center gap-2 px-2 sm:px-3 py-2 bg-background transition-opacity duration-200 ${
+            recording ? "opacity-100" : "opacity-0 pointer-events-none"
+          }`}
+        >
+          <Button
+            type="button"
+            size="icon"
+            variant="ghost"
+            onClick={cancelRecording}
+            className="flex-shrink-0 h-10 w-10 sm:h-9 sm:w-9"
+          >
+            <X className="h-5 w-5 sm:h-4 sm:w-4" />
+          </Button>
+
+          <div className="flex-1 flex items-center gap-2 min-w-0">
+            <span className="h-2.5 w-2.5 rounded-full bg-red-500 animate-pulse flex-shrink-0" />
+            <span className="text-xs font-mono text-muted-foreground whitespace-nowrap">
+              {formatTime(elapsed)}/{formatTime(maxDuration)}
+            </span>
+            <div className="flex-1 bg-muted rounded-full h-1.5 min-w-0">
+              <div
+                className="bg-red-500 h-1.5 rounded-full transition-all duration-1000"
+                style={{ width: `${pct}%` }}
+              />
+            </div>
+          </div>
+
+          <Button
+            type="button"
+            size="icon"
+            variant="destructive"
+            onClick={stopRecording}
+            className="flex-shrink-0 h-10 w-10 sm:h-9 sm:w-9 rounded-full"
+          >
+            <Square className="h-4 w-4 sm:h-3 sm:w-3" />
+          </Button>
+        </div>
+      </div>
 
       <CameraCapture
         open={cameraOpen}
