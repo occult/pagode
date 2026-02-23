@@ -61,6 +61,16 @@ func BuildRouter(c *services.Container) error {
 			CookieHTTPOnly: false,                 // must be false so JS (Axios) can read it
 			CookieSameSite: http.SameSiteStrictMode,
 			ContextKey:     context.CSRFKey,
+			ErrorHandler: func(err error, ctx echo.Context) error {
+				// Clear the stale CSRF cookie so a fresh token is set on redirect.
+				ctx.SetCookie(&http.Cookie{
+					Name:   "XSRF-TOKEN",
+					Value:  "",
+					Path:   "/",
+					MaxAge: -1,
+				})
+				return ctx.Redirect(http.StatusFound, ctx.Request().URL.Path)
+			},
 		}),
 		echo.WrapMiddleware(c.Inertia.Middleware),
 		middleware.InertiaProps(), // leave this as the last one
