@@ -31,7 +31,8 @@ func InertiaProps() echo.MiddlewareFunc {
 			newCtx := gonertia.SetProps(ctx.Request().Context(), map[string]any{
 				"flash": flash,
 				"auth": map[string]any{
-					"user": user,
+					"user":     user,
+					"provider": "casdoor",
 				},
 			})
 

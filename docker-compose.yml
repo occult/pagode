@@ -1,0 +1,9 @@
+version: "3.8"
+
+services:
+  casdoor:
+    image: casbin/casdoor-all-in-one
+    container_name: pagode-casdoor
+    ports:
+      - "8100:8000"
+    restart: unless-stopped

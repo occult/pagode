@@ -191,7 +191,6 @@ func sidebarMenu(r *ui.Request) Node {
 			If(r.IsAuth, MenuLink(r, "Logout", routenames.Logout)),
 			If(!r.IsAuth, MenuLink(r, "Login", routenames.Login)),
 			If(!r.IsAuth, MenuLink(r, "Register", routenames.Register)),
-			If(!r.IsAuth, MenuLink(r, "Forgot password", routenames.ForgotPasswordSubmit)),
 		),
 		Iff(r.IsAdmin, adminSubMenu),
 	)

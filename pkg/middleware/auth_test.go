@@ -2,7 +2,6 @@ package middleware
 
 import (
 	goctx "context"
-	"fmt"
 	"net/http"
 	"testing"
 
@@ -73,44 +72,6 @@ func TestRequireNoAuthentication(t *testing.T) {
 	assert.Equal(t, http.StatusSeeOther, ctx.Response().Status)
 }
 
-func TestLoadValidPasswordToken(t *testing.T) {
-	ctx, _ := tests.NewContext(c.Web, "/")
-	tests.InitSession(ctx)
-
-	// Missing user context
-	err := tests.ExecuteMiddleware(ctx, LoadValidPasswordToken(c.Auth))
-	tests.AssertHTTPErrorCode(t, err, http.StatusInternalServerError)
-
-	// Add user and password token context but no token and expect a redirect
-	ctx.SetParamNames("user", "password_token")
-	ctx.SetParamValues(fmt.Sprintf("%d", usr.ID), "1")
-	_ = tests.ExecuteMiddleware(ctx, LoadUser(c.ORM))
-	err = tests.ExecuteMiddleware(ctx, LoadValidPasswordToken(c.Auth))
-	assert.NoError(t, err)
-	assert.Equal(t, http.StatusFound, ctx.Response().Status)
-
-	// Add user context and invalid password token and expect a redirect
-	ctx.SetParamNames("user", "password_token", "token")
-	ctx.SetParamValues(fmt.Sprintf("%d", usr.ID), "1", "faketoken")
-	_ = tests.ExecuteMiddleware(ctx, LoadUser(c.ORM))
-	err = tests.ExecuteMiddleware(ctx, LoadValidPasswordToken(c.Auth))
-	assert.NoError(t, err)
-	assert.Equal(t, http.StatusFound, ctx.Response().Status)
-
-	// Create a valid token
-	token, pt, err := c.Auth.GeneratePasswordResetToken(ctx, usr.ID)
-	require.NoError(t, err)
-
-	// Add user and valid password token
-	ctx.SetParamNames("user", "password_token", "token")
-	ctx.SetParamValues(fmt.Sprintf("%d", usr.ID), fmt.Sprintf("%d", pt.ID), token)
-	_ = tests.ExecuteMiddleware(ctx, LoadUser(c.ORM))
-	err = tests.ExecuteMiddleware(ctx, LoadValidPasswordToken(c.Auth))
-	assert.Nil(t, err)
-	ctxPt, ok := ctx.Get(context.PasswordTokenKey).(*ent.PasswordToken)
-	require.True(t, ok)
-	assert.Equal(t, pt.ID, ctxPt.ID)
-}
 
 func TestRequireAdmin(t *testing.T) {
 	ctx, _ := tests.NewContext(c.Web, "/")

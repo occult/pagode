@@ -36,7 +36,7 @@ func BuildRouter(c *services.Container) error {
 	// Create a cookie store for session data.
 	cookieStore := sessions.NewCookieStore([]byte(c.Config.App.EncryptionKey))
 	cookieStore.Options.HttpOnly = true
-	cookieStore.Options.SameSite = http.SameSiteStrictMode
+	cookieStore.Options.SameSite = http.SameSiteLaxMode
 
 	g.Use(
 		echomw.RemoveTrailingSlashWithConfig(echomw.TrailingSlashConfig{
@@ -59,7 +59,7 @@ func BuildRouter(c *services.Container) error {
 			CookieName:     "XSRF-TOKEN",          // this sets the cookie
 			CookiePath:     "/",                   // make it accessible app-wide
 			CookieHTTPOnly: false,                 // must be false so JS (Axios) can read it
-			CookieSameSite: http.SameSiteStrictMode,
+			CookieSameSite: http.SameSiteLaxMode,
 			ContextKey:     context.CSRFKey,
 			ErrorHandler: func(err error, ctx echo.Context) error {
 				// Clear the stale CSRF cookie so a fresh token is set on redirect.

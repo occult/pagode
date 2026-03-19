@@ -58,7 +58,6 @@ func authNavBar(r *ui.Request) Node {
 					Class("navbar-start"),
 					A(Class("navbar-item"), Href(r.Path(routenames.Login)), Text("Login")),
 					A(Class("navbar-item"), Href(r.Path(routenames.Register)), Text("Create an account")),
-					A(Class("navbar-item"), Href(r.Path(routenames.ForgotPassword)), Text("Forgot password")),
 				),
 			),
 		)

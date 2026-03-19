@@ -73,6 +73,9 @@ type Container struct {
 	// Chat stores the chat room manager.
 	Chat *chat.RoomManager
 
+	// Casdoor stores the Casdoor SSO client.
+	Casdoor *CasdoorClient
+
 	// Inertia for React
 	Inertia *inertia.Inertia
 
@@ -91,6 +94,7 @@ func NewContainer() *Container {
 	c.initFiles()
 	c.initORM()
 	c.initAuth()
+	c.initCasdoor()
 	c.initMail()
 	c.initTasks()
 	c.initPayment()
@@ -231,6 +235,11 @@ func (c *Container) initORM() {
 // initAuth initializes the authentication client.
 func (c *Container) initAuth() {
 	c.Auth = NewAuthClient(c.Config, c.ORM)
+}
+
+// initCasdoor initializes the Casdoor SSO client.
+func (c *Container) initCasdoor() {
+	c.Casdoor = NewCasdoorClient(&c.Config.Auth.Casdoor)
 }
 
 // initMail initialize the mail client.

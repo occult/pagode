@@ -26,18 +26,6 @@ type UpdateBasicInfoForm struct {
 	form.Submission
 }
 
-type UpdatePasswordForm struct {
-	CurrentPassword      string `form:"current_password" validate:"required"`
-	Password             string `form:"password" validate:"required,min=8"`
-	PasswordConfirmation string `form:"password_confirmation" validate:"required,eqfield=Password"`
-	form.Submission
-}
-
-type DeleteAccountForm struct {
-	Password string `form:"password" validate:"required"`
-	form.Submission
-}
-
 func init() {
 	Register(new(Profile))
 }
@@ -58,7 +46,6 @@ func (h *Profile) Routes(g *echo.Group) {
 
 	profile.GET("/appearance", h.AppearancePage).Name = routenames.ProfileAppearance
 	profile.GET("/password", h.PasswordPage).Name = routenames.ProfilePassword
-	profile.POST("/update-password", h.UpdatePassword).Name = routenames.ProfileUpdatePassword
 }
 
 func (h *Profile) EditPage(ctx echo.Context) error {
@@ -110,56 +97,6 @@ func (h *Profile) UpdateBasicInfo(ctx echo.Context) error {
 
 	msg.Success(ctx, "Your profile has been updated.")
 	h.Inertia.Back(ctx.Response().Writer, ctx.Request())
-	return nil
-}
-
-func (h *Profile) UpdatePassword(ctx echo.Context) error {
-	var input UpdatePasswordForm
-
-	usr, ok := ctx.Get(context.AuthenticatedUserKey).(*ent.User)
-	if !ok {
-		msg.Danger(ctx, "You must be logged in.")
-		h.Inertia.Back(ctx.Response().Writer, ctx.Request())
-		return nil
-	}
-
-	err := form.Submit(ctx, &input)
-
-	switch err.(type) {
-	case nil:
-	case validator.ValidationErrors:
-		msg.Warning(ctx, "Please fix the errors in the form and try again.")
-		h.Inertia.Back(ctx.Response().Writer, ctx.Request())
-		return nil
-	default:
-		return err
-	}
-
-	if err := h.auth.CheckPassword(input.CurrentPassword, usr.Password); err != nil {
-		msg.Danger(ctx, "The current password you entered is incorrect.")
-		h.Inertia.Back(ctx.Response().Writer, ctx.Request())
-		return nil
-	}
-
-	_, err = h.orm.User.
-		UpdateOneID(usr.ID).
-		SetPassword(input.Password).
-		Save(ctx.Request().Context())
-	if err != nil {
-		msg.Danger(ctx, "Something went wrong while saving your new password.")
-		h.Inertia.Back(ctx.Response().Writer, ctx.Request())
-		return nil
-	}
-
-	usr, err = h.orm.User.Get(ctx.Request().Context(), usr.ID)
-	if err != nil {
-		msg.Danger(ctx, "Something went wrong while refreshing your session.")
-		h.Inertia.Back(ctx.Response().Writer, ctx.Request())
-		return nil
-	}
-
-	msg.Success(ctx, "Your password has been updated successfully.")
-	h.Inertia.Redirect(ctx.Response().Writer, ctx.Request(), ctx.Echo().Reverse(routenames.ProfilePassword))
 	return nil
 }
 

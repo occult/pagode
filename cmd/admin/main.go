@@ -2,6 +2,8 @@ package main
 
 import (
 	"context"
+	"crypto/rand"
+	"encoding/hex"
 	"flag"
 	"fmt"
 	"os"
@@ -29,14 +31,15 @@ func main() {
 		invalid("email is required")
 	}
 
-	// Generate a password.
-	pw, err := c.Auth.RandomToken(10)
-	if err != nil {
+	// Generate a random placeholder password (Casdoor manages real passwords).
+	b := make([]byte, 32)
+	if _, err := rand.Read(b); err != nil {
 		invalid("failed to generate a random password")
 	}
+	pw := hex.EncodeToString(b)
 
 	// Create the admin user.
-	err = c.ORM.User.
+	err := c.ORM.User.
 		Create().
 		SetEmail(email).
 		SetName("Admin").
@@ -52,7 +55,7 @@ func main() {
 	fmt.Println("")
 	fmt.Println("-- ADMIN USER CREATED --")
 	fmt.Printf("Email: %s\n", email)
-	fmt.Printf("Password: %s\n", pw)
+	fmt.Println("Password is managed by Casdoor SSO.")
 	fmt.Println("----")
 	fmt.Println("")
 }

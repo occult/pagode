@@ -11,5 +11,6 @@ export type SharedProps = {
   flash: FlashMessages;
   auth: {
     user: User | null;
+    provider: "casdoor";
   };
 };

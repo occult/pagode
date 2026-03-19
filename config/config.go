@@ -5,6 +5,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/joho/godotenv"
 	"github.com/spf13/viper"
 )
 
@@ -58,6 +59,7 @@ type (
 		Tasks    TasksConfig
 		Mail     MailConfig
 		Payment  PaymentConfig
+		Auth     AuthConfig
 		Chat     ChatConfig
 	}
 
@@ -142,6 +144,21 @@ type (
 		Currency       string
 	}
 
+	// AuthConfig stores the authentication configuration (Casdoor SSO).
+	AuthConfig struct {
+		Casdoor CasdoorConfig
+	}
+
+	// CasdoorConfig stores the Casdoor-specific configuration.
+	CasdoorConfig struct {
+		Endpoint         string
+		ClientId         string
+		ClientSecret     string
+		Certificate      string
+		OrganizationName string
+		ApplicationName  string
+	}
+
 	// ChatConfig stores the chat configuration.
 	ChatConfig struct {
 		Enabled                bool
@@ -160,6 +177,9 @@ type (
 func GetConfig() (Config, error) {
 	var c Config
 
+	// Load .env file if present (does not override existing env vars).
+	_ = godotenv.Load()
+
 	// Load the config file.
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
@@ -172,6 +192,14 @@ func GetConfig() (Config, error) {
 	viper.SetEnvPrefix("pagode")
 	viper.AutomaticEnv()
 	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
+
+	// Explicitly bind Casdoor env vars so Viper picks them up.
+	viper.BindEnv("auth.casdoor.endpoint")
+	viper.BindEnv("auth.casdoor.clientid")
+	viper.BindEnv("auth.casdoor.clientsecret")
+	viper.BindEnv("auth.casdoor.certificate")
+	viper.BindEnv("auth.casdoor.organizationname")
+	viper.BindEnv("auth.casdoor.applicationname")
 
 	if err := viper.ReadInConfig(); err != nil {
 		return c, err
