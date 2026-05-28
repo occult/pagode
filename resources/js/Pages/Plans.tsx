@@ -6,7 +6,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { PaymentForm } from "@/components/PaymentForm";
 import { type BreadcrumbItem } from "@/types";
 import { Head, router } from "@inertiajs/react";
-import { CheckIcon, CreditCardIcon } from "lucide-react";
+import { CheckIcon, CreditCardIcon, XCircleIcon } from "lucide-react";
 
 interface Plan {
   id: string;
