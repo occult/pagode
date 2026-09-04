@@ -16,6 +16,7 @@ import (
 	"github.com/occult/pagode/ent/admin"
 	"github.com/occult/pagode/pkg/context"
 	"github.com/occult/pagode/pkg/form"
+	"github.com/occult/pagode/pkg/middleware"
 	"github.com/occult/pagode/pkg/msg"
 	"github.com/occult/pagode/pkg/pager"
 	"github.com/occult/pagode/pkg/redirect"
@@ -59,7 +60,7 @@ func (h *Admin) Init(c *services.Container) error {
 }
 
 func (h *Admin) Routes(g *echo.Group) {
-	ag := g.Group("/admin/users")
+	ag := g.Group("/admin/users", middleware.RequireAdmin)
 
 	ag.GET("", h.Page).Name = routenames.AdminDashboard
 	ag.POST("/add", h.AddUser).Name = routenames.AdminUserAdd
