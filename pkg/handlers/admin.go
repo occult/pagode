@@ -124,7 +124,7 @@ func (h *Admin) Page(ctx echo.Context) error {
 	totalPages := (total + limit - 1) / limit
 
 	err = h.Inertia.Render(
-		ctx.Response().Writer,
+		ctx.Response(),
 		ctx.Request(),
 		"Admin/AdminView",
 		inertia.Props{
@@ -138,7 +138,7 @@ func (h *Admin) Page(ctx echo.Context) error {
 		},
 	)
 	if err != nil {
-		handleServerErr(ctx.Response().Writer, err)
+		handleServerErr(ctx.Response(), err)
 		return err
 	}
 
@@ -154,7 +154,7 @@ type AdminUserForm struct {
 }
 
 func (h *Admin) AddUser(ctx echo.Context) error {
-	w := ctx.Response().Writer
+	w := ctx.Response()
 	r := ctx.Request()
 	uri := ctx.Echo().Reverse("admin_dashboard")
 
@@ -192,7 +192,7 @@ func (h *Admin) AddUser(ctx echo.Context) error {
 }
 
 func (h *Admin) EditUser(ctx echo.Context) error {
-	w := ctx.Response().Writer
+	w := ctx.Response()
 	r := ctx.Request()
 	uri := ctx.Echo().Reverse("admin_dashboard")
 
@@ -237,7 +237,7 @@ func (h *Admin) EditUser(ctx echo.Context) error {
 }
 
 func (h *Admin) DeleteUser(ctx echo.Context) error {
-	w := ctx.Response().Writer
+	w := ctx.Response()
 	r := ctx.Request()
 	uri := ctx.Echo().Reverse("admin_dashboard")
 

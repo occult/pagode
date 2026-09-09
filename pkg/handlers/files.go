@@ -53,7 +53,7 @@ func (h *Files) UploadFilePage(ctx echo.Context) error {
 	}
 
 	return h.Inertia.Render(
-		ctx.Response().Writer,
+		ctx.Response(),
 		ctx.Request(),
 		"UploadFile",
 		inertia.Props{
@@ -88,7 +88,7 @@ func (h *Files) Submit(ctx echo.Context) error {
 	msg.Success(ctx, fmt.Sprintf("%s was uploaded successfully.", file.Filename))
 
 	h.Inertia.Redirect(
-		ctx.Response().Writer,
+		ctx.Response(),
 		ctx.Request(),
 		ctx.Echo().Reverse(routenames.Files),
 	)

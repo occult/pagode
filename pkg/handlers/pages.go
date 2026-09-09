@@ -34,7 +34,7 @@ func (h *Pages) Routes(g *echo.Group) {
 
 func (h *Pages) Welcome(ctx echo.Context) error {
 	err := h.Inertia.Render(
-		ctx.Response().Writer,
+		ctx.Response(),
 		ctx.Request(),
 		"Welcome",
 		inertia.Props{
@@ -42,7 +42,7 @@ func (h *Pages) Welcome(ctx echo.Context) error {
 		},
 	)
 	if err != nil {
-		handleServerErr(ctx.Response().Writer, err)
+		handleServerErr(ctx.Response(), err)
 		return err
 	}
 

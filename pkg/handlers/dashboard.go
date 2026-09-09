@@ -29,7 +29,7 @@ func (h *Dashboard) Routes(g *echo.Group) {
 
 func (h *Dashboard) Page(ctx echo.Context) error {
 	err := h.Inertia.Render(
-		ctx.Response().Writer,
+		ctx.Response(),
 		ctx.Request(),
 		"Dashboard",
 		inertia.Props{
@@ -37,7 +37,7 @@ func (h *Dashboard) Page(ctx echo.Context) error {
 		},
 	)
 	if err != nil {
-		handleServerErr(ctx.Response().Writer, err)
+		handleServerErr(ctx.Response(), err)
 		return err
 	}
 

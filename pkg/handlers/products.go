@@ -47,7 +47,7 @@ func (h *Products) Page(ctx echo.Context) error {
 	}
 
 	return h.Inertia.Render(
-		ctx.Response().Writer,
+		ctx.Response(),
 		ctx.Request(),
 		"Products",
 		inertia.Props{
@@ -112,7 +112,7 @@ func (h *Products) Purchase(ctx echo.Context) error {
 	}
 
 	return h.Inertia.Render(
-		ctx.Response().Writer,
+		ctx.Response(),
 		ctx.Request(),
 		"Products",
 		inertia.Props{
