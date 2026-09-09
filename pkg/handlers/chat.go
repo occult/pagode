@@ -121,7 +121,7 @@ func (h *Chat) Index(ctx echo.Context) error {
 	}
 
 	err = h.Inertia.Render(
-		ctx.Response().Writer,
+		ctx.Response(),
 		ctx.Request(),
 		"Chat/Index",
 		inertia.Props{
@@ -129,7 +129,7 @@ func (h *Chat) Index(ctx echo.Context) error {
 		},
 	)
 	if err != nil {
-		handleServerErr(ctx.Response().Writer, err)
+		handleServerErr(ctx.Response(), err)
 		return err
 	}
 	return nil
@@ -171,7 +171,7 @@ func (h *Chat) Room(ctx echo.Context) error {
 	}
 
 	err = h.Inertia.Render(
-		ctx.Response().Writer,
+		ctx.Response(),
 		ctx.Request(),
 		"Chat/Room",
 		inertia.Props{
@@ -179,7 +179,7 @@ func (h *Chat) Room(ctx echo.Context) error {
 		},
 	)
 	if err != nil {
-		handleServerErr(ctx.Response().Writer, err)
+		handleServerErr(ctx.Response(), err)
 		return err
 	}
 	return nil
@@ -314,7 +314,7 @@ func (h *Chat) CreateRoom(ctx echo.Context) error {
 	}
 
 	msg.Success(ctx, "Room created successfully!")
-	h.Inertia.Back(ctx.Response().Writer, ctx.Request())
+	h.Inertia.Back(ctx.Response(), ctx.Request())
 	return nil
 }
 
@@ -370,7 +370,7 @@ func (h *Chat) BanUser(ctx echo.Context) error {
 	hub.KickUser(input.UserID)
 
 	msg.Success(ctx, "User banned successfully.")
-	h.Inertia.Back(ctx.Response().Writer, ctx.Request())
+	h.Inertia.Back(ctx.Response(), ctx.Request())
 	return nil
 }
 
@@ -416,7 +416,7 @@ func (h *Chat) UnbanUser(ctx echo.Context) error {
 	}
 
 	msg.Success(ctx, "User unbanned successfully.")
-	h.Inertia.Back(ctx.Response().Writer, ctx.Request())
+	h.Inertia.Back(ctx.Response(), ctx.Request())
 	return nil
 }
 
@@ -442,7 +442,7 @@ func (h *Chat) DeleteRoom(ctx echo.Context) error {
 	// Don't allow deleting the default room
 	if room.Name == h.config.Chat.DefaultRoom {
 		msg.Danger(ctx, "Cannot delete the default room.")
-		h.Inertia.Back(ctx.Response().Writer, ctx.Request())
+		h.Inertia.Back(ctx.Response(), ctx.Request())
 		return nil
 	}
 

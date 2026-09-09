@@ -95,7 +95,7 @@ func (h *Auth) LoginPage(ctx echo.Context) error {
 	canResetPassword := true
 
 	err := h.Inertia.Render(
-		ctx.Response().Writer,
+		ctx.Response(),
 		ctx.Request(),
 		"Auth/Login",
 		inertia.Props{
@@ -103,7 +103,7 @@ func (h *Auth) LoginPage(ctx echo.Context) error {
 		},
 	)
 	if err != nil {
-		handleServerErr(ctx.Response().Writer, err)
+		handleServerErr(ctx.Response(), err)
 		return err
 	}
 
@@ -111,7 +111,7 @@ func (h *Auth) LoginPage(ctx echo.Context) error {
 }
 
 func (h *Auth) LoginSubmit(ctx echo.Context) error {
-	w := ctx.Response().Writer
+	w := ctx.Response()
 	r := ctx.Request()
 
 	var input LoginForm
@@ -183,7 +183,7 @@ func (h *Auth) Logout(ctx echo.Context) error {
 
 func (h *Auth) RegisterPage(ctx echo.Context) error {
 	err := h.Inertia.Render(
-		ctx.Response().Writer,
+		ctx.Response(),
 		ctx.Request(),
 		"Auth/Register",
 		inertia.Props{
@@ -191,7 +191,7 @@ func (h *Auth) RegisterPage(ctx echo.Context) error {
 		},
 	)
 	if err != nil {
-		handleServerErr(ctx.Response().Writer, err)
+		handleServerErr(ctx.Response(), err)
 		return err
 	}
 
@@ -199,7 +199,7 @@ func (h *Auth) RegisterPage(ctx echo.Context) error {
 }
 
 func (h *Auth) RegisterSubmit(ctx echo.Context) error {
-	w := ctx.Response().Writer
+	w := ctx.Response()
 	r := ctx.Request()
 
 	var input RegisterForm
@@ -311,7 +311,7 @@ func (h *Auth) sendVerificationEmail(ctx echo.Context, usr *ent.User) error {
 func (h *Auth) VerifyEmail(ctx echo.Context) error {
 	var usr *ent.User
 
-	w := ctx.Response().Writer
+	w := ctx.Response()
 	r := ctx.Request()
 
 	uriWelcome := ctx.Echo().Reverse(routenames.Welcome)
@@ -365,12 +365,12 @@ func (h *Auth) VerifyEmail(ctx echo.Context) error {
 
 func (h *Auth) ForgotPasswordPage(ctx echo.Context) error {
 	err := h.Inertia.Render(
-		ctx.Response().Writer,
+		ctx.Response(),
 		ctx.Request(),
 		"Auth/ForgotPassword",
 	)
 	if err != nil {
-		handleServerErr(ctx.Response().Writer, err)
+		handleServerErr(ctx.Response(), err)
 		return err
 	}
 
@@ -380,7 +380,7 @@ func (h *Auth) ForgotPasswordPage(ctx echo.Context) error {
 func (h *Auth) ForgotPasswordSubmit(ctx echo.Context) error {
 	var input ForgotPassword
 
-	w := ctx.Response().Writer
+	w := ctx.Response()
 	r := ctx.Request()
 
 	uriForgotPassword := ctx.Echo().Reverse(routenames.ForgotPassword)
@@ -480,9 +480,9 @@ func (h *Auth) ResetPasswordPage(ctx echo.Context) error {
 		"email":           u.Email,
 	}
 
-	err = h.Inertia.Render(ctx.Response().Writer, ctx.Request(), "Auth/ResetPassword", props)
+	err = h.Inertia.Render(ctx.Response(), ctx.Request(), "Auth/ResetPassword", props)
 	if err != nil {
-		handleServerErr(ctx.Response().Writer, err)
+		handleServerErr(ctx.Response(), err)
 		return err
 	}
 
@@ -494,7 +494,7 @@ func (h *Auth) ResetPasswordSubmit(ctx echo.Context) error {
 
 	err := form.Submit(ctx, &input)
 
-	w := ctx.Response().Writer
+	w := ctx.Response()
 	r := ctx.Request()
 
 	uriLogin := ctx.Echo().Reverse(routenames.Login)

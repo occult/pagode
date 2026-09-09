@@ -44,7 +44,7 @@ func (e *Error) Page(err error, ctx echo.Context) {
 
 	// Render Inertia error page
 	renderErr := e.Inertia.Render(
-		ctx.Response().Writer,
+		ctx.Response(),
 		ctx.Request(),
 		"ErrorPage",
 		inertia.Props{

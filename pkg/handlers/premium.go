@@ -41,7 +41,7 @@ func (h *Premium) Page(ctx echo.Context) error {
 	}
 
 	return h.Inertia.Render(
-		ctx.Response().Writer,
+		ctx.Response(),
 		ctx.Request(),
 		"Premium",
 		inertia.Props{

@@ -63,7 +63,7 @@ func (h *Profile) Routes(g *echo.Group) {
 
 func (h *Profile) EditPage(ctx echo.Context) error {
 	return h.Inertia.Render(
-		ctx.Response().Writer,
+		ctx.Response(),
 		ctx.Request(),
 		"Settings/Profile",
 	)
@@ -75,7 +75,7 @@ func (h *Profile) UpdateBasicInfo(ctx echo.Context) error {
 	usr, ok := ctx.Get(context.AuthenticatedUserKey).(*ent.User)
 	if !ok {
 		msg.Danger(ctx, "You must be logged in.")
-		h.Inertia.Back(ctx.Response().Writer, ctx.Request())
+		h.Inertia.Back(ctx.Response(), ctx.Request())
 		return nil
 	}
 
@@ -85,7 +85,7 @@ func (h *Profile) UpdateBasicInfo(ctx echo.Context) error {
 	case nil:
 	case validator.ValidationErrors:
 		msg.Warning(ctx, "Please fix the errors in the form and try again.")
-		h.Inertia.Back(ctx.Response().Writer, ctx.Request())
+		h.Inertia.Back(ctx.Response(), ctx.Request())
 		return nil
 	default:
 		return err
@@ -93,7 +93,7 @@ func (h *Profile) UpdateBasicInfo(ctx echo.Context) error {
 
 	if input.Name == usr.Name && input.Email == usr.Email {
 		msg.Info(ctx, "Nothing to update.")
-		h.Inertia.Back(ctx.Response().Writer, ctx.Request())
+		h.Inertia.Back(ctx.Response(), ctx.Request())
 		return nil
 	}
 
@@ -104,12 +104,12 @@ func (h *Profile) UpdateBasicInfo(ctx echo.Context) error {
 	_, err = update.Save(ctx.Request().Context())
 	if err != nil {
 		msg.Danger(ctx, "Failed to update user.")
-		h.Inertia.Back(ctx.Response().Writer, ctx.Request())
+		h.Inertia.Back(ctx.Response(), ctx.Request())
 		return nil
 	}
 
 	msg.Success(ctx, "Your profile has been updated.")
-	h.Inertia.Back(ctx.Response().Writer, ctx.Request())
+	h.Inertia.Back(ctx.Response(), ctx.Request())
 	return nil
 }
 
@@ -119,7 +119,7 @@ func (h *Profile) UpdatePassword(ctx echo.Context) error {
 	usr, ok := ctx.Get(context.AuthenticatedUserKey).(*ent.User)
 	if !ok {
 		msg.Danger(ctx, "You must be logged in.")
-		h.Inertia.Back(ctx.Response().Writer, ctx.Request())
+		h.Inertia.Back(ctx.Response(), ctx.Request())
 		return nil
 	}
 
@@ -129,7 +129,7 @@ func (h *Profile) UpdatePassword(ctx echo.Context) error {
 	case nil:
 	case validator.ValidationErrors:
 		msg.Warning(ctx, "Please fix the errors in the form and try again.")
-		h.Inertia.Back(ctx.Response().Writer, ctx.Request())
+		h.Inertia.Back(ctx.Response(), ctx.Request())
 		return nil
 	default:
 		return err
@@ -137,7 +137,7 @@ func (h *Profile) UpdatePassword(ctx echo.Context) error {
 
 	if err := h.auth.CheckPassword(input.CurrentPassword, usr.Password); err != nil {
 		msg.Danger(ctx, "The current password you entered is incorrect.")
-		h.Inertia.Back(ctx.Response().Writer, ctx.Request())
+		h.Inertia.Back(ctx.Response(), ctx.Request())
 		return nil
 	}
 
@@ -147,19 +147,19 @@ func (h *Profile) UpdatePassword(ctx echo.Context) error {
 		Save(ctx.Request().Context())
 	if err != nil {
 		msg.Danger(ctx, "Something went wrong while saving your new password.")
-		h.Inertia.Back(ctx.Response().Writer, ctx.Request())
+		h.Inertia.Back(ctx.Response(), ctx.Request())
 		return nil
 	}
 
 	usr, err = h.orm.User.Get(ctx.Request().Context(), usr.ID)
 	if err != nil {
 		msg.Danger(ctx, "Something went wrong while refreshing your session.")
-		h.Inertia.Back(ctx.Response().Writer, ctx.Request())
+		h.Inertia.Back(ctx.Response(), ctx.Request())
 		return nil
 	}
 
 	msg.Success(ctx, "Your password has been updated successfully.")
-	h.Inertia.Redirect(ctx.Response().Writer, ctx.Request(), ctx.Echo().Reverse(routenames.ProfilePassword))
+	h.Inertia.Redirect(ctx.Response(), ctx.Request(), ctx.Echo().Reverse(routenames.ProfilePassword))
 	return nil
 }
 
@@ -177,13 +177,13 @@ func (h *Profile) DeleteAccount(ctx echo.Context) error {
 	uri := ctx.Echo().Reverse(routenames.Welcome)
 
 	msg.Success(ctx, "Your account has been deleted.")
-	h.Inertia.Redirect(ctx.Response().Writer, ctx.Request(), uri)
+	h.Inertia.Redirect(ctx.Response(), ctx.Request(), uri)
 	return nil
 }
 
 func (h *Profile) AppearancePage(ctx echo.Context) error {
 	return h.Inertia.Render(
-		ctx.Response().Writer,
+		ctx.Response(),
 		ctx.Request(),
 		"Settings/Appearance",
 	)
@@ -191,7 +191,7 @@ func (h *Profile) AppearancePage(ctx echo.Context) error {
 
 func (h *Profile) PasswordPage(ctx echo.Context) error {
 	return h.Inertia.Render(
-		ctx.Response().Writer,
+		ctx.Response(),
 		ctx.Request(),
 		"Settings/Password",
 	)

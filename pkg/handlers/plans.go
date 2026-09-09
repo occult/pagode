@@ -63,7 +63,7 @@ func (h *Plans) Page(ctx echo.Context) error {
 	}
 
 	err = h.Inertia.Render(
-		ctx.Response().Writer,
+		ctx.Response(),
 		ctx.Request(),
 		"Plans",
 		inertia.Props{
@@ -92,7 +92,7 @@ func (h *Plans) Page(ctx echo.Context) error {
 		},
 	)
 	if err != nil {
-		handleServerErr(ctx.Response().Writer, err)
+		handleServerErr(ctx.Response(), err)
 		return err
 	}
 
