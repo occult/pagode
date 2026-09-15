@@ -14,6 +14,13 @@ import (
 var (
 	//go:embed templates
 	templateDir embed.FS
+
+	acronyms = map[string]string{
+		"id":  "ID",
+		"ip":  "IP",
+		"url": "URL",
+		"uri": "URI",
+	}
 )
 
 // Extension is the Ent extension that generates code to support the entity admin panel.
@@ -43,11 +50,7 @@ func fieldName(name string) string {
 
 	parts := strings.Split(name, "_")
 	for i := 0; i < len(parts); i++ {
-		if parts[i] == "id" {
-			parts[i] = "ID"
-		} else {
-			parts[i] = upperFirst(parts[i])
-		}
+		parts[i] = normalizeFieldPart(parts[i])
 	}
 
 	return strings.Join(parts, "")
@@ -61,15 +64,20 @@ func FieldLabel(name string) string {
 
 	parts := strings.Split(name, "_")
 	for i := 0; i < len(parts); i++ {
-		if parts[i] == "id" {
-			parts[i] = "ID"
-		}
-		if i == 0 {
+		parts[i] = normalizeFieldPart(parts[i])
+		if i == 0 && acronyms[strings.ToLower(parts[i])] == "" {
 			parts[i] = upperFirst(parts[i])
 		}
 	}
 
 	return strings.Join(parts, " ")
+}
+
+func normalizeFieldPart(part string) string {
+	if acronym, ok := acronyms[strings.ToLower(part)]; ok {
+		return acronym
+	}
+	return upperFirst(part)
 }
 
 // fieldIsPointer determines if a given entity field should be a pointer on the struct.

@@ -40,6 +40,7 @@ test: ## Run all tests
 check-updates: ## Check for direct dependency updates
 	go list -u -m -f '{{if not .Indirect}}{{.}}{{end}}' all | grep "\["
 
+# [feature:chat] start
 .PHONY: chat-clear
 chat-clear: ## Clear all chat messages, rooms, bans, and uploaded files
 	@echo "Clearing chat uploads..."
@@ -47,6 +48,11 @@ chat-clear: ## Clear all chat messages, rooms, bans, and uploaded files
 	@echo "Clearing chat tables..."
 	sqlite3 dbs/main.db "DELETE FROM chat_bans; DELETE FROM chat_messages; DELETE FROM chat_rooms;"
 	@echo "Chat data cleared."
+# [feature:chat] end
+
+.PHONY: setup
+setup: ## Run the interactive setup tool to remove unused features
+	go run ./cmd/setup
 
 .PHONY: docker-build
 docker-build: ## Build the application

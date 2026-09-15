@@ -12,10 +12,13 @@ import (
 	"github.com/occult/pagode/pkg/services"
 )
 
+// [feature:chat] start
 // WebSocketHandler is an optional interface for handlers that register WebSocket routes.
 type WebSocketHandler interface {
 	RoutesWS(wsG *echo.Group)
 }
+
+// [feature:chat] end
 
 // BuildRouter builds the router.
 func BuildRouter(c *services.Container) error {
@@ -76,6 +79,7 @@ func BuildRouter(c *services.Container) error {
 		middleware.InertiaProps(), // leave this as the last one
 	)
 
+	// [feature:chat] start
 	// WebSocket group: skip timeout, gzip, and CSRF which interfere with WebSocket connections.
 	wsG := c.Web.Group("")
 	wsG.Use(
@@ -85,6 +89,7 @@ func BuildRouter(c *services.Container) error {
 		middleware.LoadAuthenticatedUser(c.Auth),
 	)
 	c.WebSocketGroup = wsG
+	// [feature:chat] end
 
 	// Error handler.
 	errHandler := &Error{}
@@ -102,10 +107,12 @@ func BuildRouter(c *services.Container) error {
 
 		h.Routes(g)
 
+		// [feature:chat] start
 		// Register WebSocket routes if the handler implements them.
 		if wsh, ok := h.(WebSocketHandler); ok {
 			wsh.RoutesWS(wsG)
 		}
+		// [feature:chat] end
 	}
 
 	return nil

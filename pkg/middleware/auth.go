@@ -6,10 +6,12 @@ import (
 	"strconv"
 
 	"github.com/occult/pagode/ent"
+	// [feature:payment] start
 	"github.com/occult/pagode/ent/paymentcustomer"
 	"github.com/occult/pagode/ent/paymentintent"
 	"github.com/occult/pagode/ent/subscription"
 	entuser "github.com/occult/pagode/ent/user"
+	// [feature:payment] end
 	"github.com/occult/pagode/pkg/context"
 	"github.com/occult/pagode/pkg/log"
 	"github.com/occult/pagode/pkg/msg"
@@ -123,6 +125,7 @@ func RequireAdmin(next echo.HandlerFunc) echo.HandlerFunc {
 	}
 }
 
+// [feature:payment] start
 // RequirePaidUser requires that the authenticated user has either an active subscription
 // or a successful payment intent in order to proceed.
 func RequirePaidUser(db *ent.Client) echo.MiddlewareFunc {
@@ -147,7 +150,7 @@ func RequirePaidUser(db *ent.Client) echo.MiddlewareFunc {
 				)).
 				Where(subscription.StatusEQ(subscription.StatusActive)).
 				Exist(c.Request().Context())
-			
+
 			if err != nil {
 				log.Ctx(c).Warn(fmt.Sprintf("error checking subscription status: %v", err))
 			}
@@ -164,7 +167,7 @@ func RequirePaidUser(db *ent.Client) echo.MiddlewareFunc {
 				)).
 				Where(paymentintent.StatusEQ(paymentintent.StatusSucceeded)).
 				Exist(c.Request().Context())
-			
+
 			if err != nil {
 				log.Ctx(c).Warn(fmt.Sprintf("error checking payment intent status: %v", err))
 			}
@@ -179,3 +182,5 @@ func RequirePaidUser(db *ent.Client) echo.MiddlewareFunc {
 		}
 	}
 }
+
+// [feature:payment] end

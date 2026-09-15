@@ -37,15 +37,20 @@ database:
   # retain data even after you close and re-open the connection.
   testConnection: "file:/$RAND?vfs=memdb&_timeout=1000&_fk=true"
 
+# [feature:files] start
 files:
   directory: "uploads"
+# [feature:files] end
 
+# [feature:tasks] start
 tasks:
   goroutines: 1
   releaseAfter: "15m"
   cleanupInterval: "1h"
   shutdownTimeout: "10s"
+# [feature:tasks] end
 
+# [feature:mail] start
 mail:
   hostname: "localhost"
   port: 25
@@ -53,7 +58,9 @@ mail:
   password: "admin"
   fromAddress: "admin@localhost"
   resendApiKey: "your-api-key"
+# [feature:mail] end
 
+# [feature:payment] start
 payment:
   provider: "stripe"
   stripe:
@@ -61,7 +68,9 @@ payment:
     publishableKey: "pk_test_your_stripe_publishable_key_here"
     webhookSecret: "whsec_your_webhook_secret_here"
     currency: "usd"
+# [feature:payment] end
 
+# [feature:chat] start
 chat:
   enabled: true
   defaultRoom: "general"
@@ -72,3 +81,4 @@ chat:
   maxConnectionsPerIP: 5
   rateLimitMessages: 10
   rateLimitWindowSeconds: 10
+# [feature:chat] end

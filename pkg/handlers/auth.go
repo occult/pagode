@@ -19,7 +19,9 @@ import (
 	"github.com/occult/pagode/pkg/redirect"
 	"github.com/occult/pagode/pkg/routenames"
 	"github.com/occult/pagode/pkg/services"
+	// [feature:mail] start
 	"github.com/occult/pagode/pkg/ui"
+	// [feature:mail] end
 
 	inertia "github.com/romsar/gonertia/v2"
 )
@@ -27,7 +29,9 @@ import (
 type Auth struct {
 	config  *config.Config
 	auth    *services.AuthClient
+	// [feature:mail] start
 	mail    *services.MailClient
+	// [feature:mail] end
 	orm     *ent.Client
 	Inertia *inertia.Inertia
 }
@@ -66,7 +70,9 @@ func (h *Auth) Init(c *services.Container) error {
 	h.config = c.Config
 	h.orm = c.ORM
 	h.auth = c.Auth
+	// [feature:mail] start
 	h.mail = c.Mail
+	// [feature:mail] end
 	h.Inertia = c.Inertia
 	return nil
 }
@@ -257,6 +263,7 @@ func (h *Auth) RegisterSubmit(ctx echo.Context) error {
 
 	msg.Success(ctx, "Your account has been created. You are now logged in.")
 
+	// [feature:mail] start
 	// Send verification email
 	err = h.sendVerificationEmail(ctx, u)
 	if err != nil {
@@ -265,6 +272,7 @@ func (h *Auth) RegisterSubmit(ctx echo.Context) error {
 			"error", err,
 		)
 	}
+	// [feature:mail] end
 
 	uriDashboard := ctx.Echo().Reverse(routenames.Dashboard)
 
@@ -272,6 +280,7 @@ func (h *Auth) RegisterSubmit(ctx echo.Context) error {
 	return nil
 }
 
+// [feature:mail] start
 func (h *Auth) sendVerificationEmail(ctx echo.Context, usr *ent.User) error {
 	token, err := h.auth.GenerateEmailVerificationToken(usr.Email)
 	if err != nil {
@@ -307,6 +316,8 @@ func (h *Auth) sendVerificationEmail(ctx echo.Context, usr *ent.User) error {
 	msg.Info(ctx, "An email was sent to you to verify your email address.")
 	return nil
 }
+
+// [feature:mail] end
 
 func (h *Auth) VerifyEmail(ctx echo.Context) error {
 	var usr *ent.User
@@ -401,6 +412,7 @@ func (h *Auth) ForgotPasswordSubmit(ctx echo.Context) error {
 		return fail(err, "form submission error on forgot password", h.Inertia, ctx)
 	}
 
+	// [feature:mail] start
 	// Attempt to load the user.
 	u, err := h.orm.User.
 		Query().
@@ -448,6 +460,7 @@ func (h *Auth) ForgotPasswordSubmit(ctx echo.Context) error {
 		)
 		return fail(err, "failed to send password reset email", h.Inertia, ctx)
 	}
+	// [feature:mail] end
 
 	return succeed()
 }

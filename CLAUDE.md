@@ -159,6 +159,88 @@ Use `middleware.RequirePaidUser(orm)` to protect routes requiring payment:
 - Test environment automatically uses Stripe test mode
 - Payment status visible in admin panel for debugging
 
+## Modular Setup CLI (Feature Opt-In/Opt-Out)
+
+Pagode ships with optional features that can be removed at project init time via `make setup` (or `go run ./cmd/setup/`). The tool presents a TUI checklist and surgically removes deselected features — files, schemas, config sections, frontend pages, sidebar items, and dependencies.
+
+Current optional features: Payment (Stripe), Chat (WebSocket), Mail (Resend), Background Tasks (Backlite), File Upload.
+
+**IMPORTANT: Every new feature that is not part of the core (auth, dashboard, admin) MUST be built as an optional module so users can opt out via the setup CLI.**
+
+### The Marker System
+
+Feature-specific code inside shared files is wrapped with comment markers. The setup tool finds and removes everything between `[feature:X] start` / `[feature:X] end` (inclusive).
+
+**Go / JS / TS files:**
+```go
+// [feature:myfeature] start
+c.initMyFeature()
+// [feature:myfeature] end
+```
+
+**YAML / Makefile:**
+```yaml
+# [feature:myfeature] start
+myfeature:
+  key: value
+# [feature:myfeature] end
+```
+
+**TSX / JSX (inside JSX expressions):**
+```tsx
+{/* [feature:myfeature] start */}
+{ title: "My Feature", href: "/my-feature", icon: SomeIcon },
+{/* [feature:myfeature] end */}
+```
+
+Markers also wrap feature-specific imports so they are cleanly removed:
+```go
+import (
+    "context"
+    // [feature:myfeature] start
+    "github.com/example/myfeature-dep"
+    // [feature:myfeature] end
+)
+```
+
+### How to Add a New Optional Feature
+
+1. **Build the feature normally** — handlers, services, pages, schemas, routes, etc.
+2. **Identify what is feature-owned vs shared:**
+   - Feature-owned files/dirs: will be deleted entirely
+   - Shared files: need `[feature:name]` markers around feature-specific blocks
+3. **Add a `Module` entry** in `cmd/setup/modules.go`:
+   ```go
+   Module{
+       Name:        "My Feature",
+       FeatureName: "myfeature",  // used in [feature:myfeature] markers
+       Description: "Short description for TUI",
+       Files:       []string{"pkg/handlers/myfeature.go", "resources/js/Pages/MyFeature.tsx"},
+       Dirs:        []string{"pkg/myfeature/"},
+       EntSchemas:  []string{"ent/schema/myentity.go"},
+   }
+   ```
+4. **Wrap ALL shared references** with `[feature:myfeature]` markers. Common places:
+   - `pkg/services/container.go` — field, init call, init function, shutdown block
+   - `pkg/handlers/router.go` — route registration
+   - `ent/schema/user.go` — edges pointing to feature entities
+   - `resources/js/components/AppSidebar.tsx` — nav items and icon imports
+   - `config/config.yaml` — feature config section
+   - `pkg/routenames/names.go` — route name constants
+   - `pkg/handlers/admin.go` — admin routes/handlers if applicable
+   - `pkg/middleware/auth.go` — feature-specific middleware
+   - `Makefile` — feature-specific targets
+5. **Test removal in isolation:** reset repo, run `go run ./cmd/setup/`, remove only the new feature, confirm Go build (`go build -o /dev/null ./cmd/web`) and TS build (`npx tsc --noEmit`) pass.
+
+### Critical Rules for Module Authors
+
+- **Never leave unmarked references** in shared files. The #1 cause of setup failures is a missing marker around a single import, route name, menu item, or init call.
+- **Feature modules must not import each other.** Payment code must never reference Chat, etc. Cross-feature coupling in shared handlers (e.g., Auth uses Mail) must be marker-guarded.
+- **If the feature owns Ent schemas**, list them in `EntSchemas`. Also marker-guard any edges from `ent/schema/user.go` (or other shared schemas) to feature entities.
+- **Prefer deleting whole files** over marking. If a file is purely feature-owned, add it to `Files`/`Dirs` in the manifest rather than marking its contents.
+- **Do not modify `cmd/setup/` core files** (`main.go`, `remover.go`, `cleanup.go`) when adding a feature. Only add a new `Module` entry in `modules.go` and add markers to your code.
+- Full design details are in `docs/plans/2026-03-27-modular-setup-cli-design.md`. Operational reference is in `SETUP.md`.
+
 ## Important Notes
 
 - Admin panel is dynamically generated - entity constraints must be defined in Ent schemas

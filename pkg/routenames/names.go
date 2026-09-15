@@ -13,8 +13,10 @@ const (
 	AdminUserEdit         = "admin_user_edit"
 	AdminUserDelete       = "admin_user_delete"
 	About                 = "about"
+	// [feature:mail] start
 	Contact               = "contact"
 	ContactSubmit         = "contact.submit"
+	// [feature:mail] end
 	Login                 = "login"
 	LoginSubmit           = "login.submit"
 	Register              = "register"
@@ -26,19 +28,26 @@ const (
 	ResetPassword         = "reset_password"
 	ResetPasswordSubmit   = "reset_password.submit"
 	Search                = "search"
+	// [feature:tasks] start
 	Task                  = "task"
 	TaskSubmit            = "task.submit"
+	// [feature:tasks] end
 	Cache                 = "cache"
 	CacheSubmit           = "cache.submit"
+	// [feature:files] start
 	Files                 = "files"
 	FilesSubmit           = "files.submit"
+	// [feature:files] end
+	// [feature:tasks] start
 	AdminTasks            = "admin:tasks"
+	// [feature:tasks] end
 	ProfileEdit           = "profile.edit"
 	ProfileUpdate         = "profile.update"
 	ProfileDestroy        = "profile.destroy"
 	ProfileAppearance     = "profile.appearance"
 	ProfilePassword       = "profile.password"
 	ProfileUpdatePassword = "profile.update_password"
+	// [feature:payment] start
 	Plans                 = "plans"
 	PlansSubscribe        = "plans.subscribe"
 	Products              = "products"
@@ -46,6 +55,8 @@ const (
 	Premium               = "premium"
 	Billing               = "billing"
 	BillingCancel         = "billing.cancel"
+	// [feature:payment] end
+	// [feature:chat] start
 	ChatRooms             = "chat.rooms"
 	ChatRoomCreate        = "chat.rooms.create"
 	ChatRoom              = "chat.room"
@@ -53,6 +64,7 @@ const (
 	ChatBanUser           = "chat.ban"
 	ChatUnbanUser         = "chat.unban"
 	ChatDeleteRoom        = "chat.room.delete"
+	// [feature:chat] end
 )
 
 func AdminEntityList(entityTypeName string) string {

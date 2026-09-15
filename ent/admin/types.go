@@ -10,7 +10,7 @@ import (
 )
 
 type ChatBan struct {
-	IpHash    *string    `form:"ip_hash"`
+	IPHash    *string    `form:"ip_hash"`
 	Reason    *string    `form:"reason"`
 	CreatedAt *time.Time `form:"created_at"`
 }

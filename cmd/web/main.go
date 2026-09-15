@@ -1,7 +1,9 @@
 package main
 
 import (
+	// [feature:tasks] start
 	"context"
+	// [feature:tasks] end
 	"crypto/tls"
 	"errors"
 	"fmt"
@@ -12,7 +14,9 @@ import (
 	"github.com/occult/pagode/pkg/handlers"
 	"github.com/occult/pagode/pkg/log"
 	"github.com/occult/pagode/pkg/services"
+	// [feature:tasks] start
 	"github.com/occult/pagode/pkg/tasks"
+	// [feature:tasks] end
 )
 
 func main() {
@@ -28,11 +32,13 @@ func main() {
 		fatal("failed to build the router", err)
 	}
 
+	// [feature:tasks] start
 	// Register all task queues.
 	tasks.Register(c)
 
 	// Start the task runner to execute queued tasks.
 	c.Tasks.Start(context.Background())
+	// [feature:tasks] end
 
 	// Start the server.
 	go func() {

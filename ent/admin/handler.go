@@ -169,8 +169,8 @@ func (h *Handler) ChatBanCreate(ctx echo.Context) error {
 	}
 
 	op := h.client.ChatBan.Create()
-	if payload.IpHash != nil {
-		op.SetIPHash(*payload.IpHash)
+	if payload.IPHash != nil {
+		op.SetIPHash(*payload.IPHash)
 	}
 	if payload.Reason != nil {
 		op.SetReason(*payload.Reason)
@@ -194,10 +194,10 @@ func (h *Handler) ChatBanUpdate(ctx echo.Context, id int) error {
 	}
 
 	op := entity.Update()
-	if payload.IpHash == nil {
+	if payload.IPHash == nil {
 		op.ClearIPHash()
 	} else {
-		op.SetIPHash(*payload.IpHash)
+		op.SetIPHash(*payload.IPHash)
 	}
 	if payload.Reason == nil {
 		op.ClearReason()
@@ -228,9 +228,9 @@ func (h *Handler) ChatBanList(ctx echo.Context) (*EntityList, error) {
 
 	list := &EntityList{
 		Columns: []string{
-			"Ip hash",
+			"IP Hash",
 			"Reason",
-			"Created at",
+			"Created At",
 		},
 		Entities:    make([]EntityValues, 0, len(res)),
 		Page:        page,
@@ -318,8 +318,8 @@ func (h *Handler) ChatMessageList(ctx echo.Context) (*EntityList, error) {
 	list := &EntityList{
 		Columns: []string{
 			"Body",
-			"Sender name",
-			"Created at",
+			"Sender Name",
+			"Created At",
 		},
 		Entities:    make([]EntityValues, 0, len(res)),
 		Page:        page,
@@ -413,8 +413,8 @@ func (h *Handler) ChatRoomList(ctx echo.Context) (*EntityList, error) {
 	list := &EntityList{
 		Columns: []string{
 			"Name",
-			"Is public",
-			"Created at",
+			"Is Public",
+			"Created At",
 		},
 		Entities:    make([]EntityValues, 0, len(res)),
 		Page:        page,
@@ -512,7 +512,7 @@ func (h *Handler) PasswordTokenList(ctx echo.Context) (*EntityList, error) {
 	list := &EntityList{
 		Columns: []string{
 			"User ID",
-			"Created at",
+			"Created At",
 		},
 		Entities:    make([]EntityValues, 0, len(res)),
 		Page:        page,
@@ -632,13 +632,13 @@ func (h *Handler) PaymentCustomerList(ctx echo.Context) (*EntityList, error) {
 
 	list := &EntityList{
 		Columns: []string{
-			"Provider customer ID",
+			"Provider Customer ID",
 			"Provider",
 			"Email",
 			"Name",
 			"Metadata",
-			"Created at",
-			"Updated at",
+			"Created At",
+			"Updated At",
 		},
 		Entities:    make([]EntityValues, 0, len(res)),
 		Page:        page,
@@ -791,15 +791,15 @@ func (h *Handler) PaymentIntentList(ctx echo.Context) (*EntityList, error) {
 
 	list := &EntityList{
 		Columns: []string{
-			"Provider payment intent ID",
+			"Provider Payment Intent ID",
 			"Provider",
 			"Status",
 			"Amount",
 			"Currency",
 			"Description",
 			"Metadata",
-			"Created at",
-			"Updated at",
+			"Created At",
+			"Updated At",
 		},
 		Entities:    make([]EntityValues, 0, len(res)),
 		Page:        page,
@@ -965,17 +965,17 @@ func (h *Handler) PaymentMethodList(ctx echo.Context) (*EntityList, error) {
 
 	list := &EntityList{
 		Columns: []string{
-			"Provider payment method ID",
+			"Provider Payment Method ID",
 			"Provider",
 			"Type",
-			"Last four",
+			"Last Four",
 			"Brand",
-			"Exp month",
-			"Exp year",
-			"Is default",
+			"Exp Month",
+			"Exp Year",
+			"Is Default",
 			"Metadata",
-			"Created at",
-			"Updated at",
+			"Created At",
+			"Updated At",
 		},
 		Entities:    make([]EntityValues, 0, len(res)),
 		Page:        page,
@@ -1183,23 +1183,23 @@ func (h *Handler) SubscriptionList(ctx echo.Context) (*EntityList, error) {
 
 	list := &EntityList{
 		Columns: []string{
-			"Provider subscription ID",
+			"Provider Subscription ID",
 			"Provider",
 			"Status",
 			"Price ID",
 			"Amount",
 			"Currency",
 			"Interval",
-			"Interval count",
-			"Current period start",
-			"Current period end",
-			"Trial start",
-			"Trial end",
-			"Canceled at",
-			"Ended at",
+			"Interval Count",
+			"Current Period Start",
+			"Current Period End",
+			"Trial Start",
+			"Trial End",
+			"Canceled At",
+			"Ended At",
 			"Metadata",
-			"Created at",
-			"Updated at",
+			"Created At",
+			"Updated At",
 		},
 		Entities:    make([]EntityValues, 0, len(res)),
 		Page:        page,
@@ -1328,7 +1328,7 @@ func (h *Handler) UserList(ctx echo.Context) (*EntityList, error) {
 			"Email",
 			"Verified",
 			"Admin",
-			"Created at",
+			"Created At",
 		},
 		Entities:    make([]EntityValues, 0, len(res)),
 		Page:        page,

@@ -9,7 +9,23 @@ import {
 } from "@/components/ui/sidebar";
 import { type NavItem } from "@/types";
 import { Link, usePage } from "@inertiajs/react";
-import { BookOpen, Folder, LayoutGrid, UploadCloud, CreditCard, Receipt, ShoppingBag, Crown, MessageCircle } from "lucide-react";
+import {
+  BookOpen,
+  Folder,
+  LayoutGrid,
+  // [feature:files] start
+  UploadCloud,
+  // [feature:files] end
+  // [feature:payment] start
+  CreditCard,
+  Receipt,
+  ShoppingBag,
+  Crown,
+  // [feature:payment] end
+  // [feature:chat] start
+  MessageCircle,
+  // [feature:chat] end
+} from "lucide-react";
 import { NavMain } from "./NavMain";
 import { NavFooter } from "./NavFooter";
 import { NavUser } from "./NavUser";
@@ -37,11 +53,14 @@ export function AppSidebar() {
       href: "/dashboard",
       icon: LayoutGrid,
     },
+    // [feature:chat] start
     {
       title: "Chat",
       href: "/chat",
       icon: MessageCircle,
     },
+    // [feature:chat] end
+    // [feature:payment] start
     {
       title: "Plans",
       href: "/plans",
@@ -57,16 +76,21 @@ export function AppSidebar() {
       href: "/premium",
       icon: Crown,
     },
+    // [feature:payment] end
+    // [feature:files] start
     {
       title: "Upload Files",
       href: "/files",
       icon: UploadCloud,
     },
+    // [feature:files] end
+    // [feature:payment] start
     {
       title: "Billing",
       href: "/billing",
       icon: Receipt,
     },
+    // [feature:payment] end
   ];
 
   if (auth.user?.admin) {

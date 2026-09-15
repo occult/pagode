@@ -70,6 +70,17 @@ From within the root of the codebase, run:
 make run
 ```
 
+### Optional Feature Setup
+
+Pagode includes an interactive setup tool that lets you remove optional features from the template before you start building your app.
+
+See [SETUP.md](./SETUP.md) for:
+
+- what setup does
+- how to run it safely
+- how the removal pipeline works
+- how to add a new optional feature as a maintainer
+
 By default, you can access the application at `localhost:8000`. Your data will be stored in the `dbs` directory.
 
 ### Live Reloading
